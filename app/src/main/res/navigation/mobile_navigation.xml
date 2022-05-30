@@ -3,23 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_chats">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.xtapps.messageowl.ui.home.HomeFragment"
+        android:id="@+id/navigation_chats"
+        android:name="com.xtapps.messageowl.ui.chats.ChatsFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_chats" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.xtapps.messageowl.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_contacts"
+        android:name="com.xtapps.messageowl.ui.contacts.ContactsFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_contacts" />
 
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.xtapps.messageowl.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.xtapps.messageowl.ui.dashboard
+package com.xtapps.messageowl.ui.contacts
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.xtapps.messageowl.databinding.FragmentDashboardBinding
+import com.xtapps.messageowl.MainActivity
+import com.xtapps.messageowl.R
+import com.xtapps.messageowl.databinding.FragmentContactsBinding
 
-class DashboardFragment : Fragment() {
+class ContactsFragment : Fragment() {
 
-    private var _binding: FragmentDashboardBinding? = null
+    private var _binding: FragmentContactsBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -23,14 +25,15 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
+            ViewModelProvider(this).get(ContactsViewModel::class.java)
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentContactsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        val pageName = getString(R.string.contacts)
         val textView: TextView = binding.textDashboard
         dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+            textView.text = pageName
         }
         return root
     }
