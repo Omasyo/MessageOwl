@@ -1,4 +1,4 @@
-package com.xtapps.messageowl.ui.notifications
+package com.xtapps.messageowl.ui.chats
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.xtapps.messageowl.databinding.FragmentNotificationsBinding
+import com.xtapps.messageowl.MainActivity
+import com.xtapps.messageowl.R
+import com.xtapps.messageowl.databinding.FragmentChatsBinding
 
-class NotificationsFragment : Fragment() {
+class ChatsFragment : Fragment() {
 
-    private var _binding: FragmentNotificationsBinding? = null
+    private var _binding: FragmentChatsBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,15 +24,16 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        val homeViewModel =
+            ViewModelProvider(this).get(ChatsViewModel::class.java)
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        _binding = FragmentChatsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        val pageName = getString(R.string.chats)
+        val textView: TextView = binding.textHome
+        homeViewModel.text.observe(viewLifecycleOwner) {
+            textView.text = pageName
         ***REMOVED***
         return root
     ***REMOVED***

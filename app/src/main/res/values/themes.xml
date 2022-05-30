@@ -27,5 +27,10 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_primaryInverse</item>
+
+        <item name="android:statusBarColor">?attr/colorOnPrimaryContainer</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 </resources>
