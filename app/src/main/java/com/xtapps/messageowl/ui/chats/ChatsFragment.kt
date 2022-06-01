@@ -31,10 +31,10 @@ class ChatsFragment : Fragment() {
         val root: View = binding.root
 
         val pageName = getString(R.string.chats)
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = pageName
-        }
+//        val textView: TextView = binding.textHome
+//        homeViewModel.text.observe(viewLifecycleOwner) {
+//            textView.text = pageName
+//        }
         return root
     }
 
