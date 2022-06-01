@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.xtapps.messageowl.MainActivity
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentChatsBinding
@@ -18,6 +20,8 @@ class ChatsFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +39,10 @@ class ChatsFragment : Fragment() {
 //        homeViewModel.text.observe(viewLifecycleOwner) {
 //            textView.text = pageName
 //        ***REMOVED***
+
+        recyclerView = binding.chatsRecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = ChatsRecycleViewAdapter()
         return root
     ***REMOVED***
 

@@ -21,7 +21,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/top_app_bar"
             app:title="@string/chats"
-            app:titleCentered="true" />
+            app:titleCentered="true"/>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/nav_view"
@@ -42,7 +42,7 @@
             app:layout_constraintBottom_toTopOf="@id/nav_view"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/materialToolbar"
+            app:layout_constraintTop_toBottomOf="@id/materialToolbar"
             app:navGraph="@navigation/mobile_navigation" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
