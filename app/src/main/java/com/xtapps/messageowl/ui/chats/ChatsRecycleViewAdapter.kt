@@ -8,14 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.xtapps.messageowl.R
 
 class ChatsRecycleViewAdapter : RecyclerView.Adapter<ChatsRecycleViewAdapter.ViewHolder>() {
+
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val textView =view.findViewById<TextView>(R.id.text_home)
+        val textView = view.findViewById<TextView>(R.id.text_home)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.chat_view, parent, false)
+            .inflate(R.layout.chat_card_view, parent, false)
         return ViewHolder(view);
     }
 

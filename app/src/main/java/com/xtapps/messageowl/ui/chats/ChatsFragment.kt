@@ -28,17 +28,11 @@ class ChatsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(ChatsViewModel::class.java)
+        val viewModel =
+            ViewModelProvider(this)[ChatsViewModel::class.java]
 
         _binding = FragmentChatsBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        val pageName = getString(R.string.chats)
-//        val textView: TextView = binding.textHome
-//        homeViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = pageName
-//        }
 
         recyclerView = binding.chatsRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)

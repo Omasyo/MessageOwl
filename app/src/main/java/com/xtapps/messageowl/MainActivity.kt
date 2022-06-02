@@ -2,20 +2,11 @@ package com.xtapps.messageowl
 
 import android.os.Bundle
 import android.view.Gravity
-import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.customview.widget.ViewDragHelper
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.xtapps.messageowl.databinding.ActivityMainBinding
-import kotlin.math.max
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,14 +19,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val navView: BottomNavigationView = binding.navView
-        val appBar: MaterialToolbar = binding.materialToolbar
+        val appBar: MaterialToolbar = binding.toolbar
         appBar.setOnMenuItemClickListener {
             binding.container.openDrawer(Gravity.END)
             true
         }
 
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 //        val options = NavOptions.Builder()
 //            .setLaunchSingleTop(true)
@@ -46,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 //            .build()
 //        navView.setupWithNavController(navController)
         navView.setOnItemSelectedListener {
-            binding.materialToolbar.title = it.title
+            appBar.title = it.title
             navController.navigate(it.itemId)
             true
         }
