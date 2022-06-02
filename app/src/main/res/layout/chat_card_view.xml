@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="?attr/colorPrimaryContainer"
-        android:text="Opor"
+        android:text="@string/chats"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

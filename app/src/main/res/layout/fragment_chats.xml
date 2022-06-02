@@ -16,6 +16,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="100"
-        tools:listitem="@layout/chat_view" />
+        tools:listitem="@layout/chat_card_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
