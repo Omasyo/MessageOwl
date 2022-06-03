@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/mainActivity">
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.xtapps.messageowl.MainActivity"
+        android:label="MainActivity" />
+    <activity
+        android:id="@+id/authActivity"
+        android:name="com.xtapps.messageowl.AuthActivity"
+        android:label="activity_auth"
+        tools:layout="@layout/activity_auth" />
+    <activity
+        android:id="@+id/privateChatActivity"
+        android:name="com.xtapps.messageowl.PrivateChatActivity"
+        android:label="activity_private_chat"
+        tools:layout="@layout/activity_private_chat" />
+</navigation>
