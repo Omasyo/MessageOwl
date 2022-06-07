@@ -5,6 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import com.hbb20.CountryCodePicker
+import com.xtapps.messageowl.databinding.FragmentWelcomeBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +26,8 @@ class WelcomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var _binding: FragmentWelcomeBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -33,9 +40,19 @@ class WelcomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentWelcomeBinding.inflate(inflater,container,false)
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_welcome, container, false)
+        val ccp = _binding.countryCode as CountryCodePicker
+        val carrierText = _binding.carrierNumber as EditText
+        ccp.registerCarrierNumberEditText(carrierText)
+
+        _binding.button.setOnClickListener {
+            findNavController().navigate(R.id.action_welcomeFragment_to_verifyFragment)
+            Toast.makeText(context, ccp.fullNumberWithPlus, Toast.LENGTH_SHORT)
+                .show()
+        ***REMOVED***
+
+        return _binding.root
     ***REMOVED***
 
     companion object {
