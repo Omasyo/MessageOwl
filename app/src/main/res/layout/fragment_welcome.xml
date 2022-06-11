@@ -26,8 +26,9 @@
             android:id="@+id/profile_image"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:padding="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
             app:layout_constraintDimensionRatio="1.0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,18 +74,17 @@
                 android:id="@+id/country_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="48dp"
                 app:ccpDialog_showNameCode="false"
                 app:ccp_autoDetectCountry="true"
-                app:ccp_autoFormatNumber="true" />
+                app:ccp_autoFormatNumber="true"
+                app:ccp_hintExampleNumber="true"
+                app:ccp_showNameCode="false" />
 
             <EditText
                 android:id="@+id/carrier_number"
-                android:layout_width="160dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:inputType="phone"
-                android:singleLine="true" />
+                android:inputType="phone" />
         </LinearLayout>
 
         <Button
