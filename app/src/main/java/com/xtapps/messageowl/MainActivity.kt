@@ -6,6 +6,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.firebase.auth.FirebaseAuth
 import com.xtapps.messageowl.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -21,8 +22,11 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
         val appBar: MaterialToolbar = binding.toolbar
         appBar.setOnMenuItemClickListener {
-            binding.container.openDrawer(Gravity.END)
+            binding.container.openDrawer(Gravity.RIGHT)
             true
+        ***REMOVED***
+        binding.button2.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
         ***REMOVED***
 
         val navHostFragment =
