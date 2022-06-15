@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.hbb20.CountryCodePicker
 import com.xtapps.messageowl.AuthActivity
 import com.xtapps.messageowl.AuthViewModel
@@ -30,11 +32,17 @@ class WelcomeFragment : Fragment() {
         val carrierText = _binding.carrierNumber as EditText
         ccp.registerCarrierNumberEditText(carrierText)
 
-        _binding.button.setOnClickListener {
-            findNavController().navigate(R.id.action_welcomeFragment_to_verifyFragment)
-            viewModel.sendVerification(ccp.fullNumberWithPlus, this.activity as AuthActivity)
-            Toast.makeText(context, ccp.fullNumberWithPlus, Toast.LENGTH_SHORT)
-                .show()
+        _binding.proceedButton.setOnClickListener {
+            if(ccp.isValidFullNumber) {
+                viewModel.sendVerification(ccp.fullNumberWithPlus, this.activity as AuthActivity)
+
+                findNavController().navigate(R.id.action_welcomeFragment_to_verifyFragment)
+            ***REMOVED*** else {
+                Snackbar.make(_binding.root, "Please enter a valid phone number" ,Snackbar.LENGTH_LONG)
+                    .show()
+//                Toast.makeText(context, "Please enter a valid phone number", Toast.LENGTH_LONG)
+//                    .show()
+            ***REMOVED***
         ***REMOVED***
 
         return _binding.root
