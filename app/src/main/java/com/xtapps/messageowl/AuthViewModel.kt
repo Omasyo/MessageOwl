@@ -18,7 +18,7 @@ class AuthViewModel: ViewModel() {
     lateinit var storedVerificationId: String
     lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
 
-    val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+    private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
         override fun onVerificationCompleted(credential: PhoneAuthCredential) {
             // This callback will be invoked in two situations:

@@ -1,5 +1,6 @@
 package com.xtapps.messageowl
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         }
         binding.button2.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
+            finish()
         }
 
         val navHostFragment =
