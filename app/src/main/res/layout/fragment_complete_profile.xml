@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:padding="56dp"
+    android:padding="24dp"
 
     tools:context=".ui.auth.CompleteProfileFragment">
 
@@ -24,6 +24,8 @@
         android:id="@+id/profile_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
         android:layout_marginBottom="48dp"
         android:adjustViewBounds="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -49,16 +51,32 @@
         android:layout_margin="12dp"
         android:hint="@string/username_hint"
         android:maxLength="20"
+        android:singleLine="true"
         app:layout_constraintEnd_toEndOf="@id/profile_image"
         app:layout_constraintStart_toStartOf="@id/profile_image"
         app:layout_constraintTop_toBottomOf="@id/profile_image" />
 
     <Button
-        android:id="@+id/proceed_button"
-        android:layout_width="wrap_content"
+        android:id="@+id/back_button"
+        style="@style/Widget.Material3.Button.TonalButton.Icon"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/edit_number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/proceed_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/proceed_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:text="@string/proceed"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/back_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

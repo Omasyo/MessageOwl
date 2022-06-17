@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.hbb20.CountryCodePicker
 import com.xtapps.messageowl.AuthActivity
 import com.xtapps.messageowl.AuthViewModel
@@ -22,14 +23,20 @@ class WelcomeFragment : Fragment() {
     private lateinit var _binding: FragmentWelcomeBinding
     private val viewModel: AuthViewModel by activityViewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+    ***REMOVED***
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentWelcomeBinding.inflate(inflater,container,false)
 
-        val ccp = _binding.countryCode as CountryCodePicker
-        val carrierText = _binding.carrierNumber as EditText
+        val ccp = _binding.countryCode
+        val carrierText = _binding.carrierNumber
         ccp.registerCarrierNumberEditText(carrierText)
 
         _binding.proceedButton.setOnClickListener {

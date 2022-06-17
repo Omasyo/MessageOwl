@@ -9,19 +9,26 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.transition.MaterialFade
+import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 import com.xtapps.messageowl.MainActivity
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentChatsBinding
 
 class ChatsFragment : Fragment() {
 
-    private var _binding: FragmentChatsBinding? = null
+    lateinit var binding: FragmentChatsBinding
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
 
     private lateinit var recyclerView: RecyclerView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+    ***REMOVED***
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +38,7 @@ class ChatsFragment : Fragment() {
         val viewModel =
             ViewModelProvider(this)[ChatsViewModel::class.java]
 
-        _binding = FragmentChatsBinding.inflate(inflater, container, false)
+        binding = FragmentChatsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         recyclerView = binding.chatsRecyclerView
@@ -42,6 +49,5 @@ class ChatsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
     ***REMOVED***
 ***REMOVED***
