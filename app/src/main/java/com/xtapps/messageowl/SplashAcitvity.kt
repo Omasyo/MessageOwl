@@ -22,15 +22,6 @@ class SplashAcitvity : AppCompatActivity() {
             Intent(this, AuthActivity::class.java)
         }
 
-        val listener = FirebaseAuth.AuthStateListener {
-            val user = it.currentUser
-            if(user == null) {
-                startActivity(Intent(this, AuthActivity::class.java))
-            }
-            finish()
-        }
-        FirebaseAuth.getInstance().addAuthStateListener(listener)
-
         startActivity(intent)
         finish()
     }

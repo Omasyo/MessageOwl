@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import com.xtapps.messageowl.AuthActivity
 import com.xtapps.messageowl.AuthViewModel
@@ -29,6 +30,13 @@ class VerifyFragment : Fragment() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,7 +54,7 @@ class VerifyFragment : Fragment() {
             )
         }
         _binding.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_verifyFragment_to_welcomeFragment)
+            findNavController().popBackStack()
         }
 
 

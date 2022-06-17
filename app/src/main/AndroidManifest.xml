@@ -11,6 +11,7 @@
         android:theme="@style/Theme.MessageOwl">
         <activity
             android:name=".SplashAcitvity"
+            android:noHistory="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
