@@ -1,6 +1,5 @@
 package com.xtapps.messageowl.ui.auth
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +18,8 @@ import com.xtapps.messageowl.databinding.FragmentVerifyBinding
 
 class VerifyFragment : Fragment() {
 
-    private lateinit var _binding: FragmentVerifyBinding
+    private var _binding: FragmentVerifyBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel: AuthViewModel by activityViewModels()
 
@@ -40,30 +40,31 @@ class VerifyFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentVerifyBinding.inflate(inflater, container, false)
 
 
         FirebaseAuth.getInstance().addAuthStateListener(_listener)
 
-        _binding.proceedButton.setOnClickListener {
-            Toast.makeText(context, _binding.otpEditText.text, Toast.LENGTH_SHORT)
+        binding.proceedButton.setOnClickListener {
+            Toast.makeText(context, binding.otpEditText.text, Toast.LENGTH_SHORT)
                 .show()
-            viewModel.verifyNumber(_binding.otpEditText.text.toString(),
+            viewModel.verifyNumber(binding.otpEditText.text.toString(),
                 this.activity as AuthActivity
             )
         }
-        _binding.backButton.setOnClickListener {
+        binding.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
 
 
-        return _binding.root
+        return binding.root
     }
 
     override fun onDestroyView() {
         FirebaseAuth.getInstance().removeAuthStateListener(_listener)
         super.onDestroyView()
+        _binding = null
 
     }
 }

@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         }
         FirebaseAuth.getInstance().addAuthStateListener(listener)
 
-        val navView: BottomNavigationView = binding.navView
         val appBar: MaterialToolbar = binding.toolbar
         appBar.setOnMenuItemClickListener {
             binding.container.openDrawer(GravityCompat.END)
@@ -45,16 +44,6 @@ class MainActivity : AppCompatActivity() {
         binding.button2.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             finish()
-        }
-
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-        navView.setOnItemSelectedListener {
-            appBar.title = it.title
-            navController.popBackStack()
-            navController.navigate(it.itemId)
-            true
         }
     }
 
