@@ -18,8 +18,8 @@ import com.xtapps.messageowl.databinding.FragmentChatsBinding
 
 class ChatsFragment : Fragment() {
 
-    lateinit var binding: FragmentChatsBinding
-
+    private var _binding: FragmentChatsBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var recyclerView: RecyclerView
 
@@ -38,7 +38,7 @@ class ChatsFragment : Fragment() {
         val viewModel =
             ViewModelProvider(this)[ChatsViewModel::class.java]
 
-        binding = FragmentChatsBinding.inflate(inflater, container, false)
+        _binding = FragmentChatsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         recyclerView = binding.chatsRecyclerView
@@ -49,5 +49,6 @@ class ChatsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _binding = null
     ***REMOVED***
 ***REMOVED***
