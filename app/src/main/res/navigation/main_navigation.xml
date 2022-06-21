@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/mainActivity">
+    app:startDestination="@id/homeFragment">
 
     <activity
         android:id="@+id/mainActivity"
@@ -11,7 +11,7 @@
         android:label="MainActivity" />
     <activity
         android:id="@+id/authActivity"
-        android:name="com.xtapps.messageowl.AuthActivity"
+        android:name="com.xtapps.messageowl.ui.auth.AuthActivity"
         android:label="activity_auth"
         tools:layout="@layout/activity_auth" />
     <activity
@@ -19,4 +19,13 @@
         android:name="com.xtapps.messageowl.PrivateChatActivity"
         android:label="activity_private_chat"
         tools:layout="@layout/activity_private_chat" />
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.xtapps.messageowl.ui.contacts.ContactsFragment"
+        android:label="fragment_contacts"
+        tools:layout="@layout/fragment_contacts" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.xtapps.messageowl.HomeFragment"
+        android:label="HomeFragment" />
 </navigation>

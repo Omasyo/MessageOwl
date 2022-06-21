@@ -1,4 +1,4 @@
-package com.xtapps.messageowl
+package com.xtapps.messageowl.ui.auth
 
 import android.util.Log
 import androidx.lifecycle.LiveData

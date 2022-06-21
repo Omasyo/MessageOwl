@@ -3,11 +3,8 @@ package com.xtapps.messageowl
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.PhoneAuthCredential
-import com.google.firebase.auth.PhoneAuthProvider
-import com.xtapps.messageowl.ui.auth.CompleteProfileFragment
+import com.xtapps.messageowl.ui.auth.AuthActivity
 
 class SplashAcitvity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

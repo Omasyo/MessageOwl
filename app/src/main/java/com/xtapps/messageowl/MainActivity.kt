@@ -2,18 +2,12 @@ package com.xtapps.messageowl
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
-import android.view.animation.Animation
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.navigation.NavOptions
-import androidx.navigation.NavOptionsBuilder
-import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import com.xtapps.messageowl.databinding.ActivityMainBinding
+import com.xtapps.messageowl.ui.auth.AuthActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-        binding.toolbar.title = getString(R.string.chats)
+//        binding.toolbar.title = getString(R.string.chats)
         setContentView(binding.root)
 
         //Add auth status listener
@@ -36,15 +30,15 @@ class MainActivity : AppCompatActivity() {
         ***REMOVED***
         FirebaseAuth.getInstance().addAuthStateListener(listener)
 
-        val appBar: MaterialToolbar = binding.toolbar
-        appBar.setOnMenuItemClickListener {
-            binding.container.openDrawer(GravityCompat.END)
-            true
-        ***REMOVED***
-        binding.button2.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            finish()
-        ***REMOVED***
+//        val appBar: MaterialToolbar = binding.toolbar
+//        appBar.setOnMenuItemClickListener {
+//            binding.container.openDrawer(GravityCompat.END)
+//            true
+//        ***REMOVED***
+//        binding.button2.setOnClickListener {
+//            FirebaseAuth.getInstance().signOut()
+//            finish()
+//        ***REMOVED***
     ***REMOVED***
 
 ***REMOVED***

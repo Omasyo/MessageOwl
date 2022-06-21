@@ -23,7 +23,7 @@
             android:name=".PrivateChatActivity"
             android:exported="false" />
         <activity
-            android:name=".AuthActivity"
+            android:name=".ui.auth.AuthActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

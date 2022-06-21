@@ -1,4 +1,4 @@
-package com.xtapps.messageowl.ui.chats
+package com.xtapps.messageowl.ui.contacts
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,22 +7,20 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFade
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.xtapps.messageowl.MainActivity
 import com.xtapps.messageowl.R
-import com.xtapps.messageowl.databinding.FragmentChatsBinding
+import com.xtapps.messageowl.databinding.FragmentContactsBinding
 
-class ChatsFragment : Fragment() {
+class ContactsFragment : Fragment() {
 
-    private var _binding: FragmentChatsBinding? = null
+    private var _binding: FragmentContactsBinding? = null
+
+    // This property is only valid between onCreateView and
+    // onDestroyView.
     private val binding get() = _binding!!
-
-    private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,20 +34,17 @@ class ChatsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val viewModel =
-            ViewModelProvider(this)[ChatsViewModel::class.java]
+        val dashboardViewModel =
+            ViewModelProvider(this).get(ContactsViewModel::class.java)
 
-        _binding = FragmentChatsBinding.inflate(inflater, container, false)
+        _binding = FragmentContactsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-//        binding.floatingActionButton.setOnClickListener {
-////            (activity as MainActivity).testOpenDrawer()
-//            findNavController().navigate(R.id.contactsFragment)
-//        ***REMOVED***
-
-        recyclerView = binding.chatsRecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = ChatsRecycleViewAdapter()
+        val pageName = getString(R.string.contacts)
+        val textView: TextView = binding.textDashboard
+        dashboardViewModel.text.observe(viewLifecycleOwner) {
+            textView.text = pageName
+        ***REMOVED***
         return root
     ***REMOVED***
 

@@ -9,8 +9,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.platform.MaterialSharedAxis
-import com.xtapps.messageowl.AuthActivity
-import com.xtapps.messageowl.AuthViewModel
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentWelcomeBinding
 

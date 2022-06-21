@@ -1,11 +1,8 @@
-package com.xtapps.messageowl
+package com.xtapps.messageowl.ui.auth
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.FragmentManager
-import androidx.navigation.findNavController
-import com.google.firebase.auth.FirebaseAuth
+import com.xtapps.messageowl.R
 
 class AuthActivity : AppCompatActivity() {
 
