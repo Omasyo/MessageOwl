@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.GravityCompat
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
 import com.xtapps.messageowl.databinding.FragmentHomeBinding
 import com.xtapps.messageowl.ui.chats.ChatsFragment
 import com.xtapps.messageowl.ui.contacts.ContactsFragment
@@ -20,6 +22,14 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding.toolbar.setOnMenuItemClickListener {
+            binding.container.openDrawer(GravityCompat.END)
+            true
+        ***REMOVED***
+
+        binding.button2.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+        ***REMOVED***
 
         return binding.root
     ***REMOVED***

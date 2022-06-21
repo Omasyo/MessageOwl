@@ -43,8 +43,6 @@ class WelcomeFragment : Fragment() {
             ***REMOVED*** else {
                 Snackbar.make(binding.root, "Please enter a valid phone number" ,Snackbar.LENGTH_LONG)
                     .show()
-//                Toast.makeText(context, "Please enter a valid phone number", Toast.LENGTH_LONG)
-//                    .show()
             ***REMOVED***
         ***REMOVED***
 

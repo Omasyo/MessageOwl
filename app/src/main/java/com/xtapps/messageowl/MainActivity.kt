@@ -29,16 +29,6 @@ class MainActivity : AppCompatActivity() {
             ***REMOVED***
         ***REMOVED***
         FirebaseAuth.getInstance().addAuthStateListener(listener)
-
-//        val appBar: MaterialToolbar = binding.toolbar
-//        appBar.setOnMenuItemClickListener {
-//            binding.container.openDrawer(GravityCompat.END)
-//            true
-//        ***REMOVED***
-//        binding.button2.setOnClickListener {
-//            FirebaseAuth.getInstance().signOut()
-//            finish()
-//        ***REMOVED***
     ***REMOVED***
 
 ***REMOVED***
