@@ -29,16 +29,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         FirebaseAuth.getInstance().addAuthStateListener(listener)
-
-//        val appBar: MaterialToolbar = binding.toolbar
-//        appBar.setOnMenuItemClickListener {
-//            binding.container.openDrawer(GravityCompat.END)
-//            true
-//        }
-//        binding.button2.setOnClickListener {
-//            FirebaseAuth.getInstance().signOut()
-//            finish()
-//        }
     }
 
 }

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Message Owl</string>
     <string name="welcome_message">Welcome to Message Owl</string>
-    <string name="verify_number">Verify your phone number</string>
+    <string name="enter_number">Enter your phone number</string>
     <string name="proceed">Proceed</string>
     <string name="resend">Resend</string>
     <string name="edit_number">Change number</string>
