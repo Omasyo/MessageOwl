@@ -1,20 +1,14 @@
-package com.xtapps.messageowl.ui.chats
+package com.xtapps.messageowl.ui.home.chats
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.transition.MaterialFade
-import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
-import com.xtapps.messageowl.MainActivity
-import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentChatsBinding
 
 class ChatsFragment : Fragment() {
@@ -46,6 +40,7 @@ class ChatsFragment : Fragment() {
 ////            (activity as MainActivity).testOpenDrawer()
 //            findNavController().navigate(R.id.contactsFragment)
 //        ***REMOVED***
+
 
         recyclerView = binding.chatsRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)

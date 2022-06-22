@@ -1,4 +1,4 @@
-package com.xtapps.messageowl.ui.contacts
+package com.xtapps.messageowl.ui.home.contacts
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

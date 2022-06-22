@@ -1,4 +1,4 @@
-package com.xtapps.messageowl
+package com.xtapps.messageowl.ui.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,8 +10,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.xtapps.messageowl.databinding.FragmentHomeBinding
-import com.xtapps.messageowl.ui.chats.ChatsFragment
-import com.xtapps.messageowl.ui.contacts.ContactsFragment
+import com.xtapps.messageowl.ui.home.chats.ChatsFragment
+import com.xtapps.messageowl.ui.home.contacts.ContactsFragment
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null

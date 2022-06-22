@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     ***REMOVED***
 ***REMOVED***
 rootProject.name = "Message Owl"
-include ':app'
+include(":app")

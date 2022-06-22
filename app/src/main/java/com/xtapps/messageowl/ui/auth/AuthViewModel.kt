@@ -76,7 +76,7 @@ class AuthViewModel: ViewModel() {
         FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
+                    // Sign in success, update UI with the signed-in user"s information
                     Log.d(TAG, "signInWithCredential:success")
 
                     val user = task.result?.user

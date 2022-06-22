@@ -1,10 +1,13 @@
-package com.xtapps.messageowl.ui.chats
+package com.xtapps.messageowl.ui.home.chats
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.xtapps.messageowl.R
 
@@ -12,17 +15,21 @@ class ChatsRecycleViewAdapter : RecyclerView.Adapter<ChatsRecycleViewAdapter.Vie
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val textView = view.findViewById<TextView>(R.id.text_home)
+        val cardView = view.findViewById<CardView>(R.id.card_view)
     ***REMOVED***
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.chat_card_view, parent, false)
-        return ViewHolder(view);
+        return ViewHolder(view)
     ***REMOVED***
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.textView.text = "Chats $position"
+        holder.cardView.setOnClickListener {
+            it.findNavController().navigate(R.id.action_homeFragment_to_directMessageFragment)
+        ***REMOVED***
     ***REMOVED***
 
     override fun getItemCount(): Int {
