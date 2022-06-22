@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Message Owl"
-include ':app'
+include(":app")

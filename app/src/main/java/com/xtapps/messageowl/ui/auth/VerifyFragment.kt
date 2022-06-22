@@ -21,7 +21,7 @@ class VerifyFragment : Fragment() {
 
     private val viewModel: AuthViewModel by activityViewModels()
 
-    val _listener = FirebaseAuth.AuthStateListener {
+    private val _listener = FirebaseAuth.AuthStateListener {
         val user = it.currentUser
         if(user != null) {
             findNavController().navigate(R.id.action_verifyFragment_to_completeProfileFragment)

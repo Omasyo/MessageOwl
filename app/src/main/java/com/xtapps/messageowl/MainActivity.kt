@@ -17,10 +17,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-//        binding.toolbar.title = getString(R.string.chats)
         setContentView(binding.root)
 
         //Add auth status listener
+        listenToAuthState()
+
+    }
+
+    private fun listenToAuthState() {
         val listener = FirebaseAuth.AuthStateListener {
             val user = it.currentUser
             if(user == null) {
@@ -30,5 +34,4 @@ class MainActivity : AppCompatActivity() {
         }
         FirebaseAuth.getInstance().addAuthStateListener(listener)
     }
-
 }

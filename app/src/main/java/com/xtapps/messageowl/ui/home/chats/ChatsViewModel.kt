@@ -1,6 +1,5 @@
-package com.xtapps.messageowl.ui.chats
+package com.xtapps.messageowl.ui.home.chats
 
-import androidx.core.util.rangeTo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
