@@ -10,6 +10,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.xtapps.messageowl.R
+import com.xtapps.messageowl.ui.home.HomeFragmentDirections
 
 class ChatsRecycleViewAdapter : RecyclerView.Adapter<ChatsRecycleViewAdapter.ViewHolder>() {
 
@@ -28,7 +29,8 @@ class ChatsRecycleViewAdapter : RecyclerView.Adapter<ChatsRecycleViewAdapter.Vie
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.textView.text = "Chats $position"
         holder.cardView.setOnClickListener {
-            it.findNavController().navigate(R.id.action_homeFragment_to_directMessageFragment)
+            val action = HomeFragmentDirections.actionHomeFragmentToDirectMessageFragment("Chats Screen $position")
+            it.findNavController().navigate(action)
         ***REMOVED***
     ***REMOVED***
 

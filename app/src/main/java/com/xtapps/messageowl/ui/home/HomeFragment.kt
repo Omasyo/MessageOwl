@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.GravityCompat
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import com.xtapps.messageowl.databinding.FragmentHomeBinding
 import com.xtapps.messageowl.ui.home.chats.ChatsFragment
@@ -16,6 +17,14 @@ import com.xtapps.messageowl.ui.home.contacts.ContactsFragment
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+    ***REMOVED***
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

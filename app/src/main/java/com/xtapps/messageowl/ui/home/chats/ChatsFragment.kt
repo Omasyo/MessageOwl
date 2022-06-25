@@ -18,13 +18,6 @@ class ChatsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-    ***REMOVED***
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,11 +28,6 @@ class ChatsFragment : Fragment() {
 
         _binding = FragmentChatsBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-//        binding.floatingActionButton.setOnClickListener {
-////            (activity as MainActivity).testOpenDrawer()
-//            findNavController().navigate(R.id.contactsFragment)
-//        ***REMOVED***
 
 
         recyclerView = binding.chatsRecyclerView

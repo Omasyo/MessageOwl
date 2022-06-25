@@ -21,8 +21,9 @@ class WelcomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     ***REMOVED***
 
     override fun onCreateView(

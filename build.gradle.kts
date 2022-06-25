@@ -8,4 +8,10 @@
 
 ***REMOVED***
 ***REMOVED***
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.2")
+    ***REMOVED***
+***REMOVED***
+
+***REMOVED***
+***REMOVED***
 ***REMOVED***
