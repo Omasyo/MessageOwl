@@ -3,30 +3,112 @@
 
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
+    style="@style/Widget.Material3.CardView.Filled"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
-    android:layout_marginHorizontal="4dp"
-    android:layout_marginVertical="8dp"
+    android:layout_height="80dp"
     android:checkable="true"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    app:cardBackgroundColor="?attr/colorSurface"
+    app:cardCornerRadius="0dp"
+    app:contentPadding="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingHorizontal="12dp">
+
+<!--        <com.google.android.material.card.MaterialCardView-->
+<!--            android:id="@+id/imageView"-->
+<!--            android:layout_width="48dp"-->
+<!--            android:layout_height="48dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            style="@style/Widget.Material3.CardView.Filled"-->
+<!--            android:clickable="true">-->
+<!--            <ImageView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                app:srcCompat="@drawable/sample" />-->
+<!--        </com.google.android.material.card.MaterialCardView>-->
+
+        <com.google.android.material.imageview.ShapeableImageView
+
+            android:id="@+id/imageView"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/sample"
+            app:shapeAppearance="@style/roundedImageView"
+            android:clickable="true"
+            android:focusable="true"/>
+
+
 
         <TextView
             android:id="@+id/text_home"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/chats"
+            android:layout_marginStart="16dp"
+            android:text="Omaka"
             android:textAlignment="center"
-            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/text_home2"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/text_home2"
+            style="@style/TextAppearance.Material3.TitleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:singleLine="true"
+            android:text="But when I visit to Material Design page there I found this syntax is correct but I don't know what wrong I am doing. S0, Please help me in resolving this Error."
+            android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/text_home4"
+            app:layout_constraintStart_toStartOf="@+id/text_home"
+            app:layout_constraintTop_toBottomOf="@+id/text_home" />
+
+        <TextView
+            android:id="@+id/text_home3"
+            style="@style/TextAppearance.Material3.TitleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="12:13"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/text_home" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/text_home4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Material3.CardView.Filled"
+            app:layout_constraintBottom_toBottomOf="@+id/text_home2"
+            app:layout_constraintEnd_toEndOf="@+id/text_home3"
+            app:layout_constraintStart_toStartOf="@+id/text_home3"
+            app:contentPadding="2dp"
+            app:contentPaddingLeft="6dp"
+            app:contentPaddingRight="6dp">
+            <TextView
+                style="@style/TextAppearance.Material3.TitleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="33"
+                android:textAlignment="center" />
+        </com.google.android.material.card.MaterialCardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

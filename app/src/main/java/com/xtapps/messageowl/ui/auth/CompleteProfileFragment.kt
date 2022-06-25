@@ -39,7 +39,6 @@ class CompleteProfileFragment : Fragment() {
             FirebaseAuth.getInstance().signOut()
             findNavController().popBackStack(R.id.welcomeFragment, false)
         }
-
         return binding.root
     }
 

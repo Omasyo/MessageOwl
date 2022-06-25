@@ -32,7 +32,8 @@ class VerifyFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 
     override fun onCreateView(

@@ -6,6 +6,12 @@ plugins {
     id("com.google.gms.google-services") version "4.3.10" apply false
 }
 
+buildscript {
+    dependencies {
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.2")
+    }
+}
+
 task<Delete>("clean") {
     delete(rootProject.buildDir)
 }

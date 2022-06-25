@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -43,6 +44,8 @@ android {
 
 dependencies {
 
+    val roomVersion = "2.4.2"
+
     implementation("androidx.core:core-ktx:1.8.0")
     implementation("androidx.appcompat:appcompat:1.4.2")
     implementation("com.google.android.material:material:1.7.0-alpha02")
@@ -57,6 +60,12 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$roomVersion")
 
     // Import the BoM for the Firebase platform
     implementation(platform("com.google.firebase:firebase-bom:30.1.0"))
