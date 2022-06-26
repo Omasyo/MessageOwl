@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.transition.MaterialSharedAxis
 import com.xtapps.messageowl.databinding.FragmentChatsBinding
 
 class ChatsFragment : Fragment() {
@@ -32,7 +31,7 @@ class ChatsFragment : Fragment() {
 
         recyclerView = binding.chatsRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = ChatsRecycleViewAdapter()
+        recyclerView.adapter = ChatsRecyclerViewAdapter()
         return root
     }
 
