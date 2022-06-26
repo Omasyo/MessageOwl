@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="8dp"
+    android:outlineProvider="none">
+
+    <com.google.android.material.imageview.ShapeableImageView
+
+        android:id="@+id/imageView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearance="@style/roundedImageView"
+        app:srcCompat="@drawable/sample" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/bubble_view"
+        style="@style/Widget.Material3.CardView.Filled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/bubble_far_margin"
+        android:checkable="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:minHeight="48dp"
+        android:outlineProvider="none"
+        app:contentPadding="16dp">
+
+        <TextView
+            android:id="@+id/content_textview"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:text="HOw far my boss" />
+
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>
