@@ -8,9 +8,12 @@ import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.xtapps.messageowl.R
+import com.xtapps.messageowl.db.ChatRoomDatabase
+import com.xtapps.messageowl.models.ChatRoom
 import com.xtapps.messageowl.ui.home.HomeFragmentDirections
 
 class ChatsRecyclerViewAdapter : RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder>() {
+    lateinit var test: List<ChatRoom>
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val textView = view.findViewById<TextView>(R.id.text_home)
@@ -21,11 +24,13 @@ class ChatsRecyclerViewAdapter : RecyclerView.Adapter<ChatsRecyclerViewAdapter.V
         val view = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.chat_card_view, parent, false)
+
+        test = ChatRoomDatabase.getDatabase(view.context).chatRoomDao().getAll()
         return ViewHolder(view)
     ***REMOVED***
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = "Chats $position"
+        holder.textView.text = test[position].name
         holder.cardView.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToDirectMessageFragment("Chats Screen $position")
             it.findNavController().navigate(action)
@@ -33,6 +38,6 @@ class ChatsRecyclerViewAdapter : RecyclerView.Adapter<ChatsRecyclerViewAdapter.V
     ***REMOVED***
 
     override fun getItemCount(): Int {
-        return 100
+        return 3
     ***REMOVED***
 ***REMOVED***

@@ -4,6 +4,8 @@
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
+***REMOVED***
+
 
 ***REMOVED***
     compileSdk = 32
@@ -63,6 +65,7 @@
 
     implementation("androidx.room:room-runtime:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$roomVersion")
