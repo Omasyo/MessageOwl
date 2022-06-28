@@ -1,15 +1,18 @@
 package com.xtapps.messageowl.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
+import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentHomeBinding
 import com.xtapps.messageowl.ui.home.chats.ChatsFragment
 import com.xtapps.messageowl.ui.home.contacts.ContactsFragment

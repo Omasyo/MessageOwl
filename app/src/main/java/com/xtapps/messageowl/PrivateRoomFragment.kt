@@ -1,17 +1,16 @@
 package com.xtapps.messageowl
 
+import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import androidx.fragment.app.Fragment
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.xtapps.messageowl.databinding.FragmentPrivateRoomBinding
-import com.xtapps.messageowl.ui.home.chats.ChatsRecyclerViewAdapter
 
 class PrivateRoomFragment : Fragment() {
 
@@ -42,13 +41,4 @@ class PrivateRoomFragment : Fragment() {
 
         return binding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        Handler(Looper.getMainLooper()).postDelayed({ //Hack for flashing appbar
-//            binding.appBarImage.alpha = 1.0f
-//        }, 10000)
-
-        super.onViewCreated(view, savedInstanceState)
-    }
-
 }
