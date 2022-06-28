@@ -38,6 +38,6 @@ class ChatsRecyclerViewAdapter : RecyclerView.Adapter<ChatsRecyclerViewAdapter.V
     ***REMOVED***
 
     override fun getItemCount(): Int {
-        return 3
+        return 11
     ***REMOVED***
 ***REMOVED***
