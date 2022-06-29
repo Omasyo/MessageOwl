@@ -1,4 +1,4 @@
-package com.xtapps.messageowl.ui.home.contacts
+package com.xtapps.messageowl.ui.contacts
 
 import android.os.Bundle
 import android.view.LayoutInflater

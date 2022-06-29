@@ -1,4 +1,4 @@
-package com.xtapps.messageowl.ui.home.chats
+package com.xtapps.messageowl.ui.chats
 
 import android.os.Bundle
 import android.view.LayoutInflater

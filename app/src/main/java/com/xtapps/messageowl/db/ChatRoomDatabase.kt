@@ -21,7 +21,7 @@ abstract class ChatRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     ChatRoomDatabase::class.java,
                     "room_database"
-                ).createFromAsset("db/test.db")
+                )
                     .allowMainThreadQueries()
                     .build()
                 INSTANCE = instance

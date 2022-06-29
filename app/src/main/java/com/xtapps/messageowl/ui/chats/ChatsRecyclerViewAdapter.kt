@@ -1,4 +1,4 @@
-package com.xtapps.messageowl.ui.home.chats
+package com.xtapps.messageowl.ui.chats
 
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +16,8 @@ class ChatsRecyclerViewAdapter : RecyclerView.Adapter<ChatsRecyclerViewAdapter.V
     lateinit var test: List<ChatRoom>
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val textView = view.findViewById<TextView>(R.id.text_home)
-        val cardView = view.findViewById<CardView>(R.id.card_view)
+        val textView: TextView = view.findViewById(R.id.text_home)
+        val cardView: CardView = view.findViewById(R.id.card_view)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -1,21 +1,16 @@
 package com.xtapps.messageowl.ui.home
 
+import HomeFragmentAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
-import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentHomeBinding
-import com.xtapps.messageowl.ui.home.chats.ChatsFragment
-import com.xtapps.messageowl.ui.home.contacts.ContactsFragment
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -40,7 +35,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.button2.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
+            signOutUser()
         }
 
         return binding.root
@@ -54,20 +49,7 @@ class HomeFragment : Fragment() {
             tab.text = if(position == 0) "Chats" else "Contacts" // FIXME: hardcoding
         }.attach()
     }
-}
 
-class HomeFragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-    override fun getItemCount(): Int = 2 // FIXME: do not hardcode
-
-    override fun createFragment(position: Int): Fragment {
-        // FIXME: hardcoding
-        val fragment = when(position) {
-            0 -> ChatsFragment()
-            else -> ContactsFragment()
-        }
-        fragment.arguments = Bundle().apply {
-
-        }
-        return fragment
-    }
+    private fun signOutUser() =
+        FirebaseAuth.getInstance().signOut()
 }
