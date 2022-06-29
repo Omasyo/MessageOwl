@@ -27,7 +27,6 @@
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
 
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowLightStatusBar">true</item>
 
         <item name="android:splitMotionEvents">false</item>

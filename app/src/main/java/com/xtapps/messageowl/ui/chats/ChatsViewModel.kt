@@ -1,4 +1,4 @@
-package com.xtapps.messageowl.ui.home.chats
+package com.xtapps.messageowl.ui.chats
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.xtapps.messageowl
+package com.xtapps.messageowl.ui.privateroom
 
 import android.graphics.Color
 import android.util.TypedValue
@@ -6,20 +6,19 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.cardview.widget.CardView
-import androidx.core.view.marginEnd
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
+import com.xtapps.messageowl.R
+import com.xtapps.messageowl.dummyMessage
 
 class MessageBubbleRecyclerAdapter : RecyclerView.Adapter<MessageBubbleRecyclerAdapter.ViewHolder>() {
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val content = view.findViewById<TextView>(R.id.content_textview)
-        val bubble = view.findViewById<MaterialCardView>(R.id.bubble_view)
-        val image = view.findViewById<ShapeableImageView>(R.id.imageView)
+        val content: TextView = view.findViewById(R.id.content_textview)
+        val bubble: MaterialCardView = view.findViewById(R.id.bubble_view)
+        val image: ShapeableImageView = view.findViewById(R.id.imageView)
     ***REMOVED***
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

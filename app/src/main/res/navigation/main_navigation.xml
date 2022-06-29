@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/directMessageFragment"
-        android:name="com.xtapps.messageowl.PrivateRoomFragment"
+        android:name="com.xtapps.messageowl.ui.privateroom.PrivateRoomFragment"
         android:label="fragment_direct_message"
         tools:layout="@layout/fragment_private_room">
         <argument
