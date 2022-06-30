@@ -48,7 +48,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:contentDescription="@string/message_contacts"
-            app:srcCompat="@drawable/ic_chats_outline" />
+            app:srcCompat="@drawable/ic_message" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

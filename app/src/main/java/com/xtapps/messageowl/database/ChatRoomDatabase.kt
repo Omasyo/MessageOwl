@@ -1,4 +1,4 @@
-package com.xtapps.messageowl.db
+package com.xtapps.messageowl.database
 
 import android.content.Context
 import androidx.room.Database
@@ -18,13 +18,13 @@ abstract class ChatRoomDatabase : RoomDatabase() {
         fun getDatabase(context: Context): ChatRoomDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
+                    context,
                     ChatRoomDatabase::class.java,
                     "room_database"
-                )
-                    .allowMainThreadQueries()
+                ).createFromAsset("database/test.db")
                     .build()
                 INSTANCE = instance
+
                 return instance
             }
         }

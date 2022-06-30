@@ -20,7 +20,7 @@
         app:layout_constraintEnd_toEndOf="@id/profile_image"
         app:layout_constraintStart_toStartOf="@id/profile_image" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profile_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,6 +28,7 @@
         android:layout_marginRight="@dimen/activity_vertical_margin"
         android:layout_marginBottom="48dp"
         android:adjustViewBounds="true"
+        app:shapeAppearance="@style/roundedImageView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

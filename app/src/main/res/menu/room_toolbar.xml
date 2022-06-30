@@ -3,6 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/info"
-        android:icon="@drawable/ic_contact_outlined"
+        android:icon="@drawable/ic_info"
         app:showAsAction="always" />
 </menu>
