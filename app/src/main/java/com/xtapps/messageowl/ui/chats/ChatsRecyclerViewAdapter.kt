@@ -8,12 +8,11 @@ import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.xtapps.messageowl.R
-import com.xtapps.messageowl.db.ChatRoomDatabase
+import com.xtapps.messageowl.database.ChatRoomDatabase
 import com.xtapps.messageowl.models.ChatRoom
 import com.xtapps.messageowl.ui.home.HomeFragmentDirections
 
-class ChatsRecyclerViewAdapter : RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder>() {
-    lateinit var test: List<ChatRoom>
+class ChatsRecyclerViewAdapter(private val test: List<ChatRoom>) : RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder>() {
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.text_home)
@@ -25,7 +24,6 @@ class ChatsRecyclerViewAdapter : RecyclerView.Adapter<ChatsRecyclerViewAdapter.V
             .from(parent.context)
             .inflate(R.layout.chat_card_view, parent, false)
 
-        test = ChatRoomDatabase.getDatabase(view.context).chatRoomDao().getAll()
         return ViewHolder(view)
     ***REMOVED***
 
@@ -38,6 +36,6 @@ class ChatsRecyclerViewAdapter : RecyclerView.Adapter<ChatsRecyclerViewAdapter.V
     ***REMOVED***
 
     override fun getItemCount(): Int {
-        return 11
+        return test.size
     ***REMOVED***
 ***REMOVED***

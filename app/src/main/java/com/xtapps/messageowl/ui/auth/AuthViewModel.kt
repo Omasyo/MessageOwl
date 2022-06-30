@@ -55,7 +55,7 @@ class AuthViewModel: ViewModel() {
             Log.d(TAG, "onCodeSent:$verificationId")
 
             // Save verification ID and resending token so we can use them later
-            storedVerificationId = verificationId
+            storedVerificationId = verificationId //TODO: Bug if the user is too fast
             resendToken = token
         ***REMOVED***
     ***REMOVED***

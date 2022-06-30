@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.platform.MaterialSharedAxis
+import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentPrivateRoomBinding
 
 class PrivateRoomFragment : Fragment() {
@@ -38,5 +39,10 @@ class PrivateRoomFragment : Fragment() {
         recyclerView.adapter = MessageBubbleRecyclerAdapter()
 
         return binding.root
+    ***REMOVED***
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.setBackgroundResource(R.drawable.solid_background)
     ***REMOVED***
 ***REMOVED***
