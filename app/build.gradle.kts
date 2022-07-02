@@ -20,6 +20,7 @@
 ***REMOVED***
 
 ***REMOVED***
+***REMOVED***
     ***REMOVED***
 
 ***REMOVED***
@@ -28,7 +29,7 @@
     ***REMOVED***
 ***REMOVED***
 ***REMOVED***
-            isMinifyEnabled = false
+***REMOVED***
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***

@@ -1,13 +1,18 @@
-package com.xtapps.messageowl.ui.privateroom
+package com.xtapps.messageowl.ui.room
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.asLiveData
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.platform.MaterialSharedAxis
+import com.xtapps.messageowl.MessageOwlApplication
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentPrivateRoomBinding
 
@@ -32,11 +37,36 @@ class PrivateRoomFragment : Fragment() {
         _binding = FragmentPrivateRoomBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
 
-        binding.toolbar.title = arguments?.getString("sampleText")
+        val roomId = arguments?.getString("sampleText")
+        binding.toolbar.title = roomId
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        ***REMOVED***
+        binding.toolbar.setOnMenuItemClickListener {
+            binding.container.openDrawer(GravityCompat.END)
+            true
+        ***REMOVED***
+
+        val viewModel: GroupRoomViewModel by activityViewModels {
+            GroupViewModelFactory(
+                (activity?.application as MessageOwlApplication).appDatabase.appDao(),
+                roomId!!
+***REMOVED***
+        ***REMOVED***
+
+        val adapter = RoomRecyclerViewAdapter()
 
         recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = MessageBubbleRecyclerAdapter()
+        recyclerView.layoutManager = LinearLayoutManager(context).apply {
+            stackFromEnd = true
+        ***REMOVED***
+        recyclerView.adapter = adapter
+
+        viewModel.messages.asLiveData().observe(viewLifecycleOwner) {
+            it.let {
+                adapter.submitList(it)
+            ***REMOVED***
+        ***REMOVED***
 
         return binding.root
     ***REMOVED***

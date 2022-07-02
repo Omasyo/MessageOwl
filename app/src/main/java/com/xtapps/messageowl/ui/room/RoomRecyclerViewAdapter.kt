@@ -1,26 +1,27 @@
-package com.xtapps.messageowl.ui.chats
+package com.xtapps.messageowl.ui.room
 
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.xtapps.messageowl.R
-import com.xtapps.messageowl.models.ChatRoom
+import com.xtapps.messageowl.models.MessageModel
 
-class ChatsRecyclerViewAdapter(private val onClick: (View, roomId: Int, Boolean) -> Unit) : RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder>() {
-    private var test: List<ChatRoom> = listOf()
+class RoomRecyclerViewAdapter(
+    private val isGroup: Boolean = false
+) : RecyclerView.Adapter<RoomRecyclerViewAdapter.ViewHolder>() {
+    private var test: List<MessageModel> = listOf()
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.text_home)
-        val subtitleTextView: TextView = view.findViewById(R.id.text_home2)
-        val cardView: CardView = view.findViewById(R.id.card_view)
+        val content: TextView = view.findViewById(R.id.content_textview)
+        val sender: TextView = view.findViewById(R.id.sender_textview)
     ***REMOVED***
 
-    fun submitList(list: List<ChatRoom>) {
+    fun submitList(list: List<MessageModel>) {
         Log.d("TAG", "submitList: submitting")
         val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun getOldListSize(): Int {
@@ -46,22 +47,28 @@ class ChatsRecyclerViewAdapter(private val onClick: (View, roomId: Int, Boolean)
         result.dispatchUpdatesTo(this)
     ***REMOVED***
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.chat_card_view, parent, false)
-        val viewHolder = ViewHolder(view)
-        viewHolder.bindingAdapterPosition
-
-        return viewHolder
+    override fun getItemViewType(position: Int): Int {
+        return test[position].senderId % 2
     ***REMOVED***
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = test[position].name
-        holder.subtitleTextView.text = if (test[position].isGroup) "This is a group chat" else "This is not a group chat"
-        holder.cardView.setOnClickListener {
-            onClick(it, test[position].id, test[position].isGroup)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = with(
+            LayoutInflater
+                .from(parent.context)
+        ) {
+            when (viewType) {
+                0 -> inflate(R.layout.message_bubble, parent, false) as LinearLayout
+                else -> inflate(R.layout.user_message_bubble, parent, false) as LinearLayout
+            ***REMOVED***
         ***REMOVED***
+        return ViewHolder(view)
+    ***REMOVED***
+
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if (!isGroup) holder.sender.visibility = View.GONE
+        holder.content.text = test[position].content
+        holder.sender.text = "User ${test[position].senderId***REMOVED***"
     ***REMOVED***
 
     override fun getItemCount(): Int {
