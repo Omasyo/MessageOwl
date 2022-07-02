@@ -2,7 +2,7 @@ package com.xtapps.messageowl.ui.room
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.xtapps.messageowl.models.AppDao
+import com.xtapps.messageowl.database.AppDao
 import com.xtapps.messageowl.models.MessageModel
 import kotlinx.coroutines.flow.Flow
 
