@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +24,7 @@ class ChatsFragment : Fragment() {
 
     private val viewModel: ChatsViewModel by activityViewModels {
         ChatsViewModelFactory(
-            (activity?.application as MessageOwlApplication).chatRoomDatabase.chatRoomDao()
+            (activity?.application as MessageOwlApplication).appDatabase.appDao()
         )
     }
 
@@ -38,8 +37,13 @@ class ChatsFragment : Fragment() {
         _binding = FragmentChatsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val adapter = ChatsRecyclerViewAdapter { view, position ->
-            val action = HomeFragmentDirections.actionHomeFragmentToDirectMessageFragment("Chats Screen $position")
+        val adapter = ChatsRecyclerViewAdapter { view, roomId, isGroup ->
+
+            val action = if(isGroup) {
+                HomeFragmentDirections.actionHomeFragmentToGroupRoomFragment(roomId.toString())
+            } else {
+                HomeFragmentDirections.actionHomeFragmentToPrivateRoomFragment(roomId.toString())
+            }
             view.findNavController().navigate(action)
         }
 
@@ -49,6 +53,7 @@ class ChatsFragment : Fragment() {
         Log.d("QWERr", "onCreateView: ${viewModel.allChats().asLiveData()}")
 
         viewModel.allChats().asLiveData().observe(viewLifecycleOwner) {
+
             it.let {
                 adapter.submitList(it)
             }

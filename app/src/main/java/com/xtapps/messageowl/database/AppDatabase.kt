@@ -5,21 +5,23 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.xtapps.messageowl.models.ChatRoom
-import com.xtapps.messageowl.models.ChatRoomDao
+import com.xtapps.messageowl.models.AppDao
+import com.xtapps.messageowl.models.MessageModel
 
-@Database(entities = [ChatRoom::class], version = 1)
-abstract class ChatRoomDatabase : RoomDatabase() {
-    abstract fun chatRoomDao(): ChatRoomDao
+@Database(entities = [ChatRoom::class, MessageModel::class], version = 1)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun appDao(): AppDao
+//    abstract fun appDao(): MessageModelDao
 
     companion object {
         @Volatile
-        private var INSTANCE: ChatRoomDatabase? = null
+        private var INSTANCE: AppDatabase? = null
 
-        fun getDatabase(context: Context): ChatRoomDatabase {
+        fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context,
-                    ChatRoomDatabase::class.java,
+                    AppDatabase::class.java,
                     "room_database"
                 ).createFromAsset("database/test.db")
                     .build()
