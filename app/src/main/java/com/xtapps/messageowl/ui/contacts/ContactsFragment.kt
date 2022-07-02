@@ -14,9 +14,6 @@ import com.xtapps.messageowl.databinding.FragmentContactsBinding
 class ContactsFragment : Fragment() {
 
     private var _binding: FragmentContactsBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +28,7 @@ class ContactsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
+        val viewModel =
             ViewModelProvider(this).get(ContactsViewModel::class.java)
 
         _binding = FragmentContactsBinding.inflate(inflater, container, false)
@@ -39,7 +36,7 @@ class ContactsFragment : Fragment() {
 
         val pageName = getString(R.string.contacts)
         val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
+        viewModel.text.observe(viewLifecycleOwner) {
             textView.text = pageName
         ***REMOVED***
         return root

@@ -8,11 +8,11 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "message")
 data class MessageModel(
     @PrimaryKey
-    val id: Int,
+    val id: String,
     @ColumnInfo(name = "room_id")
-    val roomId: Int,
+    val roomId: String,
     @ColumnInfo(name = "sender_id")
-    val senderId: Int,
+    val senderId: String,
 //    @ColumnInfo(name = "content")
     val content: String,
 //    val timeStamp: String,

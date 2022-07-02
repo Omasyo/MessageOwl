@@ -5,7 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.xtapps.messageowl.models.ChatRoom
-import com.xtapps.messageowl.models.AppDao
 import com.xtapps.messageowl.models.MessageModel
 
 @Database(entities = [ChatRoom::class, MessageModel::class], version = 1)

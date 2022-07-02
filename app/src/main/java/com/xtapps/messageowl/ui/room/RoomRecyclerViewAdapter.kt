@@ -48,7 +48,7 @@ class RoomRecyclerViewAdapter(
     ***REMOVED***
 
     override fun getItemViewType(position: Int): Int {
-        return test[position].senderId % 2
+        return test[position].senderId.toInt() % 2
     ***REMOVED***
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

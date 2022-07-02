@@ -11,13 +11,35 @@ import androidx.recyclerview.widget.RecyclerView
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.models.ChatRoom
 
-class ChatsRecyclerViewAdapter(private val onClick: (View, roomId: Int, Boolean) -> Unit) : RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder>() {
+class ChatsRecyclerViewAdapter(private val onClick: (View, roomId: String, Boolean) -> Unit) : RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder>() {
     private var test: List<ChatRoom> = listOf()
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.text_home)
         val subtitleTextView: TextView = view.findViewById(R.id.text_home2)
         val cardView: CardView = view.findViewById(R.id.card_view)
+    ***REMOVED***
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater
+            .from(parent.context)
+            .inflate(R.layout.chat_card_view, parent, false)
+        val viewHolder = ViewHolder(view)
+        viewHolder.bindingAdapterPosition
+
+        return viewHolder
+    ***REMOVED***
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.textView.text = test[position].name
+        holder.subtitleTextView.text = if (test[position].isGroup) "This is a group chat" else "This is not a group chat"
+        holder.cardView.setOnClickListener {
+            onClick(it, test[position].id, test[position].isGroup)
+        ***REMOVED***
+    ***REMOVED***
+
+    override fun getItemCount(): Int {
+        return test.size
     ***REMOVED***
 
     fun submitList(list: List<ChatRoom>) {
@@ -44,27 +66,5 @@ class ChatsRecyclerViewAdapter(private val onClick: (View, roomId: Int, Boolean)
         ***REMOVED***)
         test = list
         result.dispatchUpdatesTo(this)
-    ***REMOVED***
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.chat_card_view, parent, false)
-        val viewHolder = ViewHolder(view)
-        viewHolder.bindingAdapterPosition
-
-        return viewHolder
-    ***REMOVED***
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = test[position].name
-        holder.subtitleTextView.text = if (test[position].isGroup) "This is a group chat" else "This is not a group chat"
-        holder.cardView.setOnClickListener {
-            onClick(it, test[position].id, test[position].isGroup)
-        ***REMOVED***
-    ***REMOVED***
-
-    override fun getItemCount(): Int {
-        return test.size
     ***REMOVED***
 ***REMOVED***

@@ -38,28 +38,21 @@ class ChatsFragment : Fragment() {
         val root: View = binding.root
 
         val adapter = ChatsRecyclerViewAdapter { view, roomId, isGroup ->
-
             val action = if(isGroup) {
-                HomeFragmentDirections.actionHomeFragmentToGroupRoomFragment(roomId.toString())
+                HomeFragmentDirections.actionHomeFragmentToGroupRoomFragment(roomId)
             ***REMOVED*** else {
-                HomeFragmentDirections.actionHomeFragmentToPrivateRoomFragment(roomId.toString())
+                HomeFragmentDirections.actionHomeFragmentToPrivateRoomFragment(roomId)
             ***REMOVED***
             view.findNavController().navigate(action)
         ***REMOVED***
 
         recyclerView = binding.chatsRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-
-        Log.d("QWERr", "onCreateView: ${viewModel.allChats().asLiveData()***REMOVED***")
+        recyclerView.adapter = adapter
 
         viewModel.allChats().asLiveData().observe(viewLifecycleOwner) {
-
-            it.let {
-                adapter.submitList(it)
-            ***REMOVED***
+            it.let { adapter.submitList(it) ***REMOVED***
         ***REMOVED***
-
-        recyclerView.adapter = adapter
 
         return root
     ***REMOVED***

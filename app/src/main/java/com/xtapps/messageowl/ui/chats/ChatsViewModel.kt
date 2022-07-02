@@ -3,7 +3,7 @@ package com.xtapps.messageowl.ui.chats
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.xtapps.messageowl.models.ChatRoom
-import com.xtapps.messageowl.models.AppDao
+import com.xtapps.messageowl.database.AppDao
 import kotlinx.coroutines.flow.Flow
 
 class ChatsViewModel(private val appDao: AppDao) : ViewModel() {

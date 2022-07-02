@@ -1,7 +1,9 @@
-package com.xtapps.messageowl.models
+package com.xtapps.messageowl.database
 
 import androidx.room.Dao
 import androidx.room.Query
+import com.xtapps.messageowl.models.ChatRoom
+import com.xtapps.messageowl.models.MessageModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao
