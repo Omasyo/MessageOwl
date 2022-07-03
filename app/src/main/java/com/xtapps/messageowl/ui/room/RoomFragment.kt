@@ -11,15 +11,16 @@ import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.xtapps.messageowl.MessageOwlApplication
 import com.xtapps.messageowl.R
-import com.xtapps.messageowl.databinding.FragmentPrivateRoomBinding
+import com.xtapps.messageowl.databinding.FragmentRoomBinding
 
-class PrivateRoomFragment : Fragment() {
+class RoomFragment : Fragment() {
 
-    private var _binding: FragmentPrivateRoomBinding? = null
-    private val binding get() = _binding!!
+    private var _binding: ViewBinding? = null
+    private val binding get() = _binding as FragmentRoomBinding
 
     private lateinit var recyclerView: RecyclerView
 
@@ -34,10 +35,12 @@ class PrivateRoomFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentPrivateRoomBinding.inflate(inflater, container, false)
+        _binding = FragmentRoomBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
 
-        val roomId = arguments?.getString("sampleText")
+        val roomId = arguments?.getString("room_id")
+        val isGroup = arguments?.getString("is_group")
+
         binding.toolbar.title = roomId
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
@@ -54,7 +57,7 @@ class PrivateRoomFragment : Fragment() {
             )
         }
 
-        val adapter = RoomRecyclerViewAdapter()
+        val adapter = RoomRecyclerViewAdapter(true)
 
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context).apply {
@@ -80,13 +83,13 @@ class PrivateRoomFragment : Fragment() {
         }
 
         viewModel.messages.asLiveData().observe(viewLifecycleOwner) {
-            it.let {
-                adapter.submitList(it)
-                if(lastIndex == adapter.itemCount - 2) {
-                    recyclerView.scrollToPosition(adapter.itemCount - 1)
-                } else {
+            val lastIndex = (recyclerView.layoutManager as LinearLayoutManager)
+                .findLastCompletelyVisibleItemPosition()
+            it.let { adapter.submitList(it) }
+            if(lastIndex == adapter.itemCount - 2) {
+                recyclerView.scrollToPosition(adapter.itemCount - 1)
+            } else {
 
-                }
             }
         }
 

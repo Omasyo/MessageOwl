@@ -38,11 +38,7 @@ class ChatsFragment : Fragment() {
         val root: View = binding.root
 
         val adapter = ChatsRecyclerViewAdapter { view, roomId, isGroup ->
-            val action = if(isGroup) {
-                HomeFragmentDirections.actionHomeFragmentToGroupRoomFragment(roomId)
-            } else {
-                HomeFragmentDirections.actionHomeFragmentToPrivateRoomFragment(roomId)
-            }
+            val action = HomeFragmentDirections.actionHomeFragmentToGroupRoomFragment(roomId, isGroup)
             view.findNavController().navigate(action)
         }
 
