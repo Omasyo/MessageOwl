@@ -27,7 +27,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             style="@style/Widget.Material3.CardView.Filled"
-            android:clickable="true">
+            android:checkable="true"
+            android:clickable="true"
+            android:focusable="true">
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="match_parent"
                 app:shapeAppearance="@style/roundedImageView"

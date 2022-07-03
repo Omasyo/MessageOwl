@@ -3,16 +3,39 @@ package com.xtapps.messageowl.ui.auth
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.xtapps.messageowl.R
+import com.xtapps.messageowl.databinding.ActivityAuthBinding
+import com.xtapps.messageowl.databinding.ActivityMainBinding
 import java.util.concurrent.TimeUnit
 
 class AuthActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityAuthBinding
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_auth)
+
+        binding = ActivityAuthBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val fragment = supportFragmentManager.findFragmentById(R.id.auth_fragment)
+        if (fragment != null) {
+            navController = fragment.findNavController()
+        }
+    }
+
+    override fun onBackPressed() {
+        if(FirebaseAuth.getInstance().currentUser != null) {
+            FirebaseAuth.getInstance().signOut()
+            navController.navigate(R.id.action_completeProfileFragment_to_welcomeFragment)
+        }
+        super.onBackPressed()
     }
 
     lateinit var storedVerificationId: String
@@ -50,17 +73,14 @@ class AuthActivity : AppCompatActivity() {
             verificationId: String,
             token: PhoneAuthProvider.ForceResendingToken
         ) {
-            // The SMS verification code has been sent to the provided phone number, we
-            // now need to ask the user to enter the code and then construct a credential
-            // by combining the code with a verification ID.
             Log.d(TAG, "onCodeSent:$verificationId")
 
-            // Save verification ID and resending token so we can use them later
             storedVerificationId = verificationId //TODO: Bug if the user is too fast
             resendToken = token
+
+            navController.navigate(R.id.action_welcomeFragment_to_verifyFragment)
         }
     }
-
 
     fun sendVerification(phoneNumber: String) {
         val options = PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
