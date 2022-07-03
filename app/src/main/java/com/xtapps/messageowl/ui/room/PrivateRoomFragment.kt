@@ -62,9 +62,31 @@ class PrivateRoomFragment : Fragment() {
         ***REMOVED***
         recyclerView.adapter = adapter
 
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val lastIndex = (recyclerView.layoutManager as LinearLayoutManager)
+                    .findLastCompletelyVisibleItemPosition()
+                if(lastIndex == adapter.itemCount - 1) {
+                    binding.scrollButton.visibility = View.GONE
+                ***REMOVED*** else {
+                    binding.scrollButton.visibility = View.VISIBLE
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***)
+        binding.scrollButton.setOnClickListener {
+            recyclerView.smoothScrollToPosition(adapter.itemCount - 1)
+        ***REMOVED***
+
         viewModel.messages.asLiveData().observe(viewLifecycleOwner) {
             it.let {
                 adapter.submitList(it)
+                if(lastIndex == adapter.itemCount - 2) {
+                    recyclerView.scrollToPosition(adapter.itemCount - 1)
+                ***REMOVED*** else {
+
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
 

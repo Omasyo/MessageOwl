@@ -79,7 +79,7 @@ class GroupRoomFragment : Fragment() {
             ***REMOVED***
         ***REMOVED***)
         binding.scrollButton.setOnClickListener {
-            recyclerView.scrollToPosition(adapter.itemCount - 1)
+            recyclerView.smoothScrollToPosition(adapter.itemCount - 1)
         ***REMOVED***
 
         viewModel.messages.asLiveData().observe(viewLifecycleOwner) {

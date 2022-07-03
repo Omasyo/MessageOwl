@@ -38,7 +38,7 @@ class WelcomeFragment : Fragment() {
 
         binding.proceedButton.setOnClickListener {
             if(ccp.isValidFullNumber) {
-                viewModel.sendVerification(ccp.fullNumberWithPlus, this.activity as AuthActivity)
+                (activity as AuthActivity).sendVerification(ccp.fullNumberWithPlus)
 
                 findNavController().navigate(R.id.action_welcomeFragment_to_verifyFragment)
             ***REMOVED*** else {
