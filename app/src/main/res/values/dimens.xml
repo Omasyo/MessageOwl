@@ -9,6 +9,6 @@
     <dimen name="fragment_horizontal_margin">16dp</dimen>
     <dimen name="fragment_vertical_margin">16dp</dimen>
     
-    <dimen name="bubble_far_margin">80dp</dimen>
+    <dimen name="bubble_far_margin">64dp</dimen>
     <dimen name="stroke_width">1dp</dimen>
 </resources>

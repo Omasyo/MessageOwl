@@ -5,42 +5,24 @@
     android:id="@+id/main_navigation"
     app:startDestination="@id/homeFragment">
 
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.xtapps.messageowl.MainActivity"
-        android:label="MainActivity" />
-    <activity
-        android:id="@+id/authActivity"
-        android:name="com.xtapps.messageowl.ui.auth.AuthActivity"
-        android:label="activity_auth"
-        tools:layout="@layout/activity_auth" />
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.xtapps.messageowl.ui.home.HomeFragment"
         android:label="HomeFragment">
         <action
-            android:id="@+id/action_homeFragment_to_privateRoomFragment"
-            app:destination="@id/privateRoomFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_groupRoomFragment"
-            app:destination="@id/groupRoomFragment" />
+            app:destination="@id/roomFragment" />
     </fragment>
     <fragment
-        android:id="@+id/privateRoomFragment"
-        android:name="com.xtapps.messageowl.ui.room.PrivateRoomFragment"
-        android:label="fragment_direct_message"
-        tools:layout="@layout/fragment_private_room">
+        android:id="@+id/roomFragment"
+        android:name="com.xtapps.messageowl.ui.room.RoomFragment"
+        android:label="fragment_room"
+        tools:layout="@layout/fragment_room">
         <argument
-            android:name="sampleText"
+            android:name="room_id"
             app:argType="string" />
-    </fragment>
-    <fragment
-        android:id="@+id/groupRoomFragment"
-        android:name="com.xtapps.messageowl.ui.room.GroupRoomFragment"
-        android:label="fragment_group_room"
-        tools:layout="@layout/fragment_group_room" >
         <argument
-            android:name="sampleText"
-            app:argType="string" />
+            android:name="is_group"
+            app:argType="boolean" />
     </fragment>
 </navigation>
