@@ -48,9 +48,7 @@ class VerifyFragment : Fragment() {
         binding.proceedButton.setOnClickListener {
             Toast.makeText(context, binding.otpEditText.text, Toast.LENGTH_SHORT)
                 .show()
-            viewModel.verifyNumber(binding.otpEditText.text.toString(),
-                this.activity as AuthActivity
-            )
+            (activity as AuthActivity).verifyNumber(binding.otpEditText.text.toString())
         }
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
