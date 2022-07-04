@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.room.RoomFragment">
 
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,6 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
+            app:layout_dodgeInsetEdges="bottom"
+            android:fitsSystemWindows="true"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -65,6 +68,7 @@
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
+                android:background="@drawable/compose_message_background"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -73,13 +77,13 @@
 
                 <EditText
                     android:id="@+id/editText"
+                    android:background="@drawable/rounded_edittext"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:fontFamily="casual"
-                    android:gravity="center"
-                    android:text="Bottom part"
-                    android:textSize="24sp"
-                    app:layout_constraintBottom_toTopOf="@+id/button"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingHorizontal="16dp"
+                    android:hint="Enter your message"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/button"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -88,8 +92,8 @@
                 <Button
                     android:id="@+id/button"
                     style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     app:icon="@drawable/ic_send"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
