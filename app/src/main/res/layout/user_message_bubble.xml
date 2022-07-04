@@ -12,6 +12,8 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/bubble_view"
         style="@style/Widget.Material3.CardView.Outlined"
+        app:strokeWidth="0.5dp"
+        app:cardCornerRadius="@dimen/bubble_corner_radius"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/bubble_far_margin"
@@ -19,7 +21,6 @@
         android:clickable="true"
         android:focusable="true"
         android:minHeight="48dp"
-        app:strokeColor="?attr/colorPrimary"
         app:contentPadding="16dp">
 
         <TextView
