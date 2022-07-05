@@ -17,8 +17,6 @@ class WelcomeFragment : Fragment() {
     private var _binding: FragmentWelcomeBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: AuthViewModel by activityViewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
@@ -39,7 +37,6 @@ class WelcomeFragment : Fragment() {
         binding.proceedButton.setOnClickListener {
             if(ccp.isValidFullNumber) {
                 (activity as AuthActivity).sendVerification(ccp.fullNumberWithPlus)
-                binding.loadingIndicator.visibility = View.VISIBLE
             ***REMOVED*** else {
                 Snackbar.make(binding.root, "Please enter a valid phone number" ,Snackbar.LENGTH_LONG)
                     .show()

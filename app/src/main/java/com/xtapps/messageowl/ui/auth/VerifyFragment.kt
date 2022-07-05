@@ -41,7 +41,6 @@ class VerifyFragment : Fragment() {
             findNavController().popBackStack()
         ***REMOVED***
 
-
         return binding.root
     ***REMOVED***
 
