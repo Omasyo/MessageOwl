@@ -12,7 +12,7 @@ interface AppDao {
     fun getAll(): Flow<List<ChatRoom>>
 
     @Query("SELECT * FROM message WHERE room_id = :roomId")
-    fun getMessages(roomId: String): Flow<List<MessageModel>>
+    fun getMessages(roomId: Long): Flow<List<MessageModel>>
 
 //    @Query("SELECT name FROM ")
 ***REMOVED***
