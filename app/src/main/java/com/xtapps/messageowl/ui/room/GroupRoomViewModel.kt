@@ -8,14 +8,14 @@ import kotlinx.coroutines.flow.Flow
 
 class GroupRoomViewModel(
     private val appDao: AppDao,
-    private val roomId: String
+    private val roomId: Long
 ) : ViewModel() {
     val messages: Flow<List<MessageModel>> get() = appDao.getMessages(roomId)
 ***REMOVED***
 
 class GroupViewModelFactory(
     private val messageModelDao: AppDao,
-    private val groupId: String
+    private val groupId: Long
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(GroupRoomViewModel::class.java)) {

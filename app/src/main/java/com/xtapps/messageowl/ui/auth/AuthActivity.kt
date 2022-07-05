@@ -1,17 +1,17 @@
 package com.xtapps.messageowl.ui.auth
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.ActivityAuthBinding
-import com.xtapps.messageowl.databinding.ActivityMainBinding
 import java.util.concurrent.TimeUnit
 
 class AuthActivity : AppCompatActivity() {
@@ -32,10 +32,8 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if(FirebaseAuth.getInstance().currentUser != null) {
-            FirebaseAuth.getInstance().signOut()
             navController.navigate(R.id.action_completeProfileFragment_to_welcomeFragment)
         ***REMOVED***
-        super.onBackPressed()
     ***REMOVED***
 
     lateinit var storedVerificationId: String
@@ -52,20 +50,17 @@ class AuthActivity : AppCompatActivity() {
             //     detect the incoming verification SMS and perform verification without
             //     user action.
             Log.d(TAG, "onVerificationCompleted:$credential")
-//            signInWithPhoneAuthCredential(credential)
         ***REMOVED***
 
         override fun onVerificationFailed(e: FirebaseException) {
             // This callback is invoked in an invalid request for verification is made,
             // for instance if the the phone number format is not valid.
             Log.w(TAG, "onVerificationFailed", e)
-
             if (e is FirebaseAuthInvalidCredentialsException) {
                 // Invalid request
             ***REMOVED*** else if (e is FirebaseTooManyRequestsException) {
                 // The SMS quota for the project has been exceeded
             ***REMOVED***
-
             // Show a message and update the UI
         ***REMOVED***
 
@@ -73,9 +68,7 @@ class AuthActivity : AppCompatActivity() {
             verificationId: String,
             token: PhoneAuthProvider.ForceResendingToken
         ) {
-            Log.d(TAG, "onCodeSent:$verificationId")
-
-            storedVerificationId = verificationId //TODO: Bug if the user is too fast
+            storedVerificationId = verificationId
             resendToken = token
 
             navController.navigate(R.id.action_welcomeFragment_to_verifyFragment)
@@ -94,22 +87,33 @@ class AuthActivity : AppCompatActivity() {
 
     fun verifyNumber(code: String) {
         val credential = PhoneAuthProvider.getCredential(storedVerificationId, code)
+        val user = FirebaseAuth.getInstance().currentUser
 
-        FirebaseAuth.getInstance().signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user"s information
-                    Log.d(TAG, "signInWithCredential:success")
-
-                    val user = task.result?.user
-                ***REMOVED*** else {
-                    // Sign in failed, display a message and update the UI
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                        // The verification code entered was invalid
-                    ***REMOVED***
-                    // Update UI
+        val onCompleteListener = { task: Task<*> ->
+            if (task.isSuccessful) {
+                navController.navigate(R.id.action_verifyFragment_to_completeProfileFragment)
+            ***REMOVED*** else {
+                var errorMessage = "An error occurred"
+                Log.w(TAG, "signInWithCredential:failure", task.exception)
+                if (task.exception is FirebaseAuthInvalidCredentialsException) {
+                    // The verification code entered was invalid
+                    errorMessage = "The verification code entered was invalid"
+                ***REMOVED*** else if (task.exception is FirebaseAuthUserCollisionException) {
+                    errorMessage = "A user already exists with this number"
                 ***REMOVED***
+                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG)
+                    .show()
             ***REMOVED***
+        ***REMOVED***
+
+        if (user == null) { //Log new/different user
+            FirebaseAuth.getInstance().signInWithCredential(credential)
+                .addOnCompleteListener(this, onCompleteListener)
+        ***REMOVED*** else { //Update user number
+            user.updatePhoneNumber(credential).addOnCompleteListener(this, onCompleteListener)
+        ***REMOVED***
+        //TODO HANDLE EXCEPTION FirebaseAuthUserCollisionException thrown if there already exists an account with the given phone number
+        //TODO FirebaseAuthRecentLoginRequiredException thrown if the user's last sign-in time does not meet the security threshold. Use reauthenticate(AuthCredential) to resolve. This does not apply if the user is anonymous.
+        // todo FirebaseAuthInvalidUserException  thrown if the current user's account has been disabled, deleted, or its credentials are no longer valid
     ***REMOVED***
 ***REMOVED***
