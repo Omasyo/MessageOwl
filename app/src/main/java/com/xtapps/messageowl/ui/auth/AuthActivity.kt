@@ -1,5 +1,6 @@
 package com.xtapps.messageowl.ui.auth
 
+<<<<<<< HEAD
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -7,6 +8,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+=======
+import android.os.Bundle
+import android.util.Log
+>>>>>>> 1a661a3a451392a76ad982bba789ba1616c1aef8
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -56,7 +61,11 @@ class AuthActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+<<<<<<< HEAD
         if (FirebaseAuth.getInstance().currentUser != null) {
+=======
+        if(FirebaseAuth.getInstance().currentUser != null) {
+>>>>>>> 1a661a3a451392a76ad982bba789ba1616c1aef8
             navController.navigate(R.id.action_completeProfileFragment_to_welcomeFragment)
         }
     }
@@ -122,8 +131,11 @@ class AuthActivity : AppCompatActivity() {
         val user = FirebaseAuth.getInstance().currentUser
 
         val onCompleteListener = { task: Task<*> ->
+<<<<<<< HEAD
 
             binding.loadingIndicator.visibility = View.GONE
+=======
+>>>>>>> 1a661a3a451392a76ad982bba789ba1616c1aef8
             if (task.isSuccessful) {
                 navController.navigate(R.id.action_verifyFragment_to_completeProfileFragment)
             } else {
@@ -146,6 +158,7 @@ class AuthActivity : AppCompatActivity() {
         } else { //Update user number
             user.updatePhoneNumber(credential).addOnCompleteListener(this, onCompleteListener)
         }
+<<<<<<< HEAD
     }
 
     fun updateProfileDetails(name: String, photo: Uri?) {
@@ -158,5 +171,11 @@ class AuthActivity : AppCompatActivity() {
             .build()
 
         user?.updateProfile(builder)
+=======
+        //TODO HANDLE EXCEPTION FirebaseAuthUserCollisionException thrown if there already exists an account with the given phone number
+        //TODO FirebaseAuthRecentLoginRequiredException thrown if the user's last sign-in time does not meet the security threshold. Use reauthenticate(AuthCredential) to resolve. This does not apply if the user is anonymous.
+        // todo FirebaseAuthInvalidUserException  thrown if the current user's account has been disabled, deleted, or its credentials are no longer valid
+    }
+>>>>>>> 1a661a3a451392a76ad982bba789ba1616c1aef8
     }
 }
