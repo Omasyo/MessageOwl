@@ -38,10 +38,10 @@ class RoomFragment : Fragment() {
         _binding = FragmentRoomBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
 
-        val roomId = arguments?.getString("room_id")
+        val roomId = arguments?.getLong("room_id")
         val isGroup = arguments?.getString("is_group")
 
-        binding.toolbar.title = roomId
+        binding.toolbar.title = roomId.toString()
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }

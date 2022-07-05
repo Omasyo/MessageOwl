@@ -7,12 +7,12 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "message")
 data class MessageModel(
-    @PrimaryKey
-    val id: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long,
     @ColumnInfo(name = "room_id")
-    val roomId: String,
+    val roomId: Long,
     @ColumnInfo(name = "sender_id")
-    val senderId: String,
+    val senderId: Long,
 //    @ColumnInfo(name = "content")
     val content: String,
 //    val timeStamp: String,

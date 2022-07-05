@@ -1,7 +1,9 @@
 package com.xtapps.messageowl.ui.home
 
 import HomeFragmentAdapter
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +12,10 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
+import com.xtapps.messageowl.MainActivity
 import com.xtapps.messageowl.databinding.FragmentHomeBinding
+import com.xtapps.messageowl.ui.auth.AuthActivity
+import com.xtapps.messageowl.ui.auth.TAG
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -28,12 +33,17 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d(TAG, "verifyNumber ${FirebaseAuth.getInstance().currentUser?.uid} ${FirebaseAuth.getInstance().currentUser?.phoneNumber}")
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.toolbar.setOnMenuItemClickListener {
             binding.container.openDrawer(GravityCompat.END)
             true
         }
 
+        binding.updateNumberButton.setOnClickListener {
+            startActivity(Intent(activity, AuthActivity::class.java))
+            activity?.finish()
+        }
         binding.button2.setOnClickListener {
             signOutUser()
         }

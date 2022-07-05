@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "chat_room")
 data class ChatRoom(
-    @PrimaryKey val id: String,
+    @PrimaryKey(autoGenerate = true) val id: Long,
     val name: String,
     @ColumnInfo(name = "group")
     val isGroup: Boolean,

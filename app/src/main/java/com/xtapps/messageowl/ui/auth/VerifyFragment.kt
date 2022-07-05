@@ -19,14 +19,6 @@ class VerifyFragment : Fragment() {
     private var _binding: FragmentVerifyBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: AuthViewModel by activityViewModels()
-
-    private val _listener = FirebaseAuth.AuthStateListener {
-        val user = it.currentUser
-        if(user != null) {
-            findNavController().navigate(R.id.action_verifyFragment_to_completeProfileFragment)
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +34,7 @@ class VerifyFragment : Fragment() {
     ): View {
         _binding = FragmentVerifyBinding.inflate(inflater, container, false)
 
-
-        FirebaseAuth.getInstance().addAuthStateListener(_listener)
-
         binding.proceedButton.setOnClickListener {
-            Toast.makeText(context, binding.otpEditText.text, Toast.LENGTH_SHORT)
-                .show()
             (activity as AuthActivity).verifyNumber(binding.otpEditText.text.toString())
         }
         binding.backButton.setOnClickListener {
@@ -59,7 +46,6 @@ class VerifyFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        FirebaseAuth.getInstance().removeAuthStateListener(_listener)
         super.onDestroyView()
         _binding = null
 
