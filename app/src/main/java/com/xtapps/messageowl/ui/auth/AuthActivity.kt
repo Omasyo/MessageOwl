@@ -1,7 +1,12 @@
 package com.xtapps.messageowl.ui.auth
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -30,8 +35,28 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults:
+        IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1) {
+            grantResults.forEach {
+                if(it != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(
+                        this,
+                        "Permissions not granted by the user.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
     override fun onBackPressed() {
-        if(FirebaseAuth.getInstance().currentUser != null) {
+        if (FirebaseAuth.getInstance().currentUser != null) {
             navController.navigate(R.id.action_completeProfileFragment_to_welcomeFragment)
         }
     }
@@ -71,11 +96,15 @@ class AuthActivity : AppCompatActivity() {
             storedVerificationId = verificationId
             resendToken = token
 
+
+            binding.loadingIndicator.visibility = View.GONE
             navController.navigate(R.id.action_welcomeFragment_to_verifyFragment)
         }
     }
 
     fun sendVerification(phoneNumber: String) {
+        binding.loadingIndicator.visibility = View.VISIBLE
+
         val options = PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
             .setPhoneNumber(phoneNumber)       // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
@@ -86,10 +115,15 @@ class AuthActivity : AppCompatActivity() {
     }
 
     fun verifyNumber(code: String) {
+
+        binding.loadingIndicator.visibility = View.VISIBLE
+
         val credential = PhoneAuthProvider.getCredential(storedVerificationId, code)
         val user = FirebaseAuth.getInstance().currentUser
 
         val onCompleteListener = { task: Task<*> ->
+
+            binding.loadingIndicator.visibility = View.GONE
             if (task.isSuccessful) {
                 navController.navigate(R.id.action_verifyFragment_to_completeProfileFragment)
             } else {
@@ -112,8 +146,17 @@ class AuthActivity : AppCompatActivity() {
         } else { //Update user number
             user.updatePhoneNumber(credential).addOnCompleteListener(this, onCompleteListener)
         }
-        //TODO HANDLE EXCEPTION FirebaseAuthUserCollisionException thrown if there already exists an account with the given phone number
-        //TODO FirebaseAuthRecentLoginRequiredException thrown if the user's last sign-in time does not meet the security threshold. Use reauthenticate(AuthCredential) to resolve. This does not apply if the user is anonymous.
-        // todo FirebaseAuthInvalidUserException  thrown if the current user's account has been disabled, deleted, or its credentials are no longer valid
+    }
+
+    fun updateProfileDetails(name: String, photo: Uri?) {
+
+        val user = FirebaseAuth.getInstance().currentUser
+
+        val builder = UserProfileChangeRequest.Builder()
+            .setDisplayName(name)
+            .setPhotoUri(photo)
+            .build()
+
+        user?.updateProfile(builder)
     }
 }

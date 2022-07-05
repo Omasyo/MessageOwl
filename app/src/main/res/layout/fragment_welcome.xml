@@ -7,16 +7,6 @@
     android:layout_height="match_parent"
     tools:context="ui.auth.WelcomeFragment">
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/loading_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/welcomeMessage"
         style="@style/TextAppearance.Material3.HeadlineSmall"
