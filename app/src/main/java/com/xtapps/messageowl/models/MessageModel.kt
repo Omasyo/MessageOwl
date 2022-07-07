@@ -4,16 +4,18 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(tableName = "message")
 data class MessageModel(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    @PrimaryKey
+    val id: String,
     @ColumnInfo(name = "room_id")
-    val roomId: Long,
+    val roomId: String,
     @ColumnInfo(name = "sender_id")
-    val senderId: Long,
-//    @ColumnInfo(name = "content")
+    val senderId: String,
+
     val content: String,
-//    val timeStamp: String,
+
+    val timestamp: Date,
 )

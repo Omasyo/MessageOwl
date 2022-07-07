@@ -12,4 +12,5 @@
     <dimen name="bubble_far_margin">64dp</dimen>
     <dimen name="stroke_width">1dp</dimen>
     <dimen name="bubble_corner_radius">12dp</dimen>
+    <dimen name="consecutive_bubble_margin">4dp</dimen>
 </resources>

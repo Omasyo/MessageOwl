@@ -20,7 +20,7 @@
         tools:layout="@layout/fragment_room">
         <argument
             android:name="room_id"
-            app:argType="long" />
+            app:argType="string" />
         <argument
             android:name="is_group"
             app:argType="boolean" />

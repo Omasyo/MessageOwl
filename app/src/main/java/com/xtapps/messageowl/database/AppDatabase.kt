@@ -1,16 +1,17 @@
 package com.xtapps.messageowl.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
+import androidx.room.migration.Migration
 import com.xtapps.messageowl.models.ChatRoom
 import com.xtapps.messageowl.models.MessageModel
+import com.xtapps.messageowl.utils.Converters
 
 @Database(entities = [ChatRoom::class, MessageModel::class], version = 1)
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun appDao(): AppDao
-//    abstract fun appDao(): MessageModelDao
+    abstract fun chatRoomDao(): ChatRoomDao
+    abstract fun messageDao(): MessageDao
 
     companion object {
         @Volatile

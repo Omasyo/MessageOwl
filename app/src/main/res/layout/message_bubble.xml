@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="8dp"
+    android:layout_marginEnd="@dimen/bubble_far_margin"
+    android:layout_marginBottom="16dp"
     android:paddingHorizontal="16dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/imageView"
+        style="@style/Widget.Material3.CardView.Filled"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_alignParentStart="true"
         android:layout_marginEnd="8dp"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/Widget.Material3.CardView.Filled">
+        app:layout_constraintTop_toTopOf="parent">
+
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="match_parent"
-            app:shapeAppearance="@style/roundedImageView"
             android:layout_height="match_parent"
+            app:shapeAppearance="@style/roundedImageView"
             app:srcCompat="@drawable/sample" />
     </com.google.android.material.card.MaterialCardView>
 
@@ -30,18 +33,19 @@
         android:id="@+id/bubble_view"
         style="@style/Widget.Material3.CardView.Filled"
         android:layout_width="wrap_content"
-        app:cardCornerRadius="@dimen/bubble_corner_radius"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/bubble_far_margin"
+        android:layout_toEndOf="@id/imageView"
         android:checkable="true"
         android:clickable="true"
         android:focusable="true"
         android:minHeight="48dp"
+        app:cardCornerRadius="@dimen/bubble_corner_radius"
         app:contentPadding="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:orientation="vertical"
             android:paddingHorizontal="8dp">
 
@@ -50,17 +54,26 @@
                 style="@style/TextAppearance.Material3.TitleSmall"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Tungba"
-                android:textColor="?attr/colorTertiary"
-                tools:text="Tungba" />
+                android:textColor="?attr/colorTertiary" />
 
             <TextView
                 android:id="@+id/content_textview"
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:text="Hello new world" />
+                tools:text="HOw far my boss" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
-</LinearLayout>
+
+
+    <TextView
+        android:id="@+id/time_text"
+        style="@style/TextAppearance.Material3.BodySmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bubble_view"
+        android:layout_alignEnd="@id/bubble_view"
+        android:layout_alignParentEnd="false"
+        android:layout_marginEnd="12dp" />
+</RelativeLayout>

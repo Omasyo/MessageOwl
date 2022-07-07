@@ -33,22 +33,26 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d(TAG, "verifyNumber ${FirebaseAuth.getInstance().currentUser?.uid} ${FirebaseAuth.getInstance().currentUser?.phoneNumber}")
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        binding.toolbar.setOnMenuItemClickListener {
-            binding.container.openDrawer(GravityCompat.END)
-            true
-        }
 
-        binding.updateNumberButton.setOnClickListener {
-            startActivity(Intent(activity, AuthActivity::class.java))
-            activity?.finish()
-        }
-        binding.button2.setOnClickListener {
-            signOutUser()
-        }
+        binding.apply {
+            //Open drawer
+            toolbar.setOnMenuItemClickListener {
+                root.openDrawer(GravityCompat.END)
+                true
+            }
 
-        return binding.root
+            updateNumberButton.setOnClickListener {
+                startActivity(Intent(activity, AuthActivity::class.java))
+                activity?.finish()
+            }
+
+            button2.setOnClickListener {
+                signOutUser()
+            }
+
+            return root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

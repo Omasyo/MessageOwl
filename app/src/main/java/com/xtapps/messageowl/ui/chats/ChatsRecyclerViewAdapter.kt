@@ -1,6 +1,5 @@
 package com.xtapps.messageowl.ui.chats
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.models.ChatRoom
 
-class ChatsRecyclerViewAdapter(private val onClick: (View, roomId: Long, Boolean) -> Unit) : RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder>() {
+class ChatsRecyclerViewAdapter(private val onClick: (View, roomId: String, Boolean) -> Unit) : RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder>() {
     private var test: List<ChatRoom> = listOf()
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -43,7 +42,6 @@ class ChatsRecyclerViewAdapter(private val onClick: (View, roomId: Long, Boolean
     }
 
     fun submitList(list: List<ChatRoom>) {
-        Log.d("TAG", "submitList: submitting")
         val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun getOldListSize(): Int {
                 return test.size
