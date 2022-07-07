@@ -24,7 +24,7 @@ class ChatsFragment : Fragment() {
 
     private val viewModel: ChatsViewModel by activityViewModels {
         ChatsViewModelFactory(
-            (activity?.application as MessageOwlApplication).appDatabase.appDao()
+            (activity?.application as MessageOwlApplication).appDatabase.chatRoomDao()
         )
     ***REMOVED***
 

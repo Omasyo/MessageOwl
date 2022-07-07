@@ -84,13 +84,13 @@
                     android:paddingHorizontal="16dp"
                     android:hint="Enter your message"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/button"
+                    app:layout_constraintEnd_toStartOf="@+id/send_button"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/send_button"
                     style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
                     android:layout_width="48dp"
                     android:layout_height="48dp"

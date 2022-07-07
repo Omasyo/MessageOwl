@@ -1,6 +1,7 @@
 package com.xtapps.messageowl.ui.room
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.xtapps.messageowl.MessageOwlApplication
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentRoomBinding
+import java.util.*
 
 class RoomFragment : Fragment() {
 
@@ -38,8 +40,12 @@ class RoomFragment : Fragment() {
         _binding = FragmentRoomBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
 
-        val roomId = arguments?.getLong("room_id")
-        val isGroup = arguments?.getString("is_group")
+        val roomId = arguments?.getString("room_id")
+        val isGroup = arguments?.getBoolean("is_group")
+
+        binding.sendButton.setOnClickListener {
+            Log.d("TAG", "Datetime: ${Date()***REMOVED*** ")
+        ***REMOVED***
 
         binding.toolbar.title = roomId.toString()
         binding.toolbar.setNavigationOnClickListener {
@@ -50,14 +56,14 @@ class RoomFragment : Fragment() {
             true
         ***REMOVED***
 
-        val viewModel: GroupRoomViewModel by activityViewModels {
-            GroupViewModelFactory(
-                (activity?.application as MessageOwlApplication).appDatabase.appDao(),
+        val viewModel: RoomViewModel by activityViewModels {
+            RoomViewModelFactory(
+                (activity?.application as MessageOwlApplication).appDatabase.messageDao(),
                 roomId!!
 ***REMOVED***
         ***REMOVED***
 
-        val adapter = RoomRecyclerViewAdapter(true)
+        val adapter = RoomRecyclerViewAdapter(isGroup!!)
 
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context).apply {

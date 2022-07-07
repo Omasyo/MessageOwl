@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="8dp"
+    android:layout_marginStart="@dimen/bubble_far_margin"
+    android:layout_marginBottom="16dp"
     android:gravity="end"
     android:paddingHorizontal="16dp">
+
+    <View
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"/>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/bubble_view"
@@ -16,7 +23,6 @@
         app:cardCornerRadius="@dimen/bubble_corner_radius"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/bubble_far_margin"
         android:checkable="true"
         android:clickable="true"
         android:focusable="true"
@@ -31,8 +37,6 @@
             android:text="Tungba"
             android:textColor="?attr/colorTertiary"
             android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:text="Tungba" />
 
         <TextView
@@ -43,4 +47,14 @@
             tools:text="HOw far my boss" />
 
     </com.google.android.material.card.MaterialCardView>
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/time_text"
+        style="@style/TextAppearance.Material3.BodySmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bubble_view"
+        android:layout_alignStart="@id/bubble_view"
+        android:layout_alignParentEnd="false"
+        android:layout_marginStart="12dp" />
+</RelativeLayout>
