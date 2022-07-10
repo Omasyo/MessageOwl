@@ -25,6 +25,11 @@ class RoomFragment : Fragment() {
     private val binding get() = _binding as FragmentRoomBinding
 
     private lateinit var recyclerView: RecyclerView
+    val viewModel: RoomViewModel by activityViewModels {
+        RoomViewModelFactory(
+            (activity?.application as MessageOwlApplication).appDatabase.messageDao(),
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,13 +61,6 @@ class RoomFragment : Fragment() {
             true
         }
 
-        val viewModel: RoomViewModel by activityViewModels {
-            RoomViewModelFactory(
-                (activity?.application as MessageOwlApplication).appDatabase.messageDao(),
-                roomId!!
-            )
-        }
-
         val adapter = RoomRecyclerViewAdapter(isGroup!!)
 
         recyclerView = binding.recyclerView
@@ -88,7 +86,7 @@ class RoomFragment : Fragment() {
             recyclerView.smoothScrollToPosition(adapter.itemCount - 1)
         }
 
-        viewModel.messages.asLiveData().observe(viewLifecycleOwner) {
+        viewModel.getMessages(roomId!!).asLiveData().observe(viewLifecycleOwner) {
             val lastIndex = (recyclerView.layoutManager as LinearLayoutManager)
                 .findLastCompletelyVisibleItemPosition()
             it.let { adapter.submitList(it) }

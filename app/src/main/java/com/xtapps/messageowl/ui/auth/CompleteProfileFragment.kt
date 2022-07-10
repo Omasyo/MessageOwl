@@ -5,15 +5,15 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.platform.MaterialSharedAxis
@@ -21,8 +21,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.xtapps.messageowl.MainActivity
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentCompleteProfileBinding
+import com.xtapps.messageowl.utils.takePicture
 import java.io.File
-import java.net.URI
 
 class CompleteProfileFragment : Fragment() {
 
@@ -40,57 +40,38 @@ class CompleteProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCompleteProfileBinding.inflate(inflater, container, false)
-        binding.proceedButton.setOnClickListener {
-            startActivity(Intent(activity, MainActivity::class.java))
-            activity?.finish()
-        }
-        binding.backButton.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            findNavController().popBackStack(R.id.welcomeFragment, false)
-        }
 
+        var imageUri: Uri? = FirebaseAuth.getInstance().currentUser?.photoUrl
+        binding.profileImage.setImageURI(imageUri)
 
-
-        val imageUri: Uri = Uri.Builder()
-            .path(requireContext().filesDir.toUri().path)
-            .appendPath("test")
-            .build()
-
-        Log.d(TAG, "takePicture: $imageUri")
-
-        val takePicture =
+        val takePictureContract =
             registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
                 if (success) {
-                    Log.d(TAG, "takePicture: success")
+                    binding.profileImage.setImageURI(null)
                     binding.profileImage.setImageURI(imageUri)
-                } else {
-
-                    Log.d(TAG, "takePicture: failure")
                 }
             }
 
-        binding.cameraButton.setOnClickListener {
-            val result =
-                ContextCompat.checkSelfPermission(
-                    requireActivity(),
-                    Manifest.permission.CAMERA
-                )
-            if (result == PackageManager.PERMISSION_GRANTED) {
-                takePicture.launch(imageUri)
-            } else {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(Manifest.permission.CAMERA,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE), 1
-                )
+        binding.apply {
+            proceedButton.setOnClickListener {
+                (activity as AuthActivity).updateProfileDetails(usernameField.text.toString(), imageUri)
+                startActivity(Intent(activity, MainActivity::class.java))
+                activity?.finish()
             }
 
+            backButton.setOnClickListener {
+                FirebaseAuth.getInstance().signOut()
+                findNavController().popBackStack(R.id.welcomeFragment, false)
+            }
+            cameraButton.setOnClickListener {
+                imageUri = takePicture(requireActivity(), takePictureContract)
+            }
+            return root
         }
-        return binding.root
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
