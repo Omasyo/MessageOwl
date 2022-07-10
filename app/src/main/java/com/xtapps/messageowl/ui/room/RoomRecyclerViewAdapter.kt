@@ -92,6 +92,7 @@ class RoomRecyclerViewAdapter(
             val prevTime = SimpleDateFormat("HH:mm").format(test[position - 1].timestamp)
             if (sender == prevSender && time == prevTime) {
                 holder.image.visibility = View.INVISIBLE
+                holder.sender.visibility = View.GONE
             ***REMOVED***
         ***REMOVED***
     ***REMOVED***
