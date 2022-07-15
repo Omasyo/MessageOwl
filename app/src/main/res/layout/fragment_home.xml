@@ -42,14 +42,15 @@
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/floatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
+            android:text="Global Forum"
             android:contentDescription="@string/message_contacts"
-            app:srcCompat="@drawable/ic_message" />
+            app:icon="@drawable/ic_message" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -70,12 +71,12 @@
                 android:scaleType="centerCrop"
                 app:shapeAppearance="@style/roundedImageView"
                 android:layout_marginTop="32dp"
+                android:src="@drawable/profile_placeholder"
                 android:layout_marginHorizontal="16dp"
                 app:layout_constraintDimensionRatio="H,1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/camera_button"
@@ -122,23 +123,35 @@
                 app:layout_constraintTop_toBottomOf="@id/phone_no" />
 
             <Button
-                android:id="@+id/update_number_button"
+                android:id="@+id/edit_profile_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Update Number"
-                app:layout_constraintBottom_toTopOf="@id/button2"
+                android:backgroundTint="?attr/colorError"
+                android:text="@string/edit_profile"
+                app:layout_constraintBottom_toTopOf="@+id/update_number_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/update_number_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Change Number"
+                android:text="@string/update_number"
+                app:layout_constraintBottom_toTopOf="@id/change_number_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <Button
+                android:id="@+id/change_number_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/change_number"
                 android:backgroundTint="?attr/colorError"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.navigation.NavigationView>

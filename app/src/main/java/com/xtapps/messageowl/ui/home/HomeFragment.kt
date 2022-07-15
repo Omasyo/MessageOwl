@@ -2,30 +2,41 @@ package com.xtapps.messageowl.ui.home
 
 import HomeFragmentAdapter
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.auth.User
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.xtapps.messageowl.MessageOwlApplication
+import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentHomeBinding
+import com.xtapps.messageowl.models.UserModel
 import com.xtapps.messageowl.ui.auth.AuthActivity
-import com.xtapps.messageowl.ui.auth.TAG
-import com.xtapps.messageowl.ui.chats.ChatsViewModel
-import com.xtapps.messageowl.ui.chats.ChatsViewModelFactory
+import com.xtapps.messageowl.utils.asTempFile
 import com.xtapps.messageowl.utils.takePicture
+import id.zelory.compressor.Compressor
+import id.zelory.compressor.constraint.format
+import id.zelory.compressor.constraint.quality
+import id.zelory.compressor.constraint.resolution
+import kotlinx.coroutines.launch
 import java.io.File
 
 class HomeFragment : Fragment() {
@@ -48,47 +59,83 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        val storageRef = Firebase.storage.reference
-
-
-        val localFile = File.createTempFile("images", "jpg")
-        val profilePicRef =
-            Firebase.storage.reference.child("135351695_424295822143941_6336600627701852695_n.jpg")
-        profilePicRef.getFile(localFile).addOnSuccessListener {
-            binding.profilePhoto.setImageURI(localFile.toUri())
-        }.addOnFailureListener {
-            Log.d(TAG, "onCreateView error: ${it.message}")
-        }
-
-        var imageUri: Uri? = null
-        val takePictureContract =
-            registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
-                if (success) {
-                    binding.profilePhoto.setImageURI(null)
-                    binding.profilePhoto.setImageURI(imageUri)
-                    imageUri?.let { uri ->
-                        storageRef.child(localFile.name).putFile(uri)
-                            .addOnSuccessListener {
-                                binding.profilePhoto.setImageURI(localFile.toUri())
-                            }.addOnFailureListener {
-                                Log.d(TAG, "onCreateView error: ${it.message}")
-                            }
-                    }
+        binding.apply {
+            suspend fun compressAndUpload(file: File) {
+                val compressedImageFile = Compressor.compress(
+                    requireContext(),
+                    file
+                ) {
+                    resolution(612, 816)
+                    format(Bitmap.CompressFormat.JPEG)
+                    quality(30)
                 }
+                val profilePicRef =
+                    Firebase.storage.reference.child("profilePics/${FirebaseAuth.getInstance().currentUser?.uid}")
+
+                profilePicRef.putFile(compressedImageFile.toUri())
+                    .addOnCompleteListener(requireActivity()) {
+                        if (it.isSuccessful) {
+                            profilePhoto.setImageURI(file.toUri())
+                        } else {
+                            Log.w(TAG, "Error uploading image: $it")
+                            Toast.makeText(
+                                context, resources.getString(R.string.photo_upload_error),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
             }
 
-        binding.apply {
+            var imageFile: File? = null
+
+            val galleryLauncher =
+                registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+                    lifecycleScope.launch {
+                        if (uri != null) {
+                            compressAndUpload(
+                                uri.asTempFile(requireContext())
+                            )
+                        }
+                    }
+                }
+
+            val takePictureLauncher =
+                registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
+                    if (success) {
+                        imageFile?.let { file ->
+                            Log.d(TAG, "onCreateView: image $imageFile")
+                            lifecycleScope.launch {
+                                compressAndUpload(file)
+                            }
+                        }
+                    } else {
+                        Toast.makeText(context, "Error", Toast.LENGTH_LONG).show()
+                    }
+                }
+
             //Open drawer
             toolbar.setOnMenuItemClickListener {
                 root.openDrawer(GravityCompat.END)
                 true
             }
-
-            profilePhoto.setImageURI(FirebaseAuth.getInstance().currentUser?.photoUrl)
-            username.text = FirebaseAuth.getInstance().currentUser?.displayName
-
             cameraButton.setOnClickListener {
-                imageUri = takePicture(requireActivity(), takePictureContract)
+                val dialog = MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(resources.getString(R.string.image_dialog_title))
+                    .setView(R.layout.image_dialog)
+                    .show()
+
+                dialog.findViewById<Button>(R.id.dialog_image)?.setOnClickListener {
+                    galleryLauncher.launch("image/*")
+                    dialog.dismiss()
+                }
+                dialog.findViewById<Button>(R.id.dialog_camera)?.setOnClickListener {
+                    imageFile = takePicture(requireActivity(), takePictureLauncher)
+                    dialog.dismiss()
+                }
+            }
+
+            editProfileButton.setOnClickListener {
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCompleteProfileFragment())
             }
 
             updateNumberButton.setOnClickListener {
@@ -96,9 +143,31 @@ class HomeFragment : Fragment() {
                 activity?.finish()
             }
 
-            button2.setOnClickListener {
-                viewModel.signOutUser()
+            changeNumberButton.setOnClickListener {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(resources.getString(R.string.change_number))
+                    .setMessage(resources.getString(R.string.change_number_warning))
+                    .setNeutralButton(resources.getString(R.string.cancel)) { dialog, _ ->
+                        dialog.cancel()
+                    }.setPositiveButton(resources.getString(R.string.proceed)) { dialog, _ ->
+                        dialog.dismiss()
+                        viewModel.signOutUser()
+                    }.show()
+
             }
+
+//            viewModel.currentUser.observe(viewLifecycleOwner) { user: UserModel ->
+////                val file = File.createTempFile(
+////                    "profile",
+////                    ".jpg",
+////                    requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+////                )
+////                user.profilePic?.let { it1 -> Firebase.storage.reference.child(it1).getFile(file).addOnSuccessListener {
+////                    profilePhoto.setImageURI(file.toUri())
+////                } }
+////                username.text = user.name
+////                phoneNo.text = user.phoneNo
+//            }
 
             return root
         }
@@ -109,7 +178,7 @@ class HomeFragment : Fragment() {
         val viewPager = binding.pager
         viewPager.adapter = HomeFragmentAdapter(this)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = if(position == 0) "Chats" else "Contacts" // FIXME: hardcoding
+            tab.text = if (position == 0) "Chats" else "Contacts" // FIXME: hardcoding
         }.attach()
     }
 }

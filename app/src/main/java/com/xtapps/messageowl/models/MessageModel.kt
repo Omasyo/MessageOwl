@@ -6,7 +6,14 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import java.util.*
 
-@Entity(tableName = "message")
+@Entity(
+    tableName = "messages",
+    foreignKeys = [ForeignKey(
+        entity = ChatRoom::class,
+        parentColumns = ["id"],
+        childColumns = ["room_id"],
+    )]
+)
 data class MessageModel(
     @PrimaryKey
     val id: String,
@@ -19,3 +26,5 @@ data class MessageModel(
 
     val timestamp: Date,
 )
+
+//data class MessageWithUser

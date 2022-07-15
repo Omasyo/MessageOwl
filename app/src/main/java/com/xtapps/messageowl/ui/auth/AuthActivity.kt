@@ -1,8 +1,6 @@
 package com.xtapps.messageowl.ui.auth
 
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -55,11 +53,6 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        if (FirebaseAuth.getInstance().currentUser != null) {
-            navController.navigate(R.id.action_completeProfileFragment_to_welcomeFragment)
-        }
-    }
 
     lateinit var storedVerificationId: String
     lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
@@ -125,15 +118,15 @@ class AuthActivity : AppCompatActivity() {
 
             binding.loadingIndicator.visibility = View.GONE
             if (task.isSuccessful) {
-                navController.navigate(R.id.action_verifyFragment_to_completeProfileFragment)
+//                navController.navigate(R.id.action_verifyFragment_to_completeProfileFragment)
             } else {
-                var errorMessage = "An error occurred"
+                var errorMessage = resources.getString(R.string.error_message)
                 Log.w(TAG, "signInWithCredential:failure", task.exception)
                 if (task.exception is FirebaseAuthInvalidCredentialsException) {
                     // The verification code entered was invalid
-                    errorMessage = "The verification code entered was invalid"
+                    errorMessage = resources.getString(R.string.invalid_verification_code)
                 } else if (task.exception is FirebaseAuthUserCollisionException) {
-                    errorMessage = "A user already exists with this number"
+                    errorMessage = resources.getString(R.string.user_exists)
                 }
                 Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG)
                     .show()
@@ -146,17 +139,5 @@ class AuthActivity : AppCompatActivity() {
         } else { //Update user number
             user.updatePhoneNumber(credential).addOnCompleteListener(this, onCompleteListener)
         }
-    }
-
-    fun updateProfileDetails(name: String, photo: Uri?) {
-
-        val user = FirebaseAuth.getInstance().currentUser
-
-        val builder = UserProfileChangeRequest.Builder()
-            .setDisplayName(name)
-            .setPhotoUri(photo)
-            .build()
-
-        user?.updateProfile(builder)
     }
 }
