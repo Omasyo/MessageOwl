@@ -1,19 +1,20 @@
 package com.xtapps.messageowl.ui.chats
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.xtapps.messageowl.MessageOwlApplication
 import com.xtapps.messageowl.databinding.FragmentChatsBinding
 import com.xtapps.messageowl.ui.home.HomeFragmentDirections
+import kotlinx.coroutines.launch
 
 class ChatsFragment : Fragment() {
 
@@ -38,7 +39,8 @@ class ChatsFragment : Fragment() {
         val root: View = binding.root
 
         val adapter = ChatsRecyclerViewAdapter { view, roomId, isGroup ->
-            val action = HomeFragmentDirections.actionHomeFragmentToGroupRoomFragment(roomId, isGroup)
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToRoomFragment(roomId, isGroup)
             view.findNavController().navigate(action)
         ***REMOVED***
 
@@ -46,9 +48,15 @@ class ChatsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
-        viewModel.allChats().asLiveData().observe(viewLifecycleOwner) {
-            it.let { adapter.submitList(it) ***REMOVED***
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.allChats().flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .collect {
+                    it.let { adapter.submitList(it) ***REMOVED***
+                ***REMOVED***
         ***REMOVED***
+//        viewModel.allChats().asLiveData().observe(viewLifecycleOwner) {
+//            it.let { adapter.submitList(it) ***REMOVED***
+//        ***REMOVED***
 
         return root
     ***REMOVED***

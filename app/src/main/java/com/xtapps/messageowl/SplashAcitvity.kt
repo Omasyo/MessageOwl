@@ -11,15 +11,16 @@ class SplashAcitvity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_acitvity)
 
-        val isAuth = FirebaseAuth.getInstance().currentUser != null
-        val intent = if (isAuth) {
-            //TODO: if profile incomplete sign out
-            Intent(this, MainActivity::class.java)
-        ***REMOVED*** else {
-            Intent(this, AuthActivity::class.java)
+        FirebaseAuth.getInstance().addAuthStateListener {
+            val isAuth = FirebaseAuth.getInstance().currentUser != null
+            val intent = if (isAuth) {
+                //TODO: if profile incomplete sign out
+                Intent(this, MainActivity::class.java)
+            ***REMOVED*** else {
+                Intent(this, AuthActivity::class.java)
+            ***REMOVED***
+            startActivity(intent)
+            finish()
         ***REMOVED***
-
-        startActivity(intent)
-        finish()
     ***REMOVED***
 ***REMOVED***

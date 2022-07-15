@@ -20,21 +20,7 @@
         android:label="fragment_verify"
         tools:layout="@layout/fragment_verify" >
         <action
-            android:id="@+id/action_verifyFragment_to_completeProfileFragment"
-            app:destination="@id/completeProfileFragment" />
-        <action
             android:id="@+id/action_verifyFragment_to_welcomeFragment"
-            app:destination="@id/welcomeFragment"
-            app:popUpTo="@id/welcomeFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/completeProfileFragment"
-        android:name="com.xtapps.messageowl.ui.auth.CompleteProfileFragment"
-        android:label="fragment_complete_profile"
-        tools:layout="@layout/fragment_complete_profile" >
-        <action
-            android:id="@+id/action_completeProfileFragment_to_welcomeFragment"
             app:destination="@id/welcomeFragment"
             app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="true" />

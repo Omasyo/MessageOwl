@@ -53,11 +53,12 @@
     implementation("androidx.appcompat:appcompat:1.4.2")
     implementation("com.google.android.material:material:1.7.0-alpha02")
 ***REMOVED***
-    implementation("androidx.navigation:navigation-fragment-ktx:2.4.2")
-    implementation("androidx.navigation:navigation-ui-ktx:2.4.2")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.0")
 ***REMOVED***
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0")
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
@@ -78,5 +79,7 @@
     // When using the BoM, you don"t specify versions in Firebase library dependencies
 ***REMOVED***
 ***REMOVED***
+***REMOVED***
+
 ***REMOVED***
 ***REMOVED***

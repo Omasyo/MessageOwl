@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:padding="16dp"
 
+    android:padding="16dp"
     tools:context=".ui.auth.CompleteProfileFragment">
 
     <TextView
@@ -16,25 +16,37 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:text="@string/complete_profile"
-        app:layout_constraintBottom_toTopOf="@+id/profile_image"
-        app:layout_constraintEnd_toEndOf="@id/profile_image"
-        app:layout_constraintStart_toStartOf="@id/profile_image" />
+        app:layout_constraintBottom_toTopOf="@+id/profile_photo"
+        app:layout_constraintEnd_toEndOf="@id/profile_photo"
+        app:layout_constraintStart_toStartOf="@id/profile_photo" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/profile_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/profile_photo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginRight="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="48dp"
-        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         app:shapeAppearance="@style/roundedImageView"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/profile_placeholder"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="?attr/colorSecondaryContainer"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_indicator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/profile_photo"
+        app:layout_constraintTop_toTopOf="@+id/profile_photo"
+        app:layout_constraintEnd_toEndOf="@+id/profile_photo"/>
 
     <Button
         android:id="@+id/camera_button"
@@ -43,8 +55,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:icon="@drawable/ic_camera"
-        app:layout_constraintBottom_toBottomOf="@id/profile_image"
-        app:layout_constraintEnd_toEndOf="@id/profile_image" />
+        app:layout_constraintBottom_toBottomOf="@id/profile_photo"
+        app:layout_constraintEnd_toEndOf="@id/profile_photo" />
 
     <EditText
         android:id="@+id/username_field"
@@ -54,9 +66,9 @@
         android:hint="@string/username_hint"
         android:maxLength="20"
         android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="@id/profile_image"
-        app:layout_constraintStart_toStartOf="@id/profile_image"
-        app:layout_constraintTop_toBottomOf="@id/profile_image" />
+        app:layout_constraintEnd_toEndOf="@id/profile_photo"
+        app:layout_constraintStart_toStartOf="@id/profile_photo"
+        app:layout_constraintTop_toBottomOf="@id/profile_photo" />
 
     <Button
         android:id="@+id/back_button"
@@ -64,7 +76,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="@string/edit_number"
+        android:text="@string/change_number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/proceed_button"
         app:layout_constraintHorizontal_bias="0.5"
@@ -80,5 +92,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/back_button" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

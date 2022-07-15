@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MessageDao {
-    @Query("SELECT * FROM message WHERE room_id = :roomId ORDER BY timestamp")
+    @Query("SELECT * FROM messages WHERE room_id = :roomId ORDER BY timestamp")
     fun getMessages(roomId: String): Flow<List<MessageModel>>
 
     @Insert(entity = MessageModel::class)
