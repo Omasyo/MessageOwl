@@ -9,4 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface UserDao {
     @Query("SELECT * FROM users WHERE id in (:senderIds)")
     fun getUsers(senderIds: List<String>): Flow<List<UserModel>>
+
+    @Query("SELECT * FROM users WHERE id = :id")
+    fun getUser(id: String): Flow<UserModel>
 }

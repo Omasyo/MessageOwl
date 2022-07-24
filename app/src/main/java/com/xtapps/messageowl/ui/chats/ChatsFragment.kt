@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.xtapps.messageowl.MessageOwlApplication
@@ -42,10 +43,10 @@ class ChatsFragment : Fragment() {
         _binding = FragmentChatsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val adapter = ChatsRecyclerViewAdapter { view, roomId, isGroup ->
+        val adapter = ChatsRecyclerViewAdapter { roomId, isGroup ->
             val action =
                 HomeFragmentDirections.actionHomeFragmentToRoomFragment(roomId, isGroup)
-            view.findNavController().navigate(action)
+            findNavController().navigate(action)
         }
 
         adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY

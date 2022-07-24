@@ -1,5 +1,6 @@
 package com.xtapps.messageowl.ui.room
 
+import android.icu.text.Transliterator
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -35,14 +36,14 @@ class RoomRecyclerViewAdapter(
             }
 
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return test[oldItemPosition] == list[newItemPosition]
+                return test[oldItemPosition].message.id == list[newItemPosition].message.id
             }
 
             override fun areContentsTheSame(
                 oldItemPosition: Int,
                 newItemPosition: Int
             ): Boolean {
-                return test[oldItemPosition] == list[newItemPosition]
+                return false//test[oldItemPosition] == list[newItemPosition]
             }
         })
         test = list
@@ -59,7 +60,7 @@ class RoomRecyclerViewAdapter(
                 .from(parent.context)
         ) {
             when (viewType) {
-                2 -> inflate(R.layout.user_message_bubble, parent, false)
+                1 -> inflate(R.layout.user_message_bubble, parent, false)
                 else -> inflate(R.layout.message_bubble, parent, false)
             }
         }
@@ -68,6 +69,9 @@ class RoomRecyclerViewAdapter(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        fun sameSender(m1: MessageWithSender, m2: MessageWithSender)
+        = m1.user.id == m2.user.id
+
         if (!isGroup) holder.sender.visibility = View.GONE
         holder.content.text = test[position].message.content
         holder.sender.text = test[position].user.name
@@ -77,22 +81,24 @@ class RoomRecyclerViewAdapter(
         holder.time.text = time
 
         if (position < test.lastIndex) {
-            val sender = test[position].user.id
-            val nextSender = test[position+1].user.id
             val nextTime = SimpleDateFormat("HH:mm").format(test[position + 1].message.timestamp)
-            if (sender == nextSender && time == nextTime) {
+            if (sameSender(test[position] , test[position+1]) && time == nextTime) {
                 holder.time.visibility = View.GONE
-                (holder.view.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin =
-                    holder.view.resources.getDimensionPixelSize(R.dimen.consecutive_bubble_margin)
+            } else{
+                holder.time.visibility = View.VISIBLE
             }
         }
+
         if(position > 0) {
-            val sender = test[position].user.id
-            val prevSender = test[position-1].user.id
             val prevTime = SimpleDateFormat("HH:mm").format(test[position - 1].message.timestamp)
-            if (sender == prevSender && time == prevTime) {
+            if(test[position].message.content == "Hey") Log.d("Messago", "onBindViewHolder: Normal $position ${test[position]} ${test[position-1]}")
+            if (sameSender(test[position] , test[position-1]) && time == prevTime) {
+                Log.d("Messago", "onBindViewHolder: Bullcrap $position ${test[position]} ${test[position-1]}")
                 holder.image.visibility = View.INVISIBLE
                 holder.sender.visibility = View.GONE
+            } else {
+                holder.image.visibility = View.VISIBLE
+                holder.sender.visibility = View.VISIBLE
             }
         }
     }
