@@ -2,41 +2,26 @@ package com.xtapps.messageowl.ui.home
 
 import HomeFragmentAdapter
 import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.platform.MaterialSharedAxis
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.auth.User
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.xtapps.messageowl.MainActivity
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentHomeBinding
 import com.xtapps.messageowl.models.UserModel
 import com.xtapps.messageowl.ui.auth.AuthActivity
-import com.xtapps.messageowl.utils.asTempFile
-import com.xtapps.messageowl.utils.takePicture
-import id.zelory.compressor.Compressor
-import id.zelory.compressor.constraint.format
-import id.zelory.compressor.constraint.quality
-import id.zelory.compressor.constraint.resolution
-import kotlinx.coroutines.launch
 import java.io.File
 
 class HomeFragment : Fragment() {
@@ -60,87 +45,17 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         binding.apply {
-            suspend fun compressAndUpload(file: File) {
-                val compressedImageFile = Compressor.compress(
-                    requireContext(),
-                    file
-    ***REMOVED*** {
-                    resolution(612, 816)
-                    format(Bitmap.CompressFormat.JPEG)
-                    quality(30)
-                ***REMOVED***
-                val profilePicRef =
-                    Firebase.storage.reference.child("profilePics/${FirebaseAuth.getInstance().currentUser?.uid***REMOVED***")
-
-                profilePicRef.putFile(compressedImageFile.toUri())
-                    .addOnCompleteListener(requireActivity()) {
-                        if (it.isSuccessful) {
-                            profilePhoto.setImageURI(file.toUri())
-                        ***REMOVED*** else {
-                            Log.w(TAG, "Error uploading image: $it")
-                            Toast.makeText(
-                                context, resources.getString(R.string.photo_upload_error),
-                                Toast.LENGTH_LONG
-                ***REMOVED***.show()
-                        ***REMOVED***
-                    ***REMOVED***
-            ***REMOVED***
-
-            var imageFile: File? = null
-
-            val galleryLauncher =
-                registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-                    lifecycleScope.launch {
-                        if (uri != null) {
-                            compressAndUpload(
-                                uri.asTempFile(requireContext())
-                ***REMOVED***
-                        ***REMOVED***
-                    ***REMOVED***
-                ***REMOVED***
-
-            val takePictureLauncher =
-                registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
-                    if (success) {
-                        imageFile?.let { file ->
-                            Log.d(TAG, "onCreateView: image $imageFile")
-                            lifecycleScope.launch {
-                                compressAndUpload(file)
-                            ***REMOVED***
-                        ***REMOVED***
-                    ***REMOVED*** else {
-                        Toast.makeText(context, "Error", Toast.LENGTH_LONG).show()
-                    ***REMOVED***
-                ***REMOVED***
-
             //Open drawer
             toolbar.setOnMenuItemClickListener {
                 root.openDrawer(GravityCompat.END)
                 true
             ***REMOVED***
             cameraButton.setOnClickListener {
-                val dialog = MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(resources.getString(R.string.image_dialog_title))
-                    .setView(R.layout.image_dialog)
-                    .show()
-
-                dialog.findViewById<Button>(R.id.dialog_image)?.setOnClickListener {
-                    galleryLauncher.launch("image/*")
-                    dialog.dismiss()
-                ***REMOVED***
-                dialog.findViewById<Button>(R.id.dialog_camera)?.setOnClickListener {
-                    imageFile = takePicture(requireActivity(), takePictureLauncher)
-                    dialog.dismiss()
-                ***REMOVED***
+                (activity as MainActivity).showImageDialog()
             ***REMOVED***
 
             editProfileButton.setOnClickListener {
                 findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCompleteProfileFragment())
-            ***REMOVED***
-
-            updateNumberButton.setOnClickListener {
-                startActivity(Intent(activity, AuthActivity::class.java))
-                activity?.finish()
             ***REMOVED***
 
             changeNumberButton.setOnClickListener {
@@ -156,18 +71,18 @@ class HomeFragment : Fragment() {
 
             ***REMOVED***
 
-//            viewModel.currentUser.observe(viewLifecycleOwner) { user: UserModel ->
-////                val file = File.createTempFile(
-////                    "profile",
-////                    ".jpg",
-////                    requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-////    ***REMOVED***
-////                user.profilePic?.let { it1 -> Firebase.storage.reference.child(it1).getFile(file).addOnSuccessListener {
-////                    profilePhoto.setImageURI(file.toUri())
-////                ***REMOVED*** ***REMOVED***
-////                username.text = user.name
-////                phoneNo.text = user.phoneNo
-//            ***REMOVED***
+            viewModel.currentUser.observe(viewLifecycleOwner) { user: UserModel ->
+                val file = File.createTempFile(
+                    "profile",
+                    ".jpg",
+                    requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    ***REMOVED***
+//                user.profilePic?.let { it1 -> Firebase.storage.reference.child(it1).getFile(file).addOnSuccessListener {
+//                    profilePhoto.setImageURI(file.toUri())
+//                ***REMOVED*** ***REMOVED***
+                username.text = user.name
+                phoneNo.text = user.phoneNo
+            ***REMOVED***
 
             return root
         ***REMOVED***

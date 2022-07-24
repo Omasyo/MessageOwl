@@ -49,6 +49,8 @@
 
     val roomVersion = "2.4.2"
 
+
+***REMOVED***
     implementation("androidx.core:core-ktx:1.8.0")
     implementation("androidx.appcompat:appcompat:1.4.2")
     implementation("com.google.android.material:material:1.7.0-alpha02")

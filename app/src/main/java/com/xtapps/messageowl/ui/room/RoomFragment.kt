@@ -1,7 +1,6 @@
 package com.xtapps.messageowl.ui.room
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.xtapps.messageowl.MessageOwlApplication
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentRoomBinding
-import java.util.*
 
 class RoomFragment : Fragment() {
 
@@ -25,10 +23,16 @@ class RoomFragment : Fragment() {
     private val binding get() = _binding as FragmentRoomBinding
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var participantsRecyclerView: RecyclerView
+
     val viewModel: RoomViewModel by activityViewModels {
-        RoomViewModelFactory(
-            (activity?.application as MessageOwlApplication).appDatabase.messageDao(),
-        )
+        with((activity?.application as MessageOwlApplication).appDatabase) {
+            RoomViewModelFactory(
+                messageDao(),
+                chatRoomDao(),
+                userDao(),
+***REMOVED***
+        ***REMOVED***
     ***REMOVED***
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,55 +49,69 @@ class RoomFragment : Fragment() {
         _binding = FragmentRoomBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
 
-        val roomId = arguments?.getString("room_id")
-        val isGroup = arguments?.getBoolean("is_group")
+        val roomId = requireArguments().getString("room_id")!!
+        val isGroup = requireArguments().getBoolean("is_group")
 
-        binding.sendButton.setOnClickListener {
-            Log.d("TAG", "Datetime: ${Date()***REMOVED*** ")
-        ***REMOVED***
+        val adapter = RoomRecyclerViewAdapter(isGroup)
+        val participantsAdapter = ParticipantsRecyclerViewAdapter()
 
-        binding.toolbar.title = roomId.toString()
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        ***REMOVED***
-        binding.toolbar.setOnMenuItemClickListener {
-            binding.container.openDrawer(GravityCompat.END)
-            true
-        ***REMOVED***
+        binding.apply {
 
-        val adapter = RoomRecyclerViewAdapter(isGroup!!)
-
-        recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(context).apply {
-            stackFromEnd = true
-        ***REMOVED***
-        recyclerView.adapter = adapter
-
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                val lastIndex = (recyclerView.layoutManager as LinearLayoutManager)
-                    .findLastCompletelyVisibleItemPosition()
-                if(lastIndex == adapter.itemCount - 1) {
-                    binding.scrollButton.visibility = View.GONE
-                ***REMOVED*** else {
-                    binding.scrollButton.visibility = View.VISIBLE
+            toolbar.apply {
+                setNavigationOnClickListener { findNavController().popBackStack() ***REMOVED***
+                setOnMenuItemClickListener {
+                    binding.container.openDrawer(GravityCompat.END)
+                    true
+                ***REMOVED***
+                if (!isGroup) {
+                    drawer.visibility = View.GONE
+                    toolbar.menu.clear()
                 ***REMOVED***
             ***REMOVED***
-        ***REMOVED***)
-        binding.scrollButton.setOnClickListener {
-            recyclerView.smoothScrollToPosition(adapter.itemCount - 1)
+
+            participantsRecyclerView = participantsRecyclerview
+            participantsRecyclerView.layoutManager = LinearLayoutManager(context)
+            participantsRecyclerView.adapter = participantsAdapter
+
+            viewModel.getRoom(roomId).asLiveData().observe(viewLifecycleOwner) { room ->
+                toolbar.title = room.name
+                viewModel.getUsers(room.participants).asLiveData().observe(viewLifecycleOwner) {
+                    it.let { participantsAdapter.submitList(it) ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+
+            this@RoomFragment.recyclerView = this.recyclerView
+            recyclerView.layoutManager = LinearLayoutManager(context).apply { stackFromEnd = true ***REMOVED***
+            recyclerView.adapter = adapter
+
+            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val lastIndex = (recyclerView.layoutManager as LinearLayoutManager)
+                        .findLastCompletelyVisibleItemPosition()
+                    if (lastIndex == adapter.itemCount - 1) {
+                        scrollButton.visibility = View.GONE
+                    ***REMOVED*** else {
+                        scrollButton.visibility = View.VISIBLE
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***)
+            scrollButton.setOnClickListener {
+                recyclerView.smoothScrollToPosition(adapter.itemCount - 1)
+            ***REMOVED***
+
+            sendButton.setOnClickListener {
+            ***REMOVED***
         ***REMOVED***
 
-        viewModel.getMessages(roomId!!).asLiveData().observe(viewLifecycleOwner) {
+
+        viewModel.getMessages(roomId).asLiveData().observe(viewLifecycleOwner) {
             val lastIndex = (recyclerView.layoutManager as LinearLayoutManager)
                 .findLastCompletelyVisibleItemPosition()
             it.let { adapter.submitList(it) ***REMOVED***
-            if(lastIndex == adapter.itemCount - 2) {
+            if (lastIndex == adapter.itemCount - 2) {
                 recyclerView.scrollToPosition(adapter.itemCount - 1)
-            ***REMOVED*** else {
-
             ***REMOVED***
         ***REMOVED***
 

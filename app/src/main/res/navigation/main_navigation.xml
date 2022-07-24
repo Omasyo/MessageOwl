@@ -36,10 +36,13 @@
         <argument
             android:name="is_group"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_roomFragment_self"
+            app:destination="@id/roomFragment" />
     </fragment>
     <fragment
         android:id="@+id/completeProfileFragment"
-        android:name="com.xtapps.messageowl.ui.auth.CompleteProfileFragment"
+        android:name="com.xtapps.messageowl.CompleteProfileFragment"
         android:label="fragment_complete_profile"
         tools:layout="@layout/fragment_complete_profile" >
         <action

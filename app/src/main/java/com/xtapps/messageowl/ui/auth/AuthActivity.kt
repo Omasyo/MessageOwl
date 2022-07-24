@@ -33,27 +33,6 @@ class AuthActivity : AppCompatActivity() {
         ***REMOVED***
     ***REMOVED***
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults:
-        IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 1) {
-            grantResults.forEach {
-                if(it != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(
-                        this,
-                        "Permissions not granted by the user.",
-                        Toast.LENGTH_SHORT
-        ***REMOVED***.show()
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
-
-
     lateinit var storedVerificationId: String
     lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
 

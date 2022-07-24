@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.models.MessageModel
+import com.xtapps.messageowl.models.MessageWithSender
 import java.text.SimpleDateFormat
 
 class RoomRecyclerViewAdapter(
     private val isGroup: Boolean = false
 ) : RecyclerView.Adapter<RoomRecyclerViewAdapter.ViewHolder>() {
-    private var test: List<MessageModel> = listOf()
+    private var test: List<MessageWithSender> = listOf()
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val content: TextView = view.findViewById(R.id.content_textview)
@@ -23,8 +24,7 @@ class RoomRecyclerViewAdapter(
         val image:View = view.findViewById(R.id.imageView)
     ***REMOVED***
 
-    fun submitList(list: List<MessageModel>) {
-        Log.d("TAG", "submitList: submitting")
+    fun submitList(list: List<MessageWithSender>) {
         val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun getOldListSize(): Int {
                 return test.size
@@ -50,7 +50,7 @@ class RoomRecyclerViewAdapter(
     ***REMOVED***
 
     override fun getItemViewType(position: Int): Int {
-        return test[position].senderId.toInt()
+        return test[position].message.senderId.toInt()
     ***REMOVED***
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -69,17 +69,17 @@ class RoomRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (!isGroup) holder.sender.visibility = View.GONE
-        holder.content.text = test[position].content
-        holder.sender.text = "User ${test[position].senderId***REMOVED***"
-        val timestamp = test[position].timestamp
+        holder.content.text = test[position].message.content
+        holder.sender.text = test[position].user.name
+        val timestamp = test[position].message.timestamp
         val date = SimpleDateFormat("MM/dd/yyyy").format(timestamp)
         val time = SimpleDateFormat("HH:mm").format(timestamp)
         holder.time.text = time
 
         if (position < test.lastIndex) {
-            val sender = test[position].senderId
-            val nextSender = test[position+1].senderId
-            val nextTime = SimpleDateFormat("HH:mm").format(test[position + 1].timestamp)
+            val sender = test[position].user.id
+            val nextSender = test[position+1].user.id
+            val nextTime = SimpleDateFormat("HH:mm").format(test[position + 1].message.timestamp)
             if (sender == nextSender && time == nextTime) {
                 holder.time.visibility = View.GONE
                 (holder.view.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin =
@@ -87,9 +87,9 @@ class RoomRecyclerViewAdapter(
             ***REMOVED***
         ***REMOVED***
         if(position > 0) {
-            val sender = test[position].senderId
-            val prevSender = test[position-1].senderId
-            val prevTime = SimpleDateFormat("HH:mm").format(test[position - 1].timestamp)
+            val sender = test[position].user.id
+            val prevSender = test[position-1].user.id
+            val prevTime = SimpleDateFormat("HH:mm").format(test[position - 1].message.timestamp)
             if (sender == prevSender && time == prevTime) {
                 holder.image.visibility = View.INVISIBLE
                 holder.sender.visibility = View.GONE

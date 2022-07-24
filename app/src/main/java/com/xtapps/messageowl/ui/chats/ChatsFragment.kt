@@ -24,9 +24,13 @@ class ChatsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
 
     private val viewModel: ChatsViewModel by activityViewModels {
-        ChatsViewModelFactory(
-            (activity?.application as MessageOwlApplication).appDatabase.chatRoomDao()
-        )
+        with((activity?.application as MessageOwlApplication).appDatabase) {
+            ChatsViewModelFactory(
+                chatRoomDao(),
+                messageDao()
+***REMOVED***
+        ***REMOVED***
+
     ***REMOVED***
 
     override fun onCreateView(
@@ -43,6 +47,8 @@ class ChatsFragment : Fragment() {
                 HomeFragmentDirections.actionHomeFragmentToRoomFragment(roomId, isGroup)
             view.findNavController().navigate(action)
         ***REMOVED***
+
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
         recyclerView = binding.chatsRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
