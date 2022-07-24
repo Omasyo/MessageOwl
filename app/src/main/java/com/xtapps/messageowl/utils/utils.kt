@@ -32,41 +32,6 @@ fun Uri.asTempFile(context: Context): File {
     return imageFile
 }
 
-fun takePicture(activity: Activity, takePicture: ActivityResultLauncher<Uri>): File {
-    val imageFile = File.createTempFile(
-        "profile",
-        ".jpg",
-        activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-    )
-    Log.d("TAG", "takePicture: ${imageFile.freeSpace}")
-    val imageUri: Uri = FileProvider.getUriForFile(
-        activity,
-        activity.packageName + ".provider",
-        imageFile
-    )
-
-    val result =
-        ContextCompat.checkSelfPermission(
-            activity,
-            Manifest.permission.CAMERA
-        )
-    if (result == PackageManager.PERMISSION_GRANTED) {
-        takePicture.launch(imageUri)
-        Log.d("TAG", "takePicture: ${imageFile.freeSpace}")
-
-    } else {
-        ActivityCompat.requestPermissions(
-            activity,
-            arrayOf(
-                Manifest.permission.CAMERA,
-//                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//                Manifest.permission.READ_EXTERNAL_STORAGE
-            ), 1
-        )
-    }
-    return imageFile
-}
-
 //Recursice call for image upload fail
 //val onCompleteListener = object : OnCompleteListener<UploadTask.TaskSnapshot> {
 //    override fun onComplete(p0: Task<UploadTask.TaskSnapshot>) {

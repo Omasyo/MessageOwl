@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,61 +12,61 @@
         style="@style/TextAppearance.Material3.HeadlineSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/welcome_message"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textAlignment="center" />
 
     <ImageView
         android:id="@+id/profile_photo"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/welcomeMessage"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="48dp"
         android:padding="24dp"
-        app:layout_constraintDimensionRatio="1.0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeMessage"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        app:layout_constraintDimensionRatio="H,1:1"
         app:srcCompat="@drawable/dummy" />
 
     <TextView
-        android:id="@+id/textView2"
-        style="@style/TextAppearance.Material3.TitleMedium"
+        android:id="@+id/enter_no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_below="@+id/profile_photo"
+        android:layout_alignStart="@+id/profile_photo"
+        android:layout_alignEnd="@+id/profile_photo"
+        style="@style/TextAppearance.Material3.TitleMedium"
         android:text="@string/enter_number"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_photo" />
+        android:textAlignment="center" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginStart="-48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="-48dp"
-        android:background="?attr/colorOnSurface"
-        app:layout_constraintEnd_toEndOf="@+id/textView2"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        android:layout_below="@+id/enter_no"
+        android:layout_alignStart="@+id/enter_no"
+        android:layout_alignEnd="@+id/enter_no"
+        android:layout_marginTop="8dp"
+        android:background="?attr/colorOnSurface" />
 
     <LinearLayout
         android:id="@+id/phone_no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_below="@+id/divider"
+        android:layout_alignStart="@+id/divider"
+        android:layout_alignEnd="@id/divider"
         android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider">
+        android:orientation="horizontal">
 
         <com.hbb20.CountryCodePicker
             android:id="@+id/country_code"
@@ -92,10 +92,10 @@
         android:id="@+id/proceed_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/proceed"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_dodgeInsetEdges="bottom"/>
+        android:text="@string/proceed" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

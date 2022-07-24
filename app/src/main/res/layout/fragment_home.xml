@@ -123,31 +123,21 @@
                 app:layout_constraintTop_toBottomOf="@id/phone_no" />
 
             <Button
-                android:id="@+id/edit_profile_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="?attr/colorError"
-                android:text="@string/edit_profile"
-                app:layout_constraintBottom_toTopOf="@+id/update_number_button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Button
-                android:id="@+id/update_number_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/update_number"
-                app:layout_constraintBottom_toTopOf="@id/change_number_button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-
-            <Button
                 android:id="@+id/change_number_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/change_number"
                 android:backgroundTint="?attr/colorError"
+                android:text="@string/change_number"
+                app:layout_constraintBottom_toTopOf="@+id/edit_profile_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/edit_profile_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/edit_profile"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

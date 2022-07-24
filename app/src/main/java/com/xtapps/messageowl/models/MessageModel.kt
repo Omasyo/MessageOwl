@@ -1,18 +1,22 @@
 package com.xtapps.messageowl.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 import java.util.*
 
 @Entity(
     tableName = "messages",
-    foreignKeys = [ForeignKey(
-        entity = ChatRoom::class,
-        parentColumns = ["id"],
-        childColumns = ["room_id"],
-    )]
+    foreignKeys = [
+        ForeignKey(
+            entity = ChatRoom::class,
+            parentColumns = ["id"],
+            childColumns = ["room_id"],
+        ),
+        ForeignKey(
+            entity = UserModel::class,
+            parentColumns = ["id"],
+            childColumns = ["sender_id"],
+        )
+    ]
 )
 data class MessageModel(
     @PrimaryKey
@@ -27,4 +31,13 @@ data class MessageModel(
     val timestamp: Date,
 )
 
+data class MessageWithSender(
+    @Embedded
+    val message: MessageModel,
+    @Relation(
+        parentColumn = "sender_id",
+        entityColumn = "id"
+    )
+    val user: UserModel
+)
 //data class MessageWithUser

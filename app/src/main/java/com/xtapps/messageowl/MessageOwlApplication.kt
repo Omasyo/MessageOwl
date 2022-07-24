@@ -6,7 +6,6 @@ import com.xtapps.messageowl.database.AppDatabase
 
 class MessageOwlApplication: Application() {
     val appDatabase: AppDatabase by lazy {
-        Log.d("Datassar", "lazying about")
         AppDatabase.getDatabase(this)
     }
 }

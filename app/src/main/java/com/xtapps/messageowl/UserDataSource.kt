@@ -29,8 +29,7 @@ class UserDataSource {
                         val user = UserModel(
                             name = snapshot["name"] as String,
                             phoneNo = phoneNo,
-                            profilePic = snapshot["profilePic"] as String?,
-                            uid = snapshot["uid"] as String,
+                            id = snapshot["uid"] as String,
                         )
                         _user = user
                         _newVal = true
@@ -44,9 +43,9 @@ class UserDataSource {
     val userData: Flow<UserModel> = flow {
         while (true) {
 //            Log.d(TAG, "newVal $_newVal")
-            if(_newVal) {
+    delay(5000)
                 emit(_user!!)
-            }
+
 
         }
     }
