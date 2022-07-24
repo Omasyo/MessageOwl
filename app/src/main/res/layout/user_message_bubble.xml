@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/bubble_far_margin"
-    android:layout_marginBottom="16dp"
+    android:layout_marginBottom="4dp"
     android:gravity="end"
     android:paddingHorizontal="16dp">
 
@@ -32,8 +32,8 @@
         <TextView
             android:id="@+id/sender_textview"
             style="@style/TextAppearance.Material3.TitleSmall"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Tungba"
             android:textColor="?attr/colorTertiary"
             android:visibility="gone"
@@ -42,8 +42,8 @@
         <TextView
             android:id="@+id/content_textview"
             style="@style/TextAppearance.Material3.BodyMedium"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             tools:text="HOw far my boss" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -56,5 +56,6 @@
         android:layout_below="@id/bubble_view"
         android:layout_alignStart="@id/bubble_view"
         android:layout_alignParentEnd="false"
-        android:layout_marginStart="12dp" />
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="12dp" />
 </RelativeLayout>

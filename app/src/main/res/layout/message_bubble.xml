@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/bubble_far_margin"
-    android:layout_marginBottom="16dp"
+    android:layout_marginBottom="4dp"
     android:paddingHorizontal="16dp">
 
     <com.google.android.material.card.MaterialCardView
@@ -43,8 +43,8 @@
         app:contentPadding="8dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
             android:paddingHorizontal="8dp">
@@ -52,15 +52,15 @@
             <TextView
                 android:id="@+id/sender_textview"
                 style="@style/TextAppearance.Material3.TitleSmall"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textColor="?attr/colorTertiary" />
 
             <TextView
                 android:id="@+id/content_textview"
                 style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 tools:text="HOw far my boss" />
         </LinearLayout>
 
@@ -75,5 +75,6 @@
         android:layout_below="@id/bubble_view"
         android:layout_alignEnd="@id/bubble_view"
         android:layout_alignParentEnd="false"
+        android:layout_marginBottom="12dp"
         android:layout_marginEnd="12dp" />
 </RelativeLayout>

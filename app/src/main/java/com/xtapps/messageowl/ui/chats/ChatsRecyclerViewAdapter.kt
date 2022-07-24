@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.models.ChatRoom
 
-class ChatsRecyclerViewAdapter(private val onClick: (View, roomId: String, Boolean) -> Unit) : RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder>() {
+class ChatsRecyclerViewAdapter(private val onClick: (roomId: String, Boolean) -> Unit) : RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder>() {
     private var test: List<ChatRoom> = listOf()
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -33,7 +33,7 @@ class ChatsRecyclerViewAdapter(private val onClick: (View, roomId: String, Boole
         holder.textView.text = test[position].name
         holder.subtitleTextView.text = if (test[position].isGroup) "This is a group chat" else "This is not a group chat"
         holder.cardView.setOnClickListener {
-            onClick(it, test[position].id, test[position].isGroup)
+            onClick(test[position].id, test[position].isGroup)
         ***REMOVED***
     ***REMOVED***
 

@@ -1,9 +1,11 @@
 package com.xtapps.messageowl.ui.room
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -16,6 +18,7 @@ import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.xtapps.messageowl.MessageOwlApplication
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentRoomBinding
+import com.xtapps.messageowl.ui.home.HomeFragmentDirections
 
 class RoomFragment : Fragment() {
 
@@ -53,7 +56,13 @@ class RoomFragment : Fragment() {
         val isGroup = requireArguments().getBoolean("is_group")
 
         val adapter = RoomRecyclerViewAdapter(isGroup)
-        val participantsAdapter = ParticipantsRecyclerViewAdapter()
+        val participantsAdapter = ParticipantsRecyclerViewAdapter { particpantId ->
+            viewModel.getPrivateRoom(particpantId).asLiveData().observe(viewLifecycleOwner) {
+                val action =
+                    RoomFragmentDirections.actionRoomFragmentSelf(it.id, false)
+                findNavController().navigate(action)
+            ***REMOVED***
+        ***REMOVED***
 
         binding.apply {
 
@@ -102,6 +111,12 @@ class RoomFragment : Fragment() {
             ***REMOVED***
 
             sendButton.setOnClickListener {
+                val message = messageField.text.toString()
+
+                if(message.isNotEmpty()) {
+                    viewModel.sendMessage(messageField.text.toString(), roomId)
+                ***REMOVED***
+                messageField.text.clear()
             ***REMOVED***
         ***REMOVED***
 

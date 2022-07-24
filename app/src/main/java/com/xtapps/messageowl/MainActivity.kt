@@ -9,11 +9,13 @@ import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -38,8 +40,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
-
     private var imageFile: File? = null
+
+    private val viewModel: MainViewModel by viewModels {
+        with((application as MessageOwlApplication).appDatabase) {
+            MainViewModelFactory(userDao())
+        ***REMOVED***
+    ***REMOVED***
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,8 +63,10 @@ class MainActivity : AppCompatActivity() {
         if (fragment != null) {
             navController = fragment.findNavController()
         ***REMOVED***
-        if (false) {
-            navController.navigate(HomeFragmentDirections.actionHomeFragmentToCompleteProfileFragmentFirst())
+        viewModel.currentUser.observe(this) {
+            if(it == null) {
+//                navController.navigate(HomeFragmentDirections.actionHomeFragmentToCompleteProfileFragmentFirst())
+            ***REMOVED***
         ***REMOVED***
     ***REMOVED***
 
