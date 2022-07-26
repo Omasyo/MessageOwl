@@ -14,3 +14,8 @@ data class ChatRoom(
 
     val participants: List<String>
 )
+
+data class ChatWithRecent(
+    val chatRoom: ChatRoom,
+    val recentMessage: MessageWithSender
+)

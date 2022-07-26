@@ -1,15 +1,15 @@
 package com.xtapps.messageowl.ui.room
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,15 +18,12 @@ import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.xtapps.messageowl.MessageOwlApplication
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentRoomBinding
-import com.xtapps.messageowl.ui.home.HomeFragmentDirections
+import kotlinx.coroutines.launch
 
 class RoomFragment : Fragment() {
 
     private var _binding: ViewBinding? = null
     private val binding get() = _binding as FragmentRoomBinding
-
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var participantsRecyclerView: RecyclerView
 
     val viewModel: RoomViewModel by activityViewModels {
         with((activity?.application as MessageOwlApplication).appDatabase) {
@@ -55,14 +52,15 @@ class RoomFragment : Fragment() {
         val roomId = requireArguments().getString("room_id")!!
         val isGroup = requireArguments().getBoolean("is_group")
 
-        val adapter = RoomRecyclerViewAdapter(isGroup)
-        val participantsAdapter = ParticipantsRecyclerViewAdapter { particpantId ->
-            viewModel.getPrivateRoom(particpantId).asLiveData().observe(viewLifecycleOwner) {
+        val participantsAdapter = ParticipantsRecyclerViewAdapter { participantId ->
+            viewModel.getPrivateRoom(participantId).asLiveData().observe(viewLifecycleOwner) {
                 val action =
                     RoomFragmentDirections.actionRoomFragmentSelf(it.id, false)
                 findNavController().navigate(action)
             }
         }
+
+
 
         binding.apply {
 
@@ -78,55 +76,63 @@ class RoomFragment : Fragment() {
                 }
             }
 
-            participantsRecyclerView = participantsRecyclerview
             participantsRecyclerView.layoutManager = LinearLayoutManager(context)
             participantsRecyclerView.adapter = participantsAdapter
 
-            viewModel.getRoom(roomId).asLiveData().observe(viewLifecycleOwner) { room ->
-                toolbar.title = room.name
-                viewModel.getUsers(room.participants).asLiveData().observe(viewLifecycleOwner) {
-                    it.let { participantsAdapter.submitList(it) }
-                }
-            }
+            viewLifecycleOwner.lifecycleScope.launch {
 
-            this@RoomFragment.recyclerView = this.recyclerView
-            recyclerView.layoutManager = LinearLayoutManager(context).apply { stackFromEnd = true }
-            recyclerView.adapter = adapter
+                viewModel.getRoom(roomId).flowWithLifecycle(viewLifecycleOwner.lifecycle).collect { room ->
+                    toolbar.title = room.name
 
-            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
+                    launch {
+                        viewModel.getUsers(room.participants).collect {
+                            it.let { participantsAdapter.submitList(it) }
+                        }
+                    }
 
-                    val lastIndex = (recyclerView.layoutManager as LinearLayoutManager)
-                        .findLastCompletelyVisibleItemPosition()
-                    if (lastIndex == adapter.itemCount - 1) {
-                        scrollButton.visibility = View.GONE
-                    } else {
-                        scrollButton.visibility = View.VISIBLE
+                    val adapter = RoomRecyclerViewAdapter(room.isGroup)
+                    launch {
+                        viewModel.getMessages(roomId).collect {
+                                val lastIndex =
+                                    (binding.messageRecyclerView.layoutManager as LinearLayoutManager)
+                                        .findLastCompletelyVisibleItemPosition()
+                                it.let { adapter.submitList(it) }
+                                if (lastIndex == adapter.itemCount - 2) {
+                                    binding.messageRecyclerView.scrollToPosition(adapter.itemCount - 1)
+                                }
+                            }
+                    }
+
+                    messageRecyclerView.layoutManager =
+                        LinearLayoutManager(context).apply { stackFromEnd = true }
+                    messageRecyclerView.adapter = adapter
+
+                    messageRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                            super.onScrolled(recyclerView, dx, dy)
+
+                            val lastIndex = (recyclerView.layoutManager as LinearLayoutManager)
+                                .findLastCompletelyVisibleItemPosition()
+                            if (lastIndex == adapter.itemCount - 1) {
+                                scrollButton.visibility = View.GONE
+                            } else {
+                                scrollButton.visibility = View.VISIBLE
+                            }
+                        }
+                    })
+                    scrollButton.setOnClickListener {
+                        messageRecyclerView.smoothScrollToPosition(adapter.itemCount - 1)
                     }
                 }
-            })
-            scrollButton.setOnClickListener {
-                recyclerView.smoothScrollToPosition(adapter.itemCount - 1)
             }
 
             sendButton.setOnClickListener {
                 val message = messageField.text.toString()
 
-                if(message.isNotEmpty()) {
+                if (message.isNotEmpty()) {
                     viewModel.sendMessage(messageField.text.toString(), roomId)
                 }
                 messageField.text.clear()
-            }
-        }
-
-
-        viewModel.getMessages(roomId).asLiveData().observe(viewLifecycleOwner) {
-            val lastIndex = (recyclerView.layoutManager as LinearLayoutManager)
-                .findLastCompletelyVisibleItemPosition()
-            it.let { adapter.submitList(it) }
-            if (lastIndex == adapter.itemCount - 2) {
-                recyclerView.scrollToPosition(adapter.itemCount - 1)
             }
         }
 

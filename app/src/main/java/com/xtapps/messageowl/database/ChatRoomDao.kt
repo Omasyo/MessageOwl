@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ChatRoomDao {
+    @Query("SELECT * FROM chat_rooms WHERE id in (SELECT DISTINCT room_id FROM messages)")
+    fun getNonEmptyRooms(): Flow<List<ChatRoom>>
+
     @Query("SELECT * FROM chat_rooms ORDER BY id DESC")
     fun getAll(): Flow<List<ChatRoom>>
 

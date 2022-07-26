@@ -2,11 +2,9 @@ package com.xtapps.messageowl
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -14,23 +12,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.net.toUri
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.xtapps.messageowl.databinding.ActivityMainBinding
 import com.xtapps.messageowl.databinding.ImageDialogBinding
 import com.xtapps.messageowl.ui.home.HomeFragmentDirections
 import com.xtapps.messageowl.utils.asTempFile
-import id.zelory.compressor.Compressor
-import id.zelory.compressor.constraint.format
-import id.zelory.compressor.constraint.quality
-import id.zelory.compressor.constraint.resolution
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -43,9 +32,7 @@ class MainActivity : AppCompatActivity() {
     private var imageFile: File? = null
 
     private val viewModel: MainViewModel by viewModels {
-        with((application as MessageOwlApplication).appDatabase) {
-            MainViewModelFactory(userDao())
-        }
+        MainViewModelFactory(application as MessageOwlApplication)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,39 +52,16 @@ class MainActivity : AppCompatActivity() {
         }
         viewModel.currentUser.observe(this) {
             if(it == null) {
-//                navController.navigate(HomeFragmentDirections.actionHomeFragmentToCompleteProfileFragmentFirst())
+                navController.navigate(HomeFragmentDirections.actionHomeFragmentToCompleteProfileFragmentFirst())
             }
         }
-    }
-
-
-    private suspend fun compressAndUpload(file: File) {
-        val compressedImageFile = Compressor.compress(
-            this,
-            file
-        ) {
-            resolution(612, 816)
-            format(Bitmap.CompressFormat.JPEG)
-            quality(30)
-        }
-        val profilePicRef =
-            Firebase.storage.reference.child("profilePics/${FirebaseAuth.getInstance().currentUser?.uid}")
-
-        profilePicRef.putFile(compressedImageFile.toUri())
-            .addOnFailureListener(this) {
-                Log.w(com.xtapps.messageowl.ui.home.TAG, "Error uploading image: $it")
-                Toast.makeText(
-                    this, resources.getString(R.string.photo_upload_error),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
     }
 
     private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
                 lifecycleScope.launch {
-                    compressAndUpload(
+                    viewModel.compressAndUpload(
                         uri.asTempFile(this@MainActivity)
                     )
                 }
@@ -109,7 +73,7 @@ class MainActivity : AppCompatActivity() {
             if (success) {
                 imageFile?.let { file ->
                     lifecycleScope.launch {
-                        compressAndUpload(file)
+                        viewModel.compressAndUpload(file)
                     }
                 }
             }

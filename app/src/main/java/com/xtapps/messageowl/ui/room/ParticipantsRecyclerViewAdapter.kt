@@ -59,7 +59,7 @@ class ParticipantsRecyclerViewAdapter(
             onClick(test[position].id)
         }
 
-        holder.name.text = test[position].name + test[position].id
+        holder.name.text = test[position].name
     }
 
     override fun getItemCount(): Int {

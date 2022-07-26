@@ -23,6 +23,7 @@
     <string name="invalid_verification_code">"The verification code entered was invalid"</string>
     <string name="user_exists">"A user already exists with this number"</string>
     <string name="photo_upload_error">Unable to upload photo</string>
+    <string name="photo_download_error">Unable to download photo</string>
     <string name="image_dialog_title">Select image from</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
