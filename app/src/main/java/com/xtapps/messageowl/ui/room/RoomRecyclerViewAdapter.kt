@@ -1,21 +1,23 @@
 package com.xtapps.messageowl.ui.room
 
-import android.icu.text.Transliterator
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.xtapps.messageowl.R
-import com.xtapps.messageowl.models.MessageModel
 import com.xtapps.messageowl.models.MessageWithSender
 import java.text.SimpleDateFormat
 
 class RoomRecyclerViewAdapter(
     private val isGroup: Boolean = false
 ) : RecyclerView.Adapter<RoomRecyclerViewAdapter.ViewHolder>() {
+    companion object {
+        val authUser = FirebaseAuth.getInstance().currentUser!!
+    ***REMOVED***
+
     private var test: List<MessageWithSender> = listOf()
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -51,7 +53,8 @@ class RoomRecyclerViewAdapter(
     ***REMOVED***
 
     override fun getItemViewType(position: Int): Int {
-        return test[position].message.senderId.toInt()
+        return if(test[position].message.senderId == authUser.uid) 0
+        else 1
     ***REMOVED***
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -60,7 +63,7 @@ class RoomRecyclerViewAdapter(
                 .from(parent.context)
         ) {
             when (viewType) {
-                1 -> inflate(R.layout.user_message_bubble, parent, false)
+                0 -> inflate(R.layout.user_message_bubble, parent, false)
                 else -> inflate(R.layout.message_bubble, parent, false)
             ***REMOVED***
         ***REMOVED***
@@ -91,14 +94,12 @@ class RoomRecyclerViewAdapter(
 
         if(position > 0) {
             val prevTime = SimpleDateFormat("HH:mm").format(test[position - 1].message.timestamp)
-            if(test[position].message.content == "Hey") Log.d("Messago", "onBindViewHolder: Normal $position ${test[position]***REMOVED*** ${test[position-1]***REMOVED***")
             if (sameSender(test[position] , test[position-1]) && time == prevTime) {
-                Log.d("Messago", "onBindViewHolder: Bullcrap $position ${test[position]***REMOVED*** ${test[position-1]***REMOVED***")
                 holder.image.visibility = View.INVISIBLE
                 holder.sender.visibility = View.GONE
             ***REMOVED*** else {
                 holder.image.visibility = View.VISIBLE
-                holder.sender.visibility = View.VISIBLE
+                if(test[position].user.id != authUser.uid) holder.sender.visibility = View.VISIBLE
             ***REMOVED***
         ***REMOVED***
     ***REMOVED***

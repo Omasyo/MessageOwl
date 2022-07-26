@@ -2,6 +2,7 @@ package com.xtapps.messageowl.ui.home
 
 import HomeFragmentAdapter
 import android.os.Bundle
+import android.telephony.PhoneNumberUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,15 +16,14 @@ import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.xtapps.messageowl.*
 import com.xtapps.messageowl.databinding.FragmentHomeBinding
 import com.xtapps.messageowl.models.UserModel
+import java.util.*
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: MainViewModel by activityViewModels {
-        with((activity?.application as MessageOwlApplication).appDatabase) {
-            MainViewModelFactory(userDao())
-        ***REMOVED***
+        MainViewModelFactory(requireActivity().application as MessageOwlApplication)
     ***REMOVED***
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,18 +66,14 @@ class HomeFragment : Fragment() {
                     ***REMOVED***.show()
 
             ***REMOVED***
+            viewModel.profilePhoto.observe(viewLifecycleOwner) { uri ->
+                profilePhoto.setImageURI(uri)
+            ***REMOVED***
 
             viewModel.currentUser.observe(viewLifecycleOwner) { user: UserModel? ->
-//                val file = File.createTempFile(
-//                    "profile",
-//                    ".jpg",
-//                    requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-//    ***REMOVED***
-//                user.profilePic?.let { it1 -> Firebase.storage.reference.child(it1).getFile(file).addOnSuccessListener {
-//                    profilePhoto.setImageURI(file.toUri())
-//                ***REMOVED*** ***REMOVED***
                 username.text = user?.name
-                phoneNo.text = user?.phoneNo
+                phoneNo.text =
+                    PhoneNumberUtils.formatNumber(user?.phoneNo, Locale.getDefault().country)
             ***REMOVED***
 
             return root

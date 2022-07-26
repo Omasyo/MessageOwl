@@ -3,11 +3,14 @@ package com.xtapps.messageowl.ui.room
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 import com.xtapps.messageowl.database.ChatRoomDao
 import com.xtapps.messageowl.database.MessageDao
 import com.xtapps.messageowl.database.UserDao
 import com.xtapps.messageowl.models.ChatRoom
 import com.xtapps.messageowl.models.MessageModel
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.*
@@ -22,13 +25,13 @@ class RoomViewModel(
     fun getRoom(roomId: String) = chatRoomDao.getRoom(roomId)
 
     fun getPrivateRoom(participantId: String) = chatRoomDao.getPrivateRoom("%$participantId%")
-        .map { room: ChatRoom? ->
+        .combine(userDao.getUsername(participantId)) { room: ChatRoom?, username ->
             if (room == null) {
                 val tempRoom = ChatRoom(
-                    id = Calendar.getInstance().timeInMillis.toString(),
-                    name = null,
+                    id = "temp" + Calendar.getInstance().timeInMillis.toString(),
+                    name = username,
                     isGroup = false,
-                    participants = listOf("1", participantId)
+                    participants = listOf(authUser.uid, participantId)
     ***REMOVED***
                 chatRoomDao.insertRoom(tempRoom)
                 tempRoom
@@ -36,6 +39,20 @@ class RoomViewModel(
                 room
             ***REMOVED***
         ***REMOVED***
+//        .map { room: ChatRoom? ->
+//            if (room == null) {
+//                val tempRoom = ChatRoom(
+//                    id = "temp" + Calendar.getInstance().timeInMillis.toString(),
+//                    name = null,
+//                    isGroup = false,
+//                    participants = listOf(authUser.uid, participantId)
+//    ***REMOVED***
+//                chatRoomDao.insertRoom(tempRoom)
+//                tempRoom
+//            ***REMOVED*** else {
+//                room
+//            ***REMOVED***
+//        ***REMOVED***
 
     fun sendMessage(
         content: String, roomId: String,
@@ -45,7 +62,7 @@ class RoomViewModel(
                 MessageModel(
                     id = Calendar.getInstance().timeInMillis.toString(),
                     roomId = roomId,
-                    senderId = "1",
+                    senderId = authUser.uid,
                     content = content,
                     timestamp = Date()
     ***REMOVED***
@@ -54,6 +71,10 @@ class RoomViewModel(
     ***REMOVED***
 
     fun getUsers(senderIds: List<String>) = userDao.getUsers(senderIds)
+
+    companion object {
+        val authUser = FirebaseAuth.getInstance().currentUser!!
+    ***REMOVED***
 
 //    fun sendMessage()
 

@@ -28,7 +28,8 @@ class ChatsFragment : Fragment() {
         with((activity?.application as MessageOwlApplication).appDatabase) {
             ChatsViewModelFactory(
                 chatRoomDao(),
-                messageDao()
+                messageDao(),
+                userDao()
 ***REMOVED***
         ***REMOVED***
 
