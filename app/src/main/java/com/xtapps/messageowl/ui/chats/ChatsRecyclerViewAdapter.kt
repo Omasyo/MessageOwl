@@ -7,16 +7,23 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
+import com.google.firebase.auth.FirebaseAuth
 import com.xtapps.messageowl.R
-import com.xtapps.messageowl.models.ChatRoom
+import com.xtapps.messageowl.models.ChatCardModel
+import java.text.SimpleDateFormat
 
-class ChatsRecyclerViewAdapter(private val onClick: (roomId: String, Boolean) -> Unit) : RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder>() {
-    private var test: List<ChatRoom> = listOf()
+class ChatsRecyclerViewAdapter(private val onClick: (roomId: String) -> Unit) :
+    RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder>() {
+    private var chats: List<ChatCardModel> = listOf()
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.text_home)
         val subtitleTextView: TextView = view.findViewById(R.id.text_home2)
         val cardView: CardView = view.findViewById(R.id.card_view)
+        val time: TextView = view.findViewById(R.id.time)
+        val unread: TextView = view.findViewById(R.id.unread)
+        val unreadContainer: MaterialCardView = view.findViewById(R.id.unread_container)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,21 +37,38 @@ class ChatsRecyclerViewAdapter(private val onClick: (roomId: String, Boolean) ->
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = test[position].name
-        holder.subtitleTextView.text = if (test[position].isGroup) "This is a group chat" else "This is not a group chat"
-        holder.cardView.setOnClickListener {
-            onClick(test[position].id, test[position].isGroup)
+
+        with(chats[position]) {
+            holder.apply {
+                textView.text = roomName
+                val prefix = if (isGroup) {
+                    if (sender_id == FirebaseAuth.getInstance().uid) "You: "
+                    else senderName + ": "
+                } else ""
+                subtitleTextView.text = prefix + recentMessage
+                cardView.setOnClickListener {
+                    onClick(room_id)
+                }
+                if (this@with.unread == 0) {
+                    unread.visibility = View.GONE
+                } else {
+                    unreadContainer.visibility = View.VISIBLE
+                    unread.text = unread.toString()
+                }
+                val formattedTime = SimpleDateFormat("HH:mm").format(timestamp)
+                time.text = formattedTime
+            }
         }
     }
 
     override fun getItemCount(): Int {
-        return test.size
+        return chats.size
     }
 
-    fun submitList(list: List<ChatRoom>) {
+    fun submitList(list: List<ChatCardModel>) {
         val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun getOldListSize(): Int {
-                return test.size
+                return chats.size
             }
 
             override fun getNewListSize(): Int {
@@ -52,17 +76,17 @@ class ChatsRecyclerViewAdapter(private val onClick: (roomId: String, Boolean) ->
             }
 
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return test[oldItemPosition] == list[newItemPosition]
+                return chats[oldItemPosition] == list[newItemPosition]
             }
 
             override fun areContentsTheSame(
                 oldItemPosition: Int,
                 newItemPosition: Int
             ): Boolean {
-                return test[oldItemPosition] == list[newItemPosition]
+                return chats[oldItemPosition] == list[newItemPosition]
             }
         })
-        test = list
+        chats = list
         result.dispatchUpdatesTo(this)
     }
 }

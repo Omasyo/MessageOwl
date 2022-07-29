@@ -44,9 +44,9 @@ class ChatsFragment : Fragment() {
         _binding = FragmentChatsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val adapter = ChatsRecyclerViewAdapter { roomId, isGroup ->
+        val adapter = ChatsRecyclerViewAdapter { roomId ->
             val action =
-                HomeFragmentDirections.actionHomeFragmentToRoomFragment(roomId, isGroup)
+                HomeFragmentDirections.actionHomeFragmentToRoomFragment(roomId)
             findNavController().navigate(action)
         }
 

@@ -7,7 +7,7 @@ import com.xtapps.messageowl.models.ChatRoom
 import com.xtapps.messageowl.database.ChatRoomDao
 import com.xtapps.messageowl.database.MessageDao
 import com.xtapps.messageowl.database.UserDao
-import com.xtapps.messageowl.models.ChatWithRecent
+import com.xtapps.messageowl.models.ChatCardModel
 import com.xtapps.messageowl.models.MessageModel
 import com.xtapps.messageowl.models.MessageWithSender
 import kotlinx.coroutines.flow.*
@@ -18,7 +18,7 @@ class ChatsViewModel(
     private val userDao: UserDao
 ) : ViewModel() {
 
-    fun allChats(): Flow<List<ChatRoom>> = chatRoomDao.getNonEmptyRooms()
+    fun allChats(): Flow<List<ChatCardModel>> = chatRoomDao.getChatCards()
 
     fun recentMessage(roomId: String): Flow<MessageWithSender>
     = messageDao.getRecentMessage(roomId)
