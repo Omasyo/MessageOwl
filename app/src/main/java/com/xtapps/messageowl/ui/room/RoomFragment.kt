@@ -50,12 +50,11 @@ class RoomFragment : Fragment() {
         // Inflate the layout for this fragment
 
         val roomId = requireArguments().getString("room_id")!!
-        val isGroup = requireArguments().getBoolean("is_group")
 
         val participantsAdapter = ParticipantsRecyclerViewAdapter { participantId ->
             viewModel.getPrivateRoom(participantId).asLiveData().observe(viewLifecycleOwner) {
                 val action =
-                    RoomFragmentDirections.actionRoomFragmentSelf(it.id, false)
+                    RoomFragmentDirections.actionRoomFragmentSelf(it.id)
                 findNavController().navigate(action)
             ***REMOVED***
         ***REMOVED***
@@ -64,26 +63,24 @@ class RoomFragment : Fragment() {
 
         binding.apply {
 
-            toolbar.apply {
-                setNavigationOnClickListener { findNavController().popBackStack() ***REMOVED***
-                setOnMenuItemClickListener {
-                    binding.container.openDrawer(GravityCompat.END)
-                    true
-                ***REMOVED***
-                if (!isGroup) {
-                    drawer.visibility = View.GONE
-                    toolbar.menu.clear()
-                ***REMOVED***
-            ***REMOVED***
-
-            participantsRecyclerView.layoutManager = LinearLayoutManager(context)
-            participantsRecyclerView.adapter = participantsAdapter
-
             viewLifecycleOwner.lifecycleScope.launch {
 
                 viewModel.getRoom(roomId).flowWithLifecycle(viewLifecycleOwner.lifecycle).collect { room ->
-                    toolbar.title = room.name
+                    toolbar.apply {
+                        title = room.name
+                        setNavigationOnClickListener { findNavController().popBackStack() ***REMOVED***
+                        setOnMenuItemClickListener {
+                            binding.container.openDrawer(GravityCompat.END)
+                            true
+                        ***REMOVED***
+                        if (!room.isGroup) {
+                            drawer.visibility = View.GONE
+                            menu.clear()
+                        ***REMOVED***
+                    ***REMOVED***
 
+                    participantsRecyclerView.layoutManager = LinearLayoutManager(context)
+                    participantsRecyclerView.adapter = participantsAdapter
                     launch {
                         viewModel.getUsers(room.participants).collect {
                             it.let { participantsAdapter.submitList(it) ***REMOVED***
@@ -102,7 +99,6 @@ class RoomFragment : Fragment() {
                                 ***REMOVED***
                             ***REMOVED***
                     ***REMOVED***
-
                     messageRecyclerView.layoutManager =
                         LinearLayoutManager(context).apply { stackFromEnd = true ***REMOVED***
                     messageRecyclerView.adapter = adapter
@@ -138,6 +134,7 @@ class RoomFragment : Fragment() {
 
         return binding.root
     ***REMOVED***
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

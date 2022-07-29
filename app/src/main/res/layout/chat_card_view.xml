@@ -76,7 +76,7 @@
             app:layout_constraintTop_toBottomOf="@+id/text_home" />
 
         <TextView
-            android:id="@+id/text_home3"
+            android:id="@+id/time"
             style="@style/TextAppearance.Material3.TitleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -87,17 +87,18 @@
             app:layout_constraintTop_toTopOf="@+id/text_home" />
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/text_home4"
+            android:id="@+id/unread_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Widget.Material3.CardView.Filled"
             app:layout_constraintBottom_toBottomOf="@+id/text_home2"
-            app:layout_constraintEnd_toEndOf="@+id/text_home3"
-            app:layout_constraintStart_toStartOf="@+id/text_home3"
+            app:layout_constraintEnd_toEndOf="@+id/time"
+            app:layout_constraintStart_toStartOf="@+id/time"
             app:contentPadding="2dp"
             app:contentPaddingLeft="6dp"
             app:contentPaddingRight="6dp">
             <TextView
+                android:id="@+id/unread"
                 style="@style/TextAppearance.Material3.TitleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

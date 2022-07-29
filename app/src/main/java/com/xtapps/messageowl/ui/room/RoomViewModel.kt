@@ -4,14 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import com.xtapps.messageowl.database.ChatRoomDao
 import com.xtapps.messageowl.database.MessageDao
 import com.xtapps.messageowl.database.UserDao
 import com.xtapps.messageowl.models.ChatRoom
 import com.xtapps.messageowl.models.MessageModel
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -31,7 +29,8 @@ class RoomViewModel(
                     id = "temp" + Calendar.getInstance().timeInMillis.toString(),
                     name = username,
                     isGroup = false,
-                    participants = listOf(authUser.uid, participantId)
+                    participants = listOf(authUser.uid, participantId),
+                    unread = 0
     ***REMOVED***
                 chatRoomDao.insertRoom(tempRoom)
                 tempRoom

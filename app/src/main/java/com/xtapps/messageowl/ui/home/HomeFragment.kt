@@ -71,9 +71,11 @@ class HomeFragment : Fragment() {
             ***REMOVED***
 
             viewModel.currentUser.observe(viewLifecycleOwner) { user: UserModel? ->
-                username.text = user?.name
-                phoneNo.text =
-                    PhoneNumberUtils.formatNumber(user?.phoneNo, Locale.getDefault().country)
+                user?.let {
+                    username.text = it.name
+                    phoneNo.text =
+                        PhoneNumberUtils.formatNumber(it.phoneNo, Locale.getDefault().country)
+                ***REMOVED***
             ***REMOVED***
 
             return root
