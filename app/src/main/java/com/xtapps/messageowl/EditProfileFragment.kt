@@ -21,7 +21,7 @@ import com.xtapps.messageowl.ui.auth.AuthActivity
 import java.io.File
 import java.util.*
 
-class CompleteProfileFragment : Fragment() {
+class EditProfileFragment : Fragment() {
 
     private var _binding: FragmentCompleteProfileBinding? = null
     private val binding get() = _binding!!
@@ -47,8 +47,8 @@ class CompleteProfileFragment : Fragment() {
 
         binding.apply {
             proceedButton.setOnClickListener {
-                viewModel.createUser(usernameField.text.toString())
-                findNavController().navigate(CompleteProfileFragmentDirections.actionCompleteProfileFragmentToHomeFragment())
+                viewModel.createUser(usernameField.text.toString(), null)
+                findNavController().navigate(EditProfileFragmentDirections.actionCompleteProfileFragmentToHomeFragment())
             }
 
             backButton.setOnClickListener {

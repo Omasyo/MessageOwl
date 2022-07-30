@@ -14,15 +14,15 @@
             app:destination="@id/roomFragment" />
         <action
             android:id="@+id/action_homeFragment_to_completeProfileFragmentFirst"
-            app:destination="@id/completeProfileFragment"
+            app:destination="@id/editProfileFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/main_navigation"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_homeFragment_to_completeProfileFragment"
-            app:destination="@id/completeProfileFragment"
+            app:destination="@id/editProfileFragment"
             app:launchSingleTop="true"
-            app:popUpTo="@id/completeProfileFragment"
+            app:popUpTo="@id/editProfileFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -38,8 +38,8 @@
             app:destination="@id/roomFragment" />
     </fragment>
     <fragment
-        android:id="@+id/completeProfileFragment"
-        android:name="com.xtapps.messageowl.CompleteProfileFragment"
+        android:id="@+id/editProfileFragment"
+        android:name="com.xtapps.messageowl.EditProfileFragment"
         android:label="fragment_complete_profile"
         tools:layout="@layout/fragment_complete_profile" >
         <action

@@ -21,8 +21,8 @@ class ChatsRecyclerViewAdapter(private val onClick: (roomId: String) -> Unit) :
         val textView: TextView = view.findViewById(R.id.text_home)
         val subtitleTextView: TextView = view.findViewById(R.id.text_home2)
         val cardView: CardView = view.findViewById(R.id.card_view)
-        val time: TextView = view.findViewById(R.id.time)
-        val unread: TextView = view.findViewById(R.id.unread)
+        val timeView: TextView = view.findViewById(R.id.time)
+        val unreadView: TextView = view.findViewById(R.id.unread)
         val unreadContainer: MaterialCardView = view.findViewById(R.id.unread_container)
     }
 
@@ -49,14 +49,14 @@ class ChatsRecyclerViewAdapter(private val onClick: (roomId: String) -> Unit) :
                 cardView.setOnClickListener {
                     onClick(room_id)
                 }
-                if (this@with.unread == 0) {
-                    unread.visibility = View.GONE
+                if (unread == 0) {
+                    unreadContainer.visibility = View.GONE
                 } else {
                     unreadContainer.visibility = View.VISIBLE
-                    unread.text = unread.toString()
+                    unreadView.text = unread.toString()
                 }
                 val formattedTime = SimpleDateFormat("HH:mm").format(timestamp)
-                time.text = formattedTime
+                timeView.text = formattedTime
             }
         }
     }

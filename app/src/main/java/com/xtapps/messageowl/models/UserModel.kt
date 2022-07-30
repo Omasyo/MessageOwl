@@ -13,11 +13,6 @@ data class UserModel(
     val name: String,
     @ColumnInfo(name = "phone")
     val phoneNo: String,
-)
-
-data class UserWithPic(
-    val id: String,
-    val name: String,
-    val phoneNo: String,
-    val photoUri: Uri
+    @ColumnInfo(name = "pic")
+    val profilePic: String?,
 )

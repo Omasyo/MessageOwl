@@ -72,8 +72,8 @@ class HomeFragment : Fragment() {
 
             viewModel.currentUser.observe(viewLifecycleOwner) { user: UserModel? ->
                 user?.let {
-                    username.text = it.name
-                    phoneNo.text =
+                    username.text = it.name.ifBlank { "\u0000No Name\u0000" }
+                phoneNo.text =
                         PhoneNumberUtils.formatNumber(it.phoneNo, Locale.getDefault().country)
                 }
             }

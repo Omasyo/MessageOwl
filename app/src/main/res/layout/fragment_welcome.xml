@@ -35,7 +35,8 @@
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
         app:layout_constraintDimensionRatio="H,1:1"
-        app:srcCompat="@drawable/dummy" />
+        app:srcCompat="@drawable/dummy"
+        android:contentDescription="@string/message_owl_logo" />
 
     <TextView
         android:id="@+id/enter_no"
@@ -82,10 +83,9 @@
             android:id="@+id/carrier_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:autofillHints=""
+            android:autofillHints="phone"
             android:inputType="phone"
-            android:singleLine="false"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:singleLine="false"/>
     </LinearLayout>
 
     <Button
