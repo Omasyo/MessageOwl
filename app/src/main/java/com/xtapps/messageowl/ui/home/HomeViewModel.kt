@@ -4,17 +4,8 @@ import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.getField
-import com.google.firebase.ktx.Firebase
-import com.xtapps.messageowl.UserDataSource
-import com.xtapps.messageowl.database.ChatRoomDao
-import com.xtapps.messageowl.database.MessageDao
 import com.xtapps.messageowl.database.UserDao
 import com.xtapps.messageowl.models.UserModel
-import com.xtapps.messageowl.ui.room.RoomViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 const val TAG = "HomeViewModel"

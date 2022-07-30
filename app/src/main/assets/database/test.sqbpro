@@ -1,8 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/User/StudioProjects/MessageOwl/app/src/main/assets/database/test.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1799"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,10:mainchat_rooms"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="chat_rooms" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort><column index="1" mode="0"/></sort><column_widths><column index="1" value="40"/><column index="2" value="68"/><column index="3" value="46"/><column index="4" value="230"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="messages" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort><column index="5" mode="1"/></sort><column_widths><column index="1" value="60"/><column index="2" value="60"/><column index="3" value="72"/><column index="4" value="300"/><column index="5" value="98"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">SELECT * FROM chat_rooms WHERE id in (SELECT DISTINCT room_id FROM messages)</sql><sql name="SQL 3">SELECT * FROM messages WHERE room_id = 1 ORDER BY timestamp DESC LIMIT 1</sql><sql name="SQL 8">SELECT *, count(*) as unread
-FROM (SELECT * 
-	FROM messages 
--- 	WHERE timestamp &gt; 1656915401711 
-	ORDER BY timestamp DESC) GROUP BY room_id</sql><sql name="SQL 9">SELECT room_id, room_name, users.name as sender_name, recent, timestamp, count(*) as unread
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/User/StudioProjects/MessageOwl/app/src/main/assets/database/test.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1799"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,8:mainmessages"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="chat_rooms" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort><column index="1" mode="0"/></sort><column_widths><column index="1" value="40"/><column index="2" value="68"/><column index="3" value="46"/><column index="4" value="230"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="messages" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort><column index="5" mode="1"/></sort><column_widths><column index="1" value="60"/><column index="2" value="60"/><column index="3" value="72"/><column index="4" value="300"/><column index="5" value="98"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">SELECT * FROM chat_rooms WHERE id in (SELECT DISTINCT room_id FROM messages)</sql><sql name="SQL 3">SELECT * FROM messages WHERE room_id = 1 ORDER BY timestamp DESC LIMIT 1</sql><sql name="SQL 9">SELECT room_id, room_name, users.name as sender_name, recent, timestamp, count(*) as unread
 FROM (SELECT room_id, name as room_name, sender_id, content as recent, timestamp
 	FROM messages
 	JOIN chat_rooms ON messages.room_id = chat_rooms.id
@@ -18,12 +14,14 @@ FROM (SELECT room_id, chat_rooms.name as room_name, users.name as sender_name, c
 	ORDER BY timestamp DESC
 	)
 GROUP BY room_id</sql><sql name="SQL 7">SELECT *
-FROM (SELECT room_id, chat_rooms.name as room_name, users.name as sender_name, content as recent, timestamp
+FROM (SELECT room_id, chat_rooms.`group` as is_group,
+-- 	participants,
+	chat_rooms.name as room_name,
+	users.name as sender_name, content as recent, timestamp, unread
 	FROM messages
 	JOIN chat_rooms ON messages.room_id = chat_rooms.id
 	JOIN users ON sender_id = users.id
-	WHERE timestamp &gt; chat_rooms.last_opened
 	ORDER BY timestamp DESC
 	)
-GROUP BY room_id</sql><sql name="SQL 5">UPDATE chat_rooms
-set unread = 12</sql><current_tab id="2"/></tab_sql></sqlb_project>
+GROUP BY room_id</sql><sql name="SQL 5">INSERT INTO messages(id, room_id, sender_id, content, timestamp)
+VALUES(&quot;4000&quot;, &quot;100&quot;, &quot;1&quot;, &quot;Hallo&quot;, 1657135238086)</sql><current_tab id="4"/></tab_sql></sqlb_project>

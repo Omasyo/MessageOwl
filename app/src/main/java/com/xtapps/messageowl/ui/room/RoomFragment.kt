@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.asLiveData
@@ -74,7 +75,7 @@ class RoomFragment : Fragment() {
                             true
                         ***REMOVED***
                         if (!room.isGroup) {
-                            drawer.visibility = View.GONE
+                            binding.container.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                             menu.clear()
                         ***REMOVED***
                     ***REMOVED***

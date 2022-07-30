@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:padding="16dp"
-    tools:context=".CompleteProfileFragment">
+    tools:context=".EditProfileFragment">
 
     <TextView
         android:id="@+id/complete_profile_text"
@@ -61,11 +61,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:hint="@string/username_hint"
+        android:inputType="textPersonName|textCapWords"
         android:maxLength="20"
+        android:minHeight="48dp"
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="@id/profile_photo"
         app:layout_constraintStart_toStartOf="@id/profile_photo"
-        app:layout_constraintTop_toBottomOf="@id/profile_photo" />
+        app:layout_constraintTop_toBottomOf="@id/profile_photo"
+        android:autofillHints="name" />
 
     <Button
         android:id="@+id/back_button"

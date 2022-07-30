@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.xtapps.messageowl.models.UserModel
@@ -16,6 +17,7 @@ import id.zelory.compressor.constraint.quality
 import id.zelory.compressor.constraint.resolution
 import kotlinx.coroutines.launch
 import java.io.File
+import java.util.*
 
 class MainViewModel(
     private val application: MessageOwlApplication
@@ -38,25 +40,31 @@ class MainViewModel(
             ***REMOVED***
         ***REMOVED***
 
-        val file = File.createTempFile(
-            "profile",
-            ".jpg",
-            application.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        )
-
-        profilePicRef.getFile(file).addOnCompleteListener {
-            if(it.isSuccessful) {
-                _profilePhoto.value = file.toUri()
-            ***REMOVED*** else {
-                Toast.makeText(
-                    application, application.resources.getString(R.string.photo_download_error),
-                    Toast.LENGTH_LONG
-    ***REMOVED***.show()
-            ***REMOVED***
-        ***REMOVED***
+//        val file = File.createTempFile(
+//            "profile",
+//            ".jpg",
+//            application.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+//        )
+//
+//        profilePicRef.getFile(file).addOnCompleteListener {
+//            if(it.isSuccessful) {
+//                _profilePhoto.value = file.toUri()
+//            ***REMOVED*** else {
+//                Toast.makeText(
+//                    application, application.resources.getString(R.string.photo_download_error),
+//                    Toast.LENGTH_LONG
+//    ***REMOVED***.show()
+//            ***REMOVED***
+//        ***REMOVED***
     ***REMOVED***
 
-    suspend fun compressAndUpload(file: File) {
+    private fun generateProfileRef(): String {
+        return Firebase.storage.reference
+            .child("profilePics/${FirebaseAuth.getInstance().currentUser?.uid***REMOVED***${Date()***REMOVED***")
+            .path
+    ***REMOVED***
+
+    suspend fun compressAndUpload(file: File): String {
         val compressedImageFile = Compressor.compress(
             application.applicationContext,
             file
@@ -66,21 +74,29 @@ class MainViewModel(
             quality(30)
         ***REMOVED***
 
-        profilePicRef.putFile(compressedImageFile.toUri())
+        val profilePicRef = generateProfileRef()
+        Firebase.storage.reference.child(profilePicRef).putFile(compressedImageFile.toUri())
             .addOnFailureListener {
             ***REMOVED***
+        return profilePicRef
     ***REMOVED***
 
-    fun createUser(name: String) {
+    fun createUser(name: String, profilePic: String?) {
+
         viewModelScope.launch {
             userDao.insertUser(
                 UserModel(
                     id = authUser.uid,
                     name = name,
-                    phoneNo = authUser.phoneNumber!!
+                    phoneNo = authUser.phoneNumber!!,
+                    profilePic = profilePic
     ***REMOVED***
 ***REMOVED***
         ***REMOVED***
+    ***REMOVED***
+
+    fun addToForum() {
+//        c
     ***REMOVED***
 
     fun signOutUser() =
@@ -89,9 +105,6 @@ class MainViewModel(
 
     companion object {
         val authUser = FirebaseAuth.getInstance().currentUser!!
-
-        val profilePicRef =
-            Firebase.storage.reference.child("profilePics/${FirebaseAuth.getInstance().currentUser?.uid***REMOVED***")
     ***REMOVED***
 
 ***REMOVED***
