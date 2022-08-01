@@ -13,7 +13,7 @@
             android:id="@+id/action_homeFragment_to_roomFragment"
             app:destination="@id/roomFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_completeProfileFragmentFirst"
+            android:id="@+id/action_homeFragment_to_editProfileFragmentFirst"
             app:destination="@id/editProfileFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/main_navigation"

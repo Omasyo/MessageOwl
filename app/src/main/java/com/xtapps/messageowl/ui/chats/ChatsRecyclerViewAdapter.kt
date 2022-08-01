@@ -18,8 +18,8 @@ class ChatsRecyclerViewAdapter(private val onClick: (roomId: String) -> Unit) :
     private var chats: List<ChatCardModel> = listOf()
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.text_home)
-        val subtitleTextView: TextView = view.findViewById(R.id.text_home2)
+        val textView: TextView = view.findViewById(R.id.title_text)
+        val subtitleTextView: TextView = view.findViewById(R.id.subtitle_text)
         val cardView: CardView = view.findViewById(R.id.card_view)
         val timeView: TextView = view.findViewById(R.id.time)
         val unreadView: TextView = view.findViewById(R.id.unread)

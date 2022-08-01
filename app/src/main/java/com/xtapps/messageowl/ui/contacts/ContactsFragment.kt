@@ -1,29 +1,49 @@
 package com.xtapps.messageowl.ui.contacts
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.os.Bundle
-import android.provider.Contacts
 import android.provider.ContactsContract
+import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.app.ActivityCompat
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialSharedAxis
-import com.xtapps.messageowl.R
+import com.google.i18n.phonenumbers.NumberParseException
+import com.google.i18n.phonenumbers.PhoneNumberUtil
+import com.xtapps.messageowl.MessageOwlApplication
 import com.xtapps.messageowl.databinding.FragmentContactsBinding
+import com.xtapps.messageowl.models.ContactWithNumber
+import com.xtapps.messageowl.ui.home.HomeFragmentDirections
+import com.xtapps.messageowl.ui.room.RoomFragmentDirections
+import kotlinx.coroutines.launch
+import java.io.File
 
 
 class ContactsFragment : Fragment() {
 
     private var _binding: FragmentContactsBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var recyclerView: RecyclerView
+
+    private val viewModel: ContactsViewModel by activityViewModels {
+        with((activity?.application as MessageOwlApplication).appDatabase) {
+            ContactsViewModelFactory(userDao(), chatRoomDao())
+        ***REMOVED***
+    ***REMOVED***
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,61 +57,101 @@ class ContactsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        val contacts = hashMapOf<String, String>()
-
         val result =
             ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.READ_CONTACTS
 ***REMOVED***
         if (result == PackageManager.PERMISSION_GRANTED) {
-            val phones = requireContext().contentResolver.query(
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                arrayOf(
-                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                    ContactsContract.CommonDataKinds.Phone.NUMBER
-    ***REMOVED***,
-                null,
-                null,
-                null
-***REMOVED***
-            if (phones != null) {
-                Log.d("Contacts", phones.columnNames.toList().toString())
-                while (phones.moveToNext()) {
-                    val name: String =
-                        phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-                    val phoneNumber: String =
-                        phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-
-                    Log.d("Contacts", "Name: $name, Phone: $phoneNumber")
-                    contacts[name] = phoneNumber.replace(" ","")
-                ***REMOVED***
-                Log.d("Contacts", "Size = ${phones.count***REMOVED*** new = ${contacts.size***REMOVED***")
-                Log.d("Contacts", contacts.toString())
-                phones.close()
-            ***REMOVED***
+            retrieveContacts()
         ***REMOVED*** else {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(
-                    Manifest.permission.READ_CONTACTS
-    ***REMOVED***, 2
-***REMOVED***
+            requestPermission.launch(Manifest.permission.READ_CONTACTS)
         ***REMOVED***
-
-        val viewModel =
-            ViewModelProvider(this).get(ContactsViewModel::class.java)
 
         _binding = FragmentContactsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val pageName = getString(R.string.contacts)
-        val textView: TextView = binding.textDashboard
-        viewModel.text.observe(viewLifecycleOwner) {
-            textView.text = pageName
+        val adapter = ContactsRecyclerViewAdapter { contactId ->
+            viewModel.getPrivateRoom(contactId).asLiveData().observe(viewLifecycleOwner) {
+                val action =
+                    HomeFragmentDirections.actionHomeFragmentToRoomFragment(it.id)
+                findNavController().navigate(action)
+            ***REMOVED***
         ***REMOVED***
+
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+
+        recyclerView = binding.contactsRecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = adapter
+
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.contacts.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .collect {
+                    adapter.submitList(it)
+                ***REMOVED***
+        ***REMOVED***
+
         return root
+    ***REMOVED***
+
+    private val requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { success ->
+            if (success) {
+                retrieveContacts()
+            ***REMOVED***
+        ***REMOVED***
+
+    private fun retrieveContacts() {
+        val contacts = hashSetOf<ContactWithNumber>()
+
+        val phones = requireContext().contentResolver.query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+            arrayOf(
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.Phone.NUMBER
+***REMOVED***,
+            null,
+            null,
+            null
+        )
+        if (phones != null) {
+            while (phones.moveToNext()) {
+                val name: String =
+                    phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
+                val phoneNumber: String =
+                    phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+
+                contacts.add(ContactWithNumber(name, formatPhone(phoneNumber)))
+            ***REMOVED***
+            Log.d("Contacts", "Size = ${phones.count***REMOVED*** new = ${contacts.size***REMOVED***")
+            Log.d("Contacts", contacts.toString())
+            phones.close()
+        ***REMOVED***
+        viewModel.submitContacts(contacts)
+    ***REMOVED***
+
+    private fun formatPhone(number: String): String {
+        val phoneUtil = PhoneNumberUtil.getInstance()
+
+        try {
+            val numberProto = phoneUtil.parse(
+                number,
+                (requireContext().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager)
+                    .networkCountryIso.uppercase()
+***REMOVED***
+            Log.d("Contacts", "formatPhone: before $number")
+            val formatted =
+                phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
+            return formatted.replace(" ", "")
+        ***REMOVED*** catch (e: NumberParseException) {
+            System.err.println("NumberParseException was thrown: $number $e")
+
+        ***REMOVED***
+        Log.d("Contacts", "formatPhone: after $number")
+        return "Invalid Number"
     ***REMOVED***
 
     override fun onDestroyView() {

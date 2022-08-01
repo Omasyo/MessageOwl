@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.xtapps.messageowl.models.ChatCardModel
 import com.xtapps.messageowl.models.ChatRoom
-import com.xtapps.messageowl.models.MessageModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao
