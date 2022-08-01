@@ -47,7 +47,7 @@ class EditProfileFragment : Fragment() {
 
         binding.apply {
             proceedButton.setOnClickListener {
-                viewModel.createUser(usernameField.text.toString(), null)
+                viewModel.createUser(usernameField.text.toString())
                 findNavController().navigate(EditProfileFragmentDirections.actionCompleteProfileFragmentToHomeFragment())
             }
 

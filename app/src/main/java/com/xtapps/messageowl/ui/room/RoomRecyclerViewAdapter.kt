@@ -24,7 +24,7 @@ class RoomRecyclerViewAdapter(
         val content: TextView = view.findViewById(R.id.content_textview)
         val sender: TextView = view.findViewById(R.id.sender_textview)
         val time: TextView = view.findViewById(R.id.time_text)
-        val image:View = view.findViewById(R.id.imageView)
+        val image:View = view.findViewById(R.id.image_view)
     }
 
     fun submitList(list: List<MessageWithSender>) {

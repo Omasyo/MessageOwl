@@ -1,7 +1,6 @@
 package com.xtapps.messageowl.ui.room
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -18,7 +17,7 @@ class ParticipantsRecyclerViewAdapter(
 
     class ViewHolder(val view: MaterialCardView) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.name)
-        val image: ImageView = view.findViewById(R.id.imageView)
+        val image: ImageView = view.findViewById(R.id.image_view)
     }
 
     fun submitList(list: List<UserModel>) {

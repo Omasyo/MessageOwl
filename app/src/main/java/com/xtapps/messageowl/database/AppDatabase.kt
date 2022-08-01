@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.xtapps.messageowl.models.ChatRoom
+import com.xtapps.messageowl.models.ContactModel
 import com.xtapps.messageowl.models.MessageModel
 import com.xtapps.messageowl.models.UserModel
 import com.xtapps.messageowl.utils.Converters
@@ -15,6 +16,7 @@ import com.xtapps.messageowl.utils.Converters
         ChatRoom::class,
         MessageModel::class,
         UserModel::class,
+        ContactModel::class,
     ],
     version = 1
 )

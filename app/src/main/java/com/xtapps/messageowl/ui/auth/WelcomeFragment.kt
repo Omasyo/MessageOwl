@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.platform.MaterialSharedAxis
+import com.hbb20.CountryCodePicker
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentWelcomeBinding
 
@@ -33,6 +34,8 @@ class WelcomeFragment : Fragment() {
         val ccp = binding.countryCode
         val carrierText = binding.carrierNumber
         ccp.registerCarrierNumberEditText(carrierText)
+
+        ccp.defaultCountryCodeWithPlus
 
         binding.proceedButton.setOnClickListener {
             if(ccp.isValidFullNumber) {

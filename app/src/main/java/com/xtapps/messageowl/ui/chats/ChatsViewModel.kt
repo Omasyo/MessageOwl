@@ -23,28 +23,6 @@ class ChatsViewModel(
     fun recentMessage(roomId: String): Flow<MessageWithSender>
     = messageDao.getRecentMessage(roomId)
 
-//        .map { list ->
-//            list.map {
-//                if (it.name == null) {
-//                    val friendId = it.participants.find { id -> id != authUser.uid }
-//                    userDao.getUser(friendId!!).collect {
-//
-//                    }
-//                    it
-//                } else {
-//                    it
-//                }
-//            }
-//        }
-//        .combine(messageDao.getAllUsers()) { roomList, userList ->
-//            roomList.map {
-//                if(it.isGroup) it
-//                else {
-//                    it.copy(name = user)
-//                }
-//            }
-//        }
-
     companion object {
         val authUser = FirebaseAuth.getInstance().currentUser!!
     }

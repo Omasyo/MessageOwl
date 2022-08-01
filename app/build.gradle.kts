@@ -84,4 +84,5 @@ dependencies {
     implementation("com.google.firebase:firebase-storage-ktx")
 
     implementation("id.zelory:compressor:3.0.1")
+    implementation("com.googlecode.libphonenumber:libphonenumber:8.2.0")
 }

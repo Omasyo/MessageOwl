@@ -13,6 +13,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import java.io.*
 
+object Codes {
+    const val CAMERA_CODE = 1
+    const val CONTACTS_CODE = 2
+}
 
 fun Uri.asTempFile(context: Context): File {
     val inputStream = context.contentResolver.openInputStream(this)!!
