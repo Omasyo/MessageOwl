@@ -44,6 +44,7 @@
             style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoLink="all"
             tools:text="HOw far my boss" />
 
     </com.google.android.material.card.MaterialCardView>

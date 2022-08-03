@@ -11,6 +11,7 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.xtapps.messageowl.models.ChatRoomUpdate
 import com.xtapps.messageowl.models.UserModel
 import id.zelory.compressor.Compressor
 import id.zelory.compressor.constraint.format
@@ -43,32 +44,17 @@ class MainViewModel(
 
     init {
         viewModelScope.launch {
-            userDao.getUser(authUser.uid).collect { user: UserModel? ->
-                _currentUser.value = user
+            launch {
+                userDao.getUser(authUser.uid).collect { user: UserModel? ->
+                    _currentUser.value = user
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-
-//        val file = File.createTempFile(
-//            "profile",
-//            ".jpg",
-//            application.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-//        )
-//
-//        profilePicRef.getFile(file).addOnCompleteListener {
-//            if(it.isSuccessful) {
-//                _profilePhoto.value = file.toUri()
-//            ***REMOVED*** else {
-//                Toast.makeText(
-//                    application, application.resources.getString(R.string.photo_download_error),
-//                    Toast.LENGTH_LONG
-//    ***REMOVED***.show()
-//            ***REMOVED***
-//        ***REMOVED***
     ***REMOVED***
 
     private fun generateProfileRef(): String {
         return Firebase.storage.reference
-            .child("profilePics/${FirebaseAuth.getInstance().currentUser?.uid***REMOVED***${Date().time***REMOVED***")
+            .child("profilePics/${FirebaseAuth.getInstance().currentUser?.uid***REMOVED***")
             .path
     ***REMOVED***
 
@@ -90,7 +76,7 @@ class MainViewModel(
 
     fun createUser(name: String) {
 
-        userDb.document(authUser.uid).set(
+        userData.set(
             hashMapOf(
                 "name" to name,
                 "phoneNo" to authUser.phoneNumber!!,
@@ -122,8 +108,8 @@ class MainViewModel(
 
     companion object {
         val authUser = Firebase.auth.currentUser!!
-
-        val userDb = Firebase.firestore.collection("users")
+        val userData = Firebase.firestore.collection("users").document(authUser.uid)
+        val roomDb = Firebase.firestore.collection("rooms")
     ***REMOVED***
 
 ***REMOVED***

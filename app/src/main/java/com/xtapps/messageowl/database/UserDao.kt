@@ -1,9 +1,6 @@
 package com.xtapps.messageowl.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.xtapps.messageowl.models.ContactCard
 import com.xtapps.messageowl.models.ContactModel
 import com.xtapps.messageowl.models.UserModel
@@ -22,6 +19,9 @@ interface UserDao {
 
     @Insert(entity = UserModel::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUser(user: UserModel)
+
+//    @Update(entity = UserModel::class)
+//    suspend fun updateNumber(id: String, phone: String)
 
     @Query("DElETE FROM users WHERE id = :userId")
     suspend fun deleteUser(userId: String)

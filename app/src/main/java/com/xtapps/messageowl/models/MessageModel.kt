@@ -21,9 +21,9 @@ import java.util.*
 data class MessageModel(
     @PrimaryKey
     val id: String,
-    @ColumnInfo(name = "room_id")
+    @ColumnInfo(name = "room_id", index = true)
     val roomId: String,
-    @ColumnInfo(name = "sender_id")
+    @ColumnInfo(name = "sender_id", index = true)
     val senderId: String,
 
     val content: String,

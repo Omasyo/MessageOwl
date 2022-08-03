@@ -10,6 +10,7 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.platform.MaterialSharedAxis
@@ -66,8 +67,11 @@ class HomeFragment : Fragment() {
                     ***REMOVED***.show()
 
             ***REMOVED***
+            profilePhoto.load("gs://message-owl.appspot.com/profilePics/Gu8HezLwGqcpTwZGfG0iGIdKqXf2") {
+                allowHardware(false)
+            ***REMOVED***
             viewModel.profilePhoto.observe(viewLifecycleOwner) { uri ->
-                profilePhoto.setImageURI(uri)
+
             ***REMOVED***
 
             viewModel.currentUser.observe(viewLifecycleOwner) { user: UserModel? ->
