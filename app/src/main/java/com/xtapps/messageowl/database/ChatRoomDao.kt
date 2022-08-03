@@ -3,8 +3,10 @@ package com.xtapps.messageowl.database
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.xtapps.messageowl.models.ChatCardModel
 import com.xtapps.messageowl.models.ChatRoom
+import com.xtapps.messageowl.models.ChatRoomUpdate
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -34,6 +36,9 @@ interface ChatRoomDao {
 
     @Insert(entity = ChatRoom::class)
     suspend fun insertRoom(chatRoom: ChatRoom)
+
+    @Update(entity = ChatRoom::class)
+    suspend fun updateRoom(room: ChatRoomUpdate): Int
 
 //    @Query("SELECT participants FROM chat_rooms WHERE id = :roomId")
 //    fun getParticipants(roomId: String): Flow<List<String>>

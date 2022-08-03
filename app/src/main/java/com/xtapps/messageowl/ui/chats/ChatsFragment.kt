@@ -57,7 +57,7 @@ class ChatsFragment : Fragment() {
         recyclerView.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.allChats().flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            viewModel.allChats.flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .collect {
                     it.let { adapter.submitList(it) }
                 }

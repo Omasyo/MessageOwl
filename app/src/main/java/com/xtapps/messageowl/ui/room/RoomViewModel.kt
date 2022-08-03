@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.xtapps.messageowl.database.ChatRoomDao
 import com.xtapps.messageowl.database.MessageDao
 import com.xtapps.messageowl.database.UserDao
@@ -56,17 +58,27 @@ class RoomViewModel(
     fun sendMessage(
         content: String, roomId: String,
     ) {
-        viewModelScope.launch {
-            messageDao.insertMessage(
-                MessageModel(
-                    id = Calendar.getInstance().timeInMillis.toString(),
-                    roomId = roomId,
-                    senderId = authUser.uid,
-                    content = content,
-                    timestamp = Date()
+        val messageDb = Firebase.firestore.collection("rooms")
+            .document(roomId).collection("messages")
+            .add(
+                hashMapOf(
+                    "content" to content,
+                    "sender" to authUser.uid,
+                    "time" to Date()
                 )
-            )
-        }
+            ).addOnSuccessListener {
+                viewModelScope.launch {
+                    messageDao.insertMessage(
+                        MessageModel(
+                            id = it.id,
+                            roomId = roomId,
+                            senderId = authUser.uid,
+                            content = content,
+                            timestamp = Date()
+                        )
+                    )
+                }
+            }
     }
 
     fun getUsers(senderIds: List<String>) = userDao.getUsers(senderIds)

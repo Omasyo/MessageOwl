@@ -3,6 +3,7 @@ package com.xtapps.messageowl.ui.contacts
 import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.xtapps.messageowl.database.ChatRoomDao
@@ -16,6 +17,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import java.util.*
 
+const val TAG = "ContactsViewModel"
+
 class ContactsViewModel(
     private val userDao: UserDao,
     private val chatRoomDao: ChatRoomDao,
@@ -23,14 +26,24 @@ class ContactsViewModel(
 
     val contacts = userDao.getContacts()
 
+    init {
+//        userDb.
+    }
+
     fun submitContacts(contacts: Set<ContactWithNumber>) {
         for (contact in contacts) {
             if(contact.phoneNo == authUser.phoneNumber) continue
             userDb
                 .whereEqualTo("phoneNo", contact.phoneNo)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
+                .addSnapshotListener{ snapshots, e ->
+
+                    if (e != null) {
+                        Log.w(TAG, "listen:error", e)
+                        return@addSnapshotListener
+                    }
+
+                    for (dc in snapshots!!.documentChanges) {
+                        val document = dc.document
                         viewModelScope.launch {
                             launch {
                                 userDao.insertContact(

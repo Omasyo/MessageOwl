@@ -1,16 +1,19 @@
 package com.xtapps.messageowl.ui.chats
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
-import com.xtapps.messageowl.models.ChatRoom
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.xtapps.messageowl.database.ChatRoomDao
 import com.xtapps.messageowl.database.MessageDao
 import com.xtapps.messageowl.database.UserDao
-import com.xtapps.messageowl.models.ChatCardModel
-import com.xtapps.messageowl.models.MessageModel
-import com.xtapps.messageowl.models.MessageWithSender
-import kotlinx.coroutines.flow.*
+import com.xtapps.messageowl.models.ChatRoom
+import com.xtapps.messageowl.models.ChatRoomUpdate
+import com.xtapps.messageowl.ui.contacts.TAG
+import kotlinx.coroutines.launch
 
 class ChatsViewModel(
     private val chatRoomDao: ChatRoomDao,
@@ -18,13 +21,62 @@ class ChatsViewModel(
     private val userDao: UserDao
 ) : ViewModel() {
 
-    fun allChats(): Flow<List<ChatCardModel>> = chatRoomDao.getChatCards()
+    init {
+        userData.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "listen:error", e)
+                return@addSnapshotListener
+            }
 
-    fun recentMessage(roomId: String): Flow<MessageWithSender>
-    = messageDao.getRecentMessage(roomId)
+            if (snapshot != null && snapshot.exists()) {
+                val rooms = snapshot.data?.get("rooms") as ArrayList<String>
+                for (room in rooms) {
+                    roomDb.document(room).addSnapshotListener roomSnapshot@{ snapshot, e ->
+                        if (e != null) {
+                            Log.w(TAG, "Listen failed.", e)
+                            return@roomSnapshot
+                        }
+
+                        if (snapshot != null && snapshot.exists()) {
+                            val document = snapshot.data!!
+                            viewModelScope.launch {
+                                val result = chatRoomDao.updateRoom(
+                                    ChatRoomUpdate(
+                                        id = snapshot.id,
+                                        name = document["name"] as String,
+                                        participants = document["participants"] as ArrayList<String>,
+                                    )
+                                )
+                                launch {
+                                    if (result == 0) {
+                                        chatRoomDao.insertRoom(
+                                            ChatRoom(
+                                                id = snapshot.id,
+                                                name = document["name"] as String,
+                                                isGroup = document["group"] as Boolean,
+                                                unread = 0,
+                                                participants = document["participants"] as ArrayList<String>,
+                                            )
+                                        )
+                                    }
+                                }
+                            }
+                        } else {
+                            Log.d(TAG, "No such room $room")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    val allChats = chatRoomDao.getChatCards()
 
     companion object {
         val authUser = FirebaseAuth.getInstance().currentUser!!
+        val userData = Firebase.firestore.collection("users")
+            .document(authUser.uid)
+        val roomDb = Firebase.firestore.collection("rooms")
     }
 }
 

@@ -58,9 +58,9 @@ class EditProfileFragment : Fragment() {
                 (activity as MainActivity).showImageDialog()
             }
 
-            viewModel.profilePhoto.observe(viewLifecycleOwner) { uri ->
-                profilePhoto.setImageURI(uri)
-            }
+//            viewModel.profilePhoto.observe(viewLifecycleOwner) { uri ->
+//                profilePhoto.setImageURI(uri)
+//            }
 
             viewModel.currentUser.observe(viewLifecycleOwner) { user: UserModel? ->
                 usernameField.setText(user?.name)

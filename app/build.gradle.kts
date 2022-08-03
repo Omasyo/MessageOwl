@@ -21,6 +21,12 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         signingConfig = signingConfigs.getByName("debug")
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     buildFeatures {
@@ -85,4 +91,5 @@ dependencies {
 
     implementation("id.zelory:compressor:3.0.1")
     implementation("com.googlecode.libphonenumber:libphonenumber:8.2.0")
+    implementation("io.coil-kt:coil:2.1.0")
 }

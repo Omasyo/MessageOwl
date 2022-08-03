@@ -16,6 +16,12 @@ data class ChatRoom(
     val participants: List<String>
 )
 
+data class ChatRoomUpdate(
+    val id: String,
+    val name: String?,
+    val participants: List<String>
+)
+
 data class ChatCardModel(
     val room_id: String,
     val sender_id: String,
