@@ -11,6 +11,10 @@ class SplashAcitvity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_acitvity)
 
+        Intent(this, MainService::class.java).also { intent ->
+            startService(intent)
+        ***REMOVED***
+
         FirebaseAuth.getInstance().addAuthStateListener {
             val isAuth = FirebaseAuth.getInstance().currentUser != null
             val intent = if (isAuth) {

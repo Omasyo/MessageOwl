@@ -28,6 +28,8 @@ import com.xtapps.messageowl.databinding.FragmentContactsBinding
 import com.xtapps.messageowl.models.ContactWithNumber
 import com.xtapps.messageowl.ui.home.HomeFragmentDirections
 import com.xtapps.messageowl.ui.room.RoomFragmentDirections
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -105,32 +107,34 @@ class ContactsFragment : Fragment() {
         ***REMOVED***
 
     private fun retrieveContacts() {
-        val contacts = hashSetOf<ContactWithNumber>()
+        CoroutineScope(Dispatchers.IO).launch {
+            val contacts = hashSetOf<ContactWithNumber>()
 
-        val phones = requireContext().contentResolver.query(
-            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-            arrayOf(
-                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                ContactsContract.CommonDataKinds.Phone.NUMBER
-***REMOVED***,
-            null,
-            null,
-            null
-        )
-        if (phones != null) {
-            while (phones.moveToNext()) {
-                val name: String =
-                    phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-                val phoneNumber: String =
-                    phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+            val phones = requireContext().contentResolver.query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                arrayOf(
+                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                    ContactsContract.CommonDataKinds.Phone.NUMBER
+    ***REMOVED***,
+                null,
+                null,
+                null
+***REMOVED***
+            if (phones != null) {
+                while (phones.moveToNext()) {
+                    val name: String =
+                        phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
+                    val phoneNumber: String =
+                        phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
-                contacts.add(ContactWithNumber(name, formatPhone(phoneNumber)))
+                    contacts.add(ContactWithNumber(name, formatPhone(phoneNumber)))
+                ***REMOVED***
+                Log.d("Contacts", "Size = ${phones.count***REMOVED*** new = ${contacts.size***REMOVED***")
+                Log.d("Contacts", contacts.toString())
+                phones.close()
             ***REMOVED***
-            Log.d("Contacts", "Size = ${phones.count***REMOVED*** new = ${contacts.size***REMOVED***")
-            Log.d("Contacts", contacts.toString())
-            phones.close()
+            viewModel.submitContacts(contacts)
         ***REMOVED***
-        viewModel.submitContacts(contacts)
     ***REMOVED***
 
     private fun formatPhone(number: String): String {

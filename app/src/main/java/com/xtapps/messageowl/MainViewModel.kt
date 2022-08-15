@@ -30,6 +30,9 @@ class MainViewModel(
 ) : AndroidViewModel(application) {
     val userDao = application.appDatabase.userDao()
 
+    private val authUser = Firebase.auth.currentUser!!
+    private val userData = Firebase.firestore.collection("users").document(authUser.uid)
+    private val roomDb = Firebase.firestore.collection("rooms")
 
     private var _profilePhoto: MutableLiveData<Uri> = MutableLiveData()
     val profilePhoto: LiveData<Uri> = _profilePhoto
@@ -104,13 +107,6 @@ class MainViewModel(
 
     fun signOutUser() =
         FirebaseAuth.getInstance().signOut()
-
-
-    companion object {
-        val authUser = Firebase.auth.currentUser!!
-        val userData = Firebase.firestore.collection("users").document(authUser.uid)
-        val roomDb = Firebase.firestore.collection("rooms")
-    ***REMOVED***
 
 ***REMOVED***
 

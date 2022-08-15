@@ -1,0 +1,8 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket***REMOVED***/o {
+    match /{allPaths=*****REMOVED*** {
+      allow read, write: if request.auth!=null;
+    ***REMOVED***
+  ***REMOVED***
+***REMOVED***

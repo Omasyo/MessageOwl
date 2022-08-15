@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "dce5504151cc7aed4f389fe0376dc30d",
+    "identityHash": "b17029aade645ee893256ddd32ef554a",
     "entities": [
       {
         "tableName": "chat_rooms",
@@ -50,7 +50,7 @@
       ***REMOVED***,
       {
         "tableName": "messages",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME***REMOVED***` (`id` TEXT NOT NULL, `room_id` TEXT NOT NULL, `sender_id` TEXT NOT NULL, `content` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`room_id`) REFERENCES `chat_rooms`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`sender_id`) REFERENCES `users`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME***REMOVED***` (`id` TEXT NOT NULL, `room_id` TEXT NOT NULL, `sender_id` TEXT NOT NULL, `content` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -109,30 +109,7 @@
             "createSql": "CREATE INDEX IF NOT EXISTS `index_messages_sender_id` ON `${TABLE_NAME***REMOVED***` (`sender_id`)"
           ***REMOVED***
         ],
-        "foreignKeys": [
-          {
-            "table": "chat_rooms",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "room_id"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          ***REMOVED***,
-          {
-            "table": "users",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "sender_id"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          ***REMOVED***
-        ]
+        "foreignKeys": []
       ***REMOVED***,
       {
         "tableName": "users",
@@ -202,7 +179,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dce5504151cc7aed4f389fe0376dc30d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b17029aade645ee893256ddd32ef554a')"
     ]
   ***REMOVED***
 ***REMOVED***

@@ -1,10 +1,8 @@
 package com.xtapps.messageowl.ui.auth
 
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -13,6 +11,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.ActivityAuthBinding
 import java.util.concurrent.TimeUnit
@@ -115,6 +116,14 @@ class AuthActivity : AppCompatActivity() {
         if (user == null) { //Log new/different user
             FirebaseAuth.getInstance().signInWithCredential(credential)
                 .addOnCompleteListener(this, onCompleteListener)
+//                .addOnSuccessListener(this) {
+//                    val isNewUser = it.additionalUserInfo!!.isNewUser
+//                    Log.d(TAG, "verifyNumber: isNewUser $isNewUser")
+//                    if(isNewUser) {
+//                        val forumRef = Firebase.firestore.collection("rooms").document("general")
+//                        forumRef.update("participants", FieldValue.arrayUnion(user?.uid))
+//                    ***REMOVED***
+//                ***REMOVED***
         ***REMOVED*** else { //Update user number
             user.updatePhoneNumber(credential).addOnCompleteListener(this, onCompleteListener)
         ***REMOVED***

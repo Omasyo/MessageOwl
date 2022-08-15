@@ -20,6 +20,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.xtapps.messageowl.databinding.ActivityMainBinding
@@ -49,6 +52,14 @@ class MainActivity : AppCompatActivity() {
 //                .detectLeakedClosableObjects()
 //                .build()
 //        )
+
+
+//        FirebaseInstallations.getInstance().id.addOnCompleteListener {
+//            Log.d(TAG, "onCreate: token ${it.result***REMOVED***")
+//        ***REMOVED***
+        Firebase.messaging.token.addOnCompleteListener {
+            Log.d(TAG, "onCreate: token ${it.result***REMOVED***")
+        ***REMOVED***
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
