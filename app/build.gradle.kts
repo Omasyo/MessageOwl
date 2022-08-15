@@ -80,14 +80,12 @@ dependencies {
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$roomVersion")
 
-    // Import the BoM for the Firebase platform
-    implementation(platform("com.google.firebase:firebase-bom:30.1.0"))
-
-    // Declare the dependency for the Firebase Authentication library
-    // When using the BoM, you don"t specify versions in Firebase library dependencies
+    implementation(platform("com.google.firebase:firebase-bom:30.3.1"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-storage-ktx")
+    implementation("com.google.firebase:firebase-messaging-ktx")
 
     implementation("id.zelory:compressor:3.0.1")
     implementation("com.googlecode.libphonenumber:libphonenumber:8.2.0")

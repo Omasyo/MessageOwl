@@ -35,14 +35,14 @@ class ContactsViewModel(
             if(contact.phoneNo == authUser.phoneNumber) continue
             userDb
                 .whereEqualTo("phoneNo", contact.phoneNo)
-                .addSnapshotListener{ snapshots, e ->
-
-                    if (e != null) {
-                        Log.w(TAG, "listen:error", e)
-                        return@addSnapshotListener
+                .get().addOnCompleteListener {
+                    if (!it.isSuccessful) {
+                        Log.w(TAG, "listen:error", it.exception)
+                        return@addOnCompleteListener
                     }
 
-                    for (dc in snapshots!!.documentChanges) {
+
+                    for (dc in it.result.documentChanges) {
                         val document = dc.document
                         viewModelScope.launch {
                             launch {
