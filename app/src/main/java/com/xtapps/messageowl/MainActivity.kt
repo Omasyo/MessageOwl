@@ -54,9 +54,6 @@ class MainActivity : AppCompatActivity() {
 //        )
 
 
-//        FirebaseInstallations.getInstance().id.addOnCompleteListener {
-//            Log.d(TAG, "onCreate: token ${it.result}")
-//        }
         Firebase.messaging.token.addOnCompleteListener {
             Log.d(TAG, "onCreate: token ${it.result}")
         }
@@ -143,53 +140,6 @@ class MainActivity : AppCompatActivity() {
         )
         takePictureLauncher.launch(imageUri)
     }
-
-//    private fun retrieveContacts() {
-//        val phones = contentResolver.query(
-//            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-//            arrayOf(
-//                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-//                ContactsContract.CommonDataKinds.Phone.NUMBER
-//            ),
-//            null,
-//            null,
-//            null
-//        )
-//        if (phones != null) {
-//
-//            val contacts = hashMapOf<String, String>()
-//
-//            while (phones.moveToNext()) {
-//                val name: String =
-//                    phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-//                val phoneNumber: String =
-//                    phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-//
-//                Log.d("Contacts", "Name: $name, Phone: $phoneNumber")
-//                contacts[name] = formatPhone(phoneNumber)
-//            }
-//            Log.d("Contacts", "Size = ${phones.count} new = ${contacts.size}")
-//            Log.d("Contacts", contacts.toString())
-//            phones.close()
-//        }
-//    }
-//
-//    fun formatPhone(number: String): String {
-//        val phoneUtil = PhoneNumberUtil.getInstance()
-//
-//        try {
-//            val numberProto = phoneUtil.parse(
-//                number,
-//                (getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager)
-//                    .networkCountryIso
-//            )
-//            return phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
-//        } catch (e: NumberParseException) {
-//            System.err.println("NumberParseException was thrown: $number $e")
-//
-//        }
-//        return "Invalid Number"
-//    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

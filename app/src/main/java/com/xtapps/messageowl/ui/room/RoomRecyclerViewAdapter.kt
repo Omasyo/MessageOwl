@@ -14,10 +14,8 @@ import java.text.SimpleDateFormat
 class RoomRecyclerViewAdapter(
     private val isGroup: Boolean = false
 ) : RecyclerView.Adapter<RoomRecyclerViewAdapter.ViewHolder>() {
-    companion object {
-        val authUser = FirebaseAuth.getInstance().currentUser!!
-    }
 
+    val authUser = FirebaseAuth.getInstance().currentUser!!
     private var test: List<MessageWithSender> = listOf()
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -73,11 +71,11 @@ class RoomRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         fun sameSender(m1: MessageWithSender, m2: MessageWithSender)
-        = m1.user.id == m2.user.id
+        = m1.user?.id == m2.user?.id
 
         if (!isGroup) holder.sender.visibility = View.GONE
         holder.content.text = test[position].message.content
-        holder.sender.text = test[position].user.name
+        holder.sender.text = test[position].user?.name
         val timestamp = test[position].message.timestamp
         val date = SimpleDateFormat("MM/dd/yyyy").format(timestamp)
         val time = SimpleDateFormat("HH:mm").format(timestamp)
@@ -99,9 +97,12 @@ class RoomRecyclerViewAdapter(
                 holder.sender.visibility = View.GONE
             } else {
                 holder.image.visibility = View.VISIBLE
-                if(test[position].user.id != authUser.uid) holder.sender.visibility = View.VISIBLE
+                if(test[position].user?.id != authUser.uid) holder.sender.visibility = View.VISIBLE
             }
         }
+
+        //for private groups
+        if(!isGroup) holder.sender.visibility = View.GONE
     }
 
     override fun getItemCount(): Int {

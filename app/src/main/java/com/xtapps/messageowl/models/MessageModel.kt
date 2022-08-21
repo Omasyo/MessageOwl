@@ -24,6 +24,6 @@ data class MessageWithSender(
         parentColumn = "sender_id",
         entityColumn = "id"
     )
-    val user: UserModel
+    val user: UserModel?
 )
 //data class MessageWithUser

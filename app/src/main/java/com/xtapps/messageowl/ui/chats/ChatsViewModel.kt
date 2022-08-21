@@ -17,11 +17,19 @@ import kotlinx.coroutines.launch
 
 class ChatsViewModel(
     private val chatRoomDao: ChatRoomDao,
-    private val messageDao: MessageDao,
-    private val userDao: UserDao
 ) : ViewModel() {
+    private val authUser get() = FirebaseAuth.getInstance().currentUser!!
+    private val userData = Firebase.firestore.collection("users")
+        .document(authUser.uid)
+    private val roomDb = Firebase.firestore.collection("rooms")
 
     init {
+        listenToRoomUpdates()
+    }
+
+    val allChats = chatRoomDao.getChatCards()
+
+    fun listenToRoomUpdates() =
         userData.addSnapshotListener { snapshot, e ->
             if (e != null) {
                 Log.w(TAG, "listen:error", e)
@@ -29,21 +37,21 @@ class ChatsViewModel(
             }
 
             if (snapshot != null && snapshot.exists()) {
-                val rooms = snapshot.data?.get("rooms") as ArrayList<String>
+                val rooms = snapshot.data?.get("rooms") as ArrayList<String>? ?: arrayListOf()
                 for (room in rooms) {
-                    roomDb.document(room).addSnapshotListener roomSnapshot@{ snapshot, e ->
-                        if (e != null) {
-                            Log.w(TAG, "Listen failed.", e)
+                    roomDb.document(room).addSnapshotListener roomSnapshot@{ roomSnapshot, roomException ->
+                        if (roomException != null) {
+                            Log.w(TAG, "Listen failed.", roomException)
                             return@roomSnapshot
                         }
 
-                        if (snapshot != null && snapshot.exists()) {
-                            val document = snapshot.data!!
+                        if (roomSnapshot != null && roomSnapshot.exists()) {
+                            val document = roomSnapshot.data!!
                             viewModelScope.launch {
                                 val result = chatRoomDao.updateRoom(
                                     ChatRoomUpdate(
-                                        id = snapshot.id,
-                                        name = document["name"] as String,
+                                        id = roomSnapshot.id,
+                                        name = document["name"] as String?,
                                         participants = document["participants"] as ArrayList<String>,
                                     )
                                 )
@@ -51,7 +59,7 @@ class ChatsViewModel(
                                     if (result == 0) {
                                         chatRoomDao.insertRoom(
                                             ChatRoom(
-                                                id = snapshot.id,
+                                                id = roomSnapshot.id,
                                                 name = document["name"] as String,
                                                 isGroup = document["group"] as Boolean,
                                                 unread = 0,
@@ -68,27 +76,16 @@ class ChatsViewModel(
                 }
             }
         }
-    }
 
-    val allChats = chatRoomDao.getChatCards()
-
-    companion object {
-        val authUser = FirebaseAuth.getInstance().currentUser!!
-        val userData = Firebase.firestore.collection("users")
-            .document(authUser.uid)
-        val roomDb = Firebase.firestore.collection("rooms")
-    }
 }
 
 class ChatsViewModelFactory(
     private val chatRoomDao: ChatRoomDao,
-    private val messageDao: MessageDao,
-    private val userDao: UserDao,
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ChatsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ChatsViewModel(chatRoomDao, messageDao, userDao) as T
+            return ChatsViewModel(chatRoomDao) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

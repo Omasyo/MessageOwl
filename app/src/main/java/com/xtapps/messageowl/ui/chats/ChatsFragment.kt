@@ -28,8 +28,6 @@ class ChatsFragment : Fragment() {
         with((activity?.application as MessageOwlApplication).appDatabase) {
             ChatsViewModelFactory(
                 chatRoomDao(),
-                messageDao(),
-                userDao()
             )
         }
 
@@ -62,9 +60,6 @@ class ChatsFragment : Fragment() {
                     it.let { adapter.submitList(it) }
                 }
         }
-//        viewModel.allChats().asLiveData().observe(viewLifecycleOwner) {
-//            it.let { adapter.submitList(it) }
-//        }
 
         return root
     }

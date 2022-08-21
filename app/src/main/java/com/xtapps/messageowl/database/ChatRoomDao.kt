@@ -40,6 +40,8 @@ interface ChatRoomDao {
     @Update(entity = ChatRoom::class)
     suspend fun updateRoom(room: ChatRoomUpdate): Int
 
+//    @Update
+
 //    @Query("SELECT participants FROM chat_rooms WHERE id = :roomId")
 //    fun getParticipants(roomId: String): Flow<List<String>>
 }
