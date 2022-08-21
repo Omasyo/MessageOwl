@@ -19,6 +19,7 @@ import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.xtapps.messageowl.MessageOwlApplication
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentRoomBinding
+import com.xtapps.messageowl.models.ChatRoom
 import kotlinx.coroutines.launch
 
 class RoomFragment : Fragment() {
@@ -66,9 +67,10 @@ class RoomFragment : Fragment() {
 
             viewLifecycleOwner.lifecycleScope.launch {
 
-                viewModel.getRoom(roomId).flowWithLifecycle(viewLifecycleOwner.lifecycle).collect { room ->
+                viewModel.getRoom(roomId).flowWithLifecycle(viewLifecycleOwner.lifecycle).collect { room: ChatRoom? ->
+                    if (room == null) return@collect
                     toolbar.apply {
-                        title = room.name
+                        title = room.name ?: ""
                         setNavigationOnClickListener { findNavController().popBackStack() ***REMOVED***
                         setOnMenuItemClickListener {
                             binding.container.openDrawer(GravityCompat.END)

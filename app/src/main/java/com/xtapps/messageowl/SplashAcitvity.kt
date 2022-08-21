@@ -23,7 +23,8 @@ class SplashAcitvity : AppCompatActivity() {
             ***REMOVED*** else {
                 Intent(this, AuthActivity::class.java)
             ***REMOVED***
-            startActivity(intent)
+
+            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
             finish()
         ***REMOVED***
     ***REMOVED***

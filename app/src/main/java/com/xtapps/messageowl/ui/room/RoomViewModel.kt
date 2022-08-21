@@ -9,9 +9,12 @@ import com.google.firebase.ktx.Firebase
 import com.xtapps.messageowl.database.ChatRoomDao
 import com.xtapps.messageowl.database.MessageDao
 import com.xtapps.messageowl.database.UserDao
+import com.xtapps.messageowl.domain.requestPrivateRoom
 import com.xtapps.messageowl.models.ChatRoom
 import com.xtapps.messageowl.models.MessageModel
+import com.xtapps.messageowl.models.deletedUser
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -20,45 +23,24 @@ class RoomViewModel(
     private val chatRoomDao: ChatRoomDao,
     private val userDao: UserDao
 ) : ViewModel() {
-    fun getMessages(roomId: String) = messageDao.getMessages(roomId)
+
+    private val authUser get() = FirebaseAuth.getInstance().currentUser!!
+
+    fun getMessages(roomId: String) = messageDao.getMessages(roomId).map { list ->
+        list.map { it ->
+            if (it.user == null) it.copy(user = deletedUser) else it
+        ***REMOVED***
+    ***REMOVED***
 
     fun getRoom(roomId: String) = chatRoomDao.getRoom(roomId)
 
-    fun getPrivateRoom(participantId: String) = chatRoomDao.getPrivateRoom("%$participantId%")
-        .combine(userDao.getUsername(participantId)) { room: ChatRoom?, username ->
-            if (room == null) {
-                val tempRoom = ChatRoom(
-                    id = "temp" + Calendar.getInstance().timeInMillis.toString(),
-                    name = username,
-                    isGroup = false,
-                    participants = listOf(authUser.uid, participantId),
-                    unread = 0
-    ***REMOVED***
-                chatRoomDao.insertRoom(tempRoom)
-                tempRoom
-            ***REMOVED*** else {
-                room
-            ***REMOVED***
-        ***REMOVED***
-//        .map { room: ChatRoom? ->
-//            if (room == null) {
-//                val tempRoom = ChatRoom(
-//                    id = "temp" + Calendar.getInstance().timeInMillis.toString(),
-//                    name = null,
-//                    isGroup = false,
-//                    participants = listOf(authUser.uid, participantId)
-//    ***REMOVED***
-//                chatRoomDao.insertRoom(tempRoom)
-//                tempRoom
-//            ***REMOVED*** else {
-//                room
-//            ***REMOVED***
-//        ***REMOVED***
+
+    fun getPrivateRoom(participantId: String) = requestPrivateRoom(participantId, chatRoomDao, userDao)
 
     fun sendMessage(
         content: String, roomId: String,
     ) {
-        val messageDb = Firebase.firestore.collection("rooms")
+        Firebase.firestore.collection("rooms")
             .document(roomId).collection("messages")
             .add(
                 hashMapOf(
@@ -83,15 +65,6 @@ class RoomViewModel(
 
     fun getUsers(senderIds: List<String>) = userDao.getUsers(senderIds)
 
-    companion object {
-        val authUser = FirebaseAuth.getInstance().currentUser!!
-    ***REMOVED***
-
-//    fun sendMessage()
-
-//    fun getParticipants(roomId: String): Flow<List<String>> {
-//        return chatRoomDao.getParticipants(roomId)
-//    ***REMOVED***
 ***REMOVED***
 
 class RoomViewModelFactory(

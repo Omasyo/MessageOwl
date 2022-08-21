@@ -1,9 +1,6 @@
 package com.xtapps.messageowl.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.xtapps.messageowl.models.MessageModel
 import com.xtapps.messageowl.models.MessageWithSender
 import kotlinx.coroutines.flow.Flow
@@ -23,6 +20,6 @@ interface MessageDao {
 //    @Query("SELECT DISTINCT sender_id FROM messages WHERE room_id = :roomId")
 //    fun getParticipants(roomId: String): Flow<List<String>>
 
-    @Insert(entity = MessageModel::class)
+    @Insert(entity = MessageModel::class, onConflict = OnConflictStrategy.IGNORE) //todo: the stuff shouldn't get old shit
     suspend fun insertMessage(message: MessageModel)
 ***REMOVED***

@@ -16,3 +16,5 @@ data class UserModel(
     @ColumnInfo(name = "pic")
     val profilePic: String?,
 )
+
+val deletedUser = UserModel("deleted","deleted","deleted",null)

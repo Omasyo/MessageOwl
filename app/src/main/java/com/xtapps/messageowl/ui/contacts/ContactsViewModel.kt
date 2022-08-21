@@ -8,12 +8,14 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.xtapps.messageowl.database.ChatRoomDao
 import com.xtapps.messageowl.database.UserDao
+import com.xtapps.messageowl.domain.requestPrivateRoom
 import com.xtapps.messageowl.models.ChatRoom
 import com.xtapps.messageowl.models.ContactModel
 import com.xtapps.messageowl.models.ContactWithNumber
 import com.xtapps.messageowl.models.UserModel
 import com.xtapps.messageowl.ui.room.RoomViewModel
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -24,15 +26,16 @@ class ContactsViewModel(
     private val chatRoomDao: ChatRoomDao,
 ) : ViewModel() {
 
-    val contacts = userDao.getContacts()
+    private val userDb by lazy { Firebase.firestore.collection("users") ***REMOVED***
+    private val authUser get() = FirebaseAuth.getInstance().currentUser!!
+    private val roomDb by lazy { Firebase.firestore.collection("rooms") ***REMOVED***
 
-    init {
-//        userDb.
+    val contacts = userDao.getContacts().map {
+        it.filter { contactCard -> contactCard.id != authUser.uid ***REMOVED***
     ***REMOVED***
 
     fun submitContacts(contacts: Set<ContactWithNumber>) {
         for (contact in contacts) {
-            if(contact.phoneNo == authUser.phoneNumber) continue
             userDb
                 .whereEqualTo("phoneNo", contact.phoneNo)
                 .get().addOnCompleteListener {
@@ -59,7 +62,7 @@ class ContactsViewModel(
                                         id = document.id,
                                         name = document.data["name"] as String,
                                         phoneNo = document.data["phoneNo"] as String,
-                                        profilePic = null
+                                        profilePic = document.data["profilePic"] as String?,
                         ***REMOVED***
                     ***REMOVED***
                             ***REMOVED***
@@ -69,27 +72,7 @@ class ContactsViewModel(
         ***REMOVED***
     ***REMOVED***
 
-    fun getPrivateRoom(participantId: String) = chatRoomDao.getPrivateRoom("%$participantId%")
-        .combine(userDao.getUsername(participantId)) { room: ChatRoom?, username ->
-            if (room == null) {
-                val tempRoom = ChatRoom(
-                    id = "temp" + Calendar.getInstance().timeInMillis.toString(),
-                    name = username,
-                    isGroup = false,
-                    participants = listOf(RoomViewModel.authUser.uid, participantId),
-                    unread = 0
-    ***REMOVED***
-                chatRoomDao.insertRoom(tempRoom)
-                tempRoom
-            ***REMOVED*** else {
-                room
-            ***REMOVED***
-        ***REMOVED***
-
-    companion object {
-        val userDb = Firebase.firestore.collection("users")
-        val authUser = FirebaseAuth.getInstance().currentUser!!
-    ***REMOVED***
+    fun getPrivateRoom(participantId: String) = requestPrivateRoom(participantId, chatRoomDao, userDao)
 ***REMOVED***
 
 class ContactsViewModelFactory(

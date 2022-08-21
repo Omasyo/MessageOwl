@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import coil.load
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -64,6 +65,10 @@ class EditProfileFragment : Fragment() {
 
             viewModel.currentUser.observe(viewLifecycleOwner) { user: UserModel? ->
                 usernameField.setText(user?.name)
+//                Log.d(TAG, "onCreateView: ")
+                profilePhoto.load(user?.profilePic) {
+                    allowHardware(false)
+                ***REMOVED***
             ***REMOVED***
 
             return root

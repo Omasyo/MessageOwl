@@ -3,6 +3,7 @@ package com.xtapps.messageowl.ui.home
 import HomeFragmentAdapter
 import android.os.Bundle
 import android.telephony.PhoneNumberUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +15,15 @@ import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.platform.MaterialSharedAxis
+import com.google.firebase.auth.GetTokenResult
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.xtapps.messageowl.*
 import com.xtapps.messageowl.databinding.FragmentHomeBinding
 import com.xtapps.messageowl.models.UserModel
+import java.net.HttpURLConnection
+import java.net.URL
 import java.util.*
 
 class HomeFragment : Fragment() {
@@ -67,18 +74,18 @@ class HomeFragment : Fragment() {
                     ***REMOVED***.show()
 
             ***REMOVED***
-            profilePhoto.load("gs://message-owl.appspot.com/profilePics/Gu8HezLwGqcpTwZGfG0iGIdKqXf2") {
-                allowHardware(false)
-            ***REMOVED***
-            viewModel.profilePhoto.observe(viewLifecycleOwner) { uri ->
-
-            ***REMOVED***
+            
 
             viewModel.currentUser.observe(viewLifecycleOwner) { user: UserModel? ->
                 user?.let {
                     username.text = it.name.ifBlank { "\u0000No Name\u0000" ***REMOVED***
                 phoneNo.text =
                         PhoneNumberUtils.formatNumber(it.phoneNo, Locale.getDefault().country)
+                ***REMOVED***
+
+                Log.d(TAG, "onCreateView: profilePic ${user?.profilePic***REMOVED***")
+                profilePhoto.load(user?.profilePic) {
+                    allowHardware(false)
                 ***REMOVED***
             ***REMOVED***
 

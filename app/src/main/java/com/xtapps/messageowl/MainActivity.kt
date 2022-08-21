@@ -54,9 +54,6 @@ class MainActivity : AppCompatActivity() {
 //        )
 
 
-//        FirebaseInstallations.getInstance().id.addOnCompleteListener {
-//            Log.d(TAG, "onCreate: token ${it.result***REMOVED***")
-//        ***REMOVED***
         Firebase.messaging.token.addOnCompleteListener {
             Log.d(TAG, "onCreate: token ${it.result***REMOVED***")
         ***REMOVED***
@@ -143,53 +140,6 @@ class MainActivity : AppCompatActivity() {
         )
         takePictureLauncher.launch(imageUri)
     ***REMOVED***
-
-//    private fun retrieveContacts() {
-//        val phones = contentResolver.query(
-//            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-//            arrayOf(
-//                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-//                ContactsContract.CommonDataKinds.Phone.NUMBER
-//***REMOVED***,
-//            null,
-//            null,
-//            null
-//        )
-//        if (phones != null) {
-//
-//            val contacts = hashMapOf<String, String>()
-//
-//            while (phones.moveToNext()) {
-//                val name: String =
-//                    phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-//                val phoneNumber: String =
-//                    phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-//
-//                Log.d("Contacts", "Name: $name, Phone: $phoneNumber")
-//                contacts[name] = formatPhone(phoneNumber)
-//            ***REMOVED***
-//            Log.d("Contacts", "Size = ${phones.count***REMOVED*** new = ${contacts.size***REMOVED***")
-//            Log.d("Contacts", contacts.toString())
-//            phones.close()
-//        ***REMOVED***
-//    ***REMOVED***
-//
-//    fun formatPhone(number: String): String {
-//        val phoneUtil = PhoneNumberUtil.getInstance()
-//
-//        try {
-//            val numberProto = phoneUtil.parse(
-//                number,
-//                (getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager)
-//                    .networkCountryIso
-//***REMOVED***
-//            return phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
-//        ***REMOVED*** catch (e: NumberParseException) {
-//            System.err.println("NumberParseException was thrown: $number $e")
-//
-//        ***REMOVED***
-//        return "Invalid Number"
-//    ***REMOVED***
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

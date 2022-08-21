@@ -1,7 +1,6 @@
 package com.xtapps.messageowl
 
 import android.graphics.Bitmap
-import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.*
@@ -11,16 +10,17 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.xtapps.messageowl.models.ChatRoom
 import com.xtapps.messageowl.models.ChatRoomUpdate
+import com.xtapps.messageowl.models.MessageModel
 import com.xtapps.messageowl.models.UserModel
 import id.zelory.compressor.Compressor
 import id.zelory.compressor.constraint.format
 import id.zelory.compressor.constraint.quality
 import id.zelory.compressor.constraint.resolution
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+import java.sql.Timestamp
 import java.util.*
 
 const val TAG = "MainViewModel"
@@ -30,19 +30,14 @@ class MainViewModel(
 ) : AndroidViewModel(application) {
     val userDao = application.appDatabase.userDao()
 
-    private val authUser = Firebase.auth.currentUser!!
+    private val authUser get() = Firebase.auth.currentUser!!
     private val userData = Firebase.firestore.collection("users").document(authUser.uid)
     private val roomDb = Firebase.firestore.collection("rooms")
 
-    private var _profilePhoto: MutableLiveData<Uri> = MutableLiveData()
-    val profilePhoto: LiveData<Uri> = _profilePhoto
-
-
-    private var _profilePicRef: String? = null
+    private var _profilePicFileName: String? = null
 
     private var _currentUser: MutableLiveData<UserModel?> = MutableLiveData()
 
-    //    UserModel("1", "Haha", "090")
     val currentUser: LiveData<UserModel?> = _currentUser
 
     init {
@@ -53,7 +48,35 @@ class MainViewModel(
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
+        listentoMessageUpdates("general")
     ***REMOVED***
+
+//Todo: temp remove later
+    fun listentoMessageUpdates(roomId: String) =
+        roomDb.document(roomId).collection("messages").addSnapshotListener { snapshots, e ->
+            if (e != null) {
+                Log.w(com.xtapps.messageowl.ui.contacts.TAG, "listen:error", e)
+                return@addSnapshotListener
+            ***REMOVED***
+
+            if (snapshots != null) {
+                for(dc in snapshots.documentChanges) {
+                    val document = dc.document
+                    viewModelScope.launch {
+                        application.appDatabase.messageDao().insertMessage(
+                            MessageModel(
+                                id = document.id,
+                                roomId = roomId,
+                                content = document["content"] as String,
+                                senderId = document["sender"] as String,
+                                timestamp = document.getDate("time")!!,
+                ***REMOVED***
+            ***REMOVED***
+                    ***REMOVED***
+                ***REMOVED***
+
+            ***REMOVED***
+        ***REMOVED***
 
     private fun generateProfileRef(): String {
         return Firebase.storage.reference
@@ -71,10 +94,13 @@ class MainViewModel(
             quality(30)
         ***REMOVED***
 
-        _profilePicRef = generateProfileRef()
-        Firebase.storage.reference.child(_profilePicRef!!).putFile(compressedImageFile.toUri())
-            .addOnFailureListener {
+        _profilePicFileName = generateProfileRef()
+        val ref = Firebase.storage.reference.child(_profilePicFileName!!)
+        ref.putFile(compressedImageFile.toUri()).onSuccessTask {
+            ref.downloadUrl.onSuccessTask {
+                userData.update("profilePic", it)
             ***REMOVED***
+        ***REMOVED***
     ***REMOVED***
 
     fun createUser(name: String) {
@@ -83,7 +109,7 @@ class MainViewModel(
             hashMapOf(
                 "name" to name,
                 "phoneNo" to authUser.phoneNumber!!,
-                "profilePic" to _profilePicRef,
+//                "profilePic" to _profilePicRef,
                 "rooms" to arrayListOf("general")
 ***REMOVED***, SetOptions.merge()
         ).addOnFailureListener {
@@ -98,16 +124,15 @@ class MainViewModel(
                     id = authUser.uid,
                     name = name,
                     phoneNo = authUser.phoneNumber!!,
-                    profilePic = _profilePicRef
+                    profilePic = null
     ***REMOVED***
 ***REMOVED***
         ***REMOVED***
-        _profilePicRef = null
+        _profilePicFileName = null
     ***REMOVED***
 
     fun signOutUser() =
         FirebaseAuth.getInstance().signOut()
-
 ***REMOVED***
 
 class MainViewModelFactory(
