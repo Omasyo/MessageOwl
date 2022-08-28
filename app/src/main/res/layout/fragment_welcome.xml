@@ -22,29 +22,32 @@
         android:text="@string/welcome_message"
         android:textAlignment="center" />
 
-    <ImageView
-        android:id="@+id/profile_photo"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/logo_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/welcomeMessage"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="48dp"
+        app:contentPadding="24dp"
+        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:padding="24dp"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
         app:layout_constraintDimensionRatio="H,1:1"
-        app:srcCompat="@drawable/dummy"
+        app:srcCompat="@drawable/animator_logo"
+        android:background="?attr/colorSurfaceVariant"
         android:contentDescription="@string/message_owl_logo" />
 
     <TextView
         android:id="@+id/enter_no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_photo"
-        android:layout_alignStart="@+id/profile_photo"
-        android:layout_alignEnd="@+id/profile_photo"
+        android:layout_below="@+id/logo_image"
+        android:layout_alignStart="@+id/logo_image"
+        android:layout_alignEnd="@+id/logo_image"
         style="@style/TextAppearance.Material3.TitleMedium"
         android:text="@string/enter_number"
         android:textAlignment="center" />
@@ -87,6 +90,7 @@
             android:inputType="phone"
             android:singleLine="false"/>
     </LinearLayout>
+
 
     <Button
         android:id="@+id/proceed_button"

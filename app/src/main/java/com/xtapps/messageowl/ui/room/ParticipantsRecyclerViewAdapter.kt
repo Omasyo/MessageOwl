@@ -14,17 +14,17 @@ import com.xtapps.messageowl.models.UserModel
 class ParticipantsRecyclerViewAdapter(
     private val onClick: (particpantId: String) -> Unit
 ) : RecyclerView.Adapter<ParticipantsRecyclerViewAdapter.ViewHolder>() {
-    private var test: List<UserModel> = listOf()
+    private var participants: List<UserModel> = listOf()
 
     class ViewHolder(val view: MaterialCardView) : RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById(R.id.name)
-        val image: ImageView = view.findViewById(R.id.image_view)
+        val nameView: TextView = view.findViewById(R.id.name)
+        val imageView: ImageView = view.findViewById(R.id.image_view)
     ***REMOVED***
 
     fun submitList(list: List<UserModel>) {
         val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun getOldListSize(): Int {
-                return test.size
+                return participants.size
             ***REMOVED***
 
             override fun getNewListSize(): Int {
@@ -32,17 +32,17 @@ class ParticipantsRecyclerViewAdapter(
             ***REMOVED***
 
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return test[oldItemPosition] == list[newItemPosition]
+                return participants[oldItemPosition] == list[newItemPosition]
             ***REMOVED***
 
             override fun areContentsTheSame(
                 oldItemPosition: Int,
                 newItemPosition: Int
 ***REMOVED***: Boolean {
-                return test[oldItemPosition] == list[newItemPosition]
+                return participants[oldItemPosition] == list[newItemPosition]
             ***REMOVED***
         ***REMOVED***)
-        test = list
+        participants = list
         result.dispatchUpdatesTo(this)
     ***REMOVED***
 
@@ -55,15 +55,19 @@ class ParticipantsRecyclerViewAdapter(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.view.setOnClickListener {
-            onClick(test[position].id)
-        ***REMOVED***
 
-        holder.image.load(test[position].profilePic)
-        holder.name.text = test[position].name
+        with(participants[position]) {
+            holder.apply {
+              view.setOnClickListener {
+                  onClick(participants[position].id)
+              ***REMOVED***
+                imageView.load(profilePic)
+                nameView.text = name
+            ***REMOVED***
+        ***REMOVED***
     ***REMOVED***
 
     override fun getItemCount(): Int {
-        return test.size
+        return participants.size
     ***REMOVED***
 ***REMOVED***

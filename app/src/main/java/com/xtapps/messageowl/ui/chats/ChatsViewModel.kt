@@ -42,6 +42,7 @@ class ChatsViewModel(
         ***REMOVED***
     ***REMOVED***
 
+    @Suppress("UNCHECKED_CAST")
     fun listenToRoomUpdates() =
         userData.addSnapshotListener { snapshot, e ->
             if (e != null) {
@@ -51,6 +52,7 @@ class ChatsViewModel(
 
             if (snapshot != null && snapshot.exists()) {
                 val rooms = snapshot.data?.get("rooms") as ArrayList<String>? ?: arrayListOf()
+
                 for (room in rooms) {roomDb.document(room).addSnapshotListener roomSnapshot@{ roomSnapshot, roomException ->
                         if (roomException != null) {
                             Log.w(TAG, "Listen failed.", roomException)
@@ -72,7 +74,7 @@ class ChatsViewModel(
                                         chatRoomDao.insertRoom(
                                             ChatRoom(
                                                 id = roomSnapshot.id,
-                                                name = document["name"] as String,
+                                                name = document["name"] as String?,
                                                 isGroup = document["group"] as Boolean,
                                                 unread = 0,
                                                 participants = document["participants"] as ArrayList<String>,

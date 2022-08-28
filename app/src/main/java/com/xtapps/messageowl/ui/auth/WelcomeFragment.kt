@@ -1,19 +1,20 @@
 package com.xtapps.messageowl.ui.auth
 
+import android.graphics.drawable.Animatable2
+import android.graphics.drawable.AnimatedVectorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.platform.MaterialSharedAxis
-import com.hbb20.CountryCodePicker
-import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentWelcomeBinding
 
 class WelcomeFragment : Fragment() {
+
+    private lateinit var logoAnimation: AnimatedVectorDrawable
 
     private var _binding: FragmentWelcomeBinding? = null
     private val binding get() = _binding!!
@@ -29,7 +30,21 @@ class WelcomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentWelcomeBinding.inflate(inflater,container,false)
+        _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
+
+        val logoImage = binding.logoImage.apply {
+            logoAnimation = drawable as AnimatedVectorDrawable
+        ***REMOVED***
+        logoAnimation.apply {
+            registerAnimationCallback(object : Animatable2.AnimationCallback() {
+                override fun onAnimationEnd(drawable: Drawable?) {
+                    super.onAnimationEnd(drawable)
+                    logoAnimation.start()
+                ***REMOVED***
+            ***REMOVED***)
+            start()
+        ***REMOVED***
+
 
         val ccp = binding.countryCode
         val carrierText = binding.carrierNumber
@@ -38,10 +53,14 @@ class WelcomeFragment : Fragment() {
         ccp.defaultCountryCodeWithPlus
 
         binding.proceedButton.setOnClickListener {
-            if(ccp.isValidFullNumber) {
+            if (ccp.isValidFullNumber) {
                 (activity as AuthActivity).sendVerification(ccp.fullNumberWithPlus)
             ***REMOVED*** else {
-                Snackbar.make(binding.root, "Please enter a valid phone number" ,Snackbar.LENGTH_LONG)
+                Snackbar.make(
+                    binding.root,
+                    "Please enter a valid phone number",
+                    Snackbar.LENGTH_LONG
+    ***REMOVED***
                     .show()
             ***REMOVED***
         ***REMOVED***

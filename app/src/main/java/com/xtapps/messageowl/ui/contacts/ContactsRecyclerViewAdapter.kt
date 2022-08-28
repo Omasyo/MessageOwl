@@ -1,5 +1,6 @@
 package com.xtapps.messageowl.ui.contacts
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,14 +13,17 @@ import coil.load
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.models.ContactCard
 
-class ContactsRecyclerViewAdapter(private val onClick: (userId: String) -> Unit) :
+class ContactsRecyclerViewAdapter(
+    private val onImageClick: (image: Drawable) -> Unit = {***REMOVED***,
+    private val onClick: (userId: String) -> Unit
+) :
     RecyclerView.Adapter<ContactsRecyclerViewAdapter.ViewHolder>() {
     private var contacts: List<ContactCard> = listOf()
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val titleText: TextView = view.findViewById(R.id.title_text)
         val subtitleText: TextView = view.findViewById(R.id.subtitle_text)
-        val cardView: CardView = view.findViewById(R.id.card_view)
+        val imageCardView: CardView = view.findViewById(R.id.image_card_view)
         val imageView: ImageView = view.findViewById(R.id.image_view)
     ***REMOVED***
 
@@ -46,6 +50,9 @@ class ContactsRecyclerViewAdapter(private val onClick: (userId: String) -> Unit)
                 subtitleText.text = username
                 view.setOnClickListener {
                     onClick(contacts[position].id)
+                ***REMOVED***
+                imageCardView.setOnClickListener {
+                    onImageClick(imageView.drawable)
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
