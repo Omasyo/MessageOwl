@@ -1,0 +1,9 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/logo">
+    <target
+        android:name="eyeball"
+        android:animation="@animator/eye_animator" />
+    <target
+        android:name="eyelid"
+        android:animation="@animator/eyelid_animator" />
+</animated-vector>

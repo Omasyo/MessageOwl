@@ -20,10 +20,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.xtapps.messageowl.MessageOwlApplication
+import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentContactsBinding
 import com.xtapps.messageowl.models.ContactWithNumber
 import com.xtapps.messageowl.ui.home.HomeFragmentDirections
@@ -73,7 +75,13 @@ class ContactsFragment : Fragment() {
         _binding = FragmentContactsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val adapter = ContactsRecyclerViewAdapter { contactId ->
+        val adapter = ContactsRecyclerViewAdapter({ image ->
+
+            val dialog = MaterialAlertDialogBuilder(requireContext())
+                .setBackground(image)
+                .show()
+
+        }) { contactId ->
             viewModel.getPrivateRoom(contactId).asLiveData().observe(viewLifecycleOwner) {
                 val action =
                     HomeFragmentDirections.actionHomeFragmentToRoomFragment(it.id)
