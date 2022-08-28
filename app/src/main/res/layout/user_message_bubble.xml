@@ -10,11 +10,11 @@
     android:gravity="end"
     android:paddingHorizontal="16dp">
 
-    <View
-        android:id="@+id/image_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"/>
+<!--    <ImageView-->
+<!--        android:id="@+id/image_view"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:visibility="gone"/>-->
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/bubble_view"

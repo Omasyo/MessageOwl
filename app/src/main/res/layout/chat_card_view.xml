@@ -20,7 +20,7 @@
         android:paddingHorizontal="12dp">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/image_view"
+            android:id="@+id/image_card_view"
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -31,10 +31,12 @@
             android:clickable="true"
             android:focusable="true">
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_view"
                 android:layout_width="match_parent"
                 app:shapeAppearance="@style/roundedImageView"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/sample" />
+                android:scaleType="centerCrop"
+                android:background="@drawable/profile_placeholder" />
         </com.google.android.material.card.MaterialCardView>
 
 <!--        <com.google.android.material.imageview.ShapeableImageView-->
@@ -57,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             app:layout_constraintBottom_toTopOf="@+id/subtitle_text"
-            app:layout_constraintStart_toEndOf="@+id/image_view"
+            app:layout_constraintStart_toEndOf="@+id/image_card_view"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 

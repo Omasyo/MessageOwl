@@ -8,15 +8,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.xtapps.messageowl.database.ChatRoomDao
-import com.xtapps.messageowl.database.MessageDao
 import com.xtapps.messageowl.database.UserDao
 import com.xtapps.messageowl.models.ChatRoom
 import com.xtapps.messageowl.models.ChatRoomUpdate
 import com.xtapps.messageowl.ui.contacts.TAG
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class ChatsViewModel(
     private val chatRoomDao: ChatRoomDao,
+    private val userDao: UserDao,
 ) : ViewModel() {
     private val authUser get() = FirebaseAuth.getInstance().currentUser!!
     private val userData = Firebase.firestore.collection("users")
@@ -27,7 +28,19 @@ class ChatsViewModel(
         listenToRoomUpdates()
     }
 
-    val allChats = chatRoomDao.getChatCards()
+    val allChats = chatRoomDao.getChatCards().map { list ->
+        list.map { cardModel ->
+            if (!cardModel.isGroup) {
+                val friend = cardModel.participants.first { it != authUser.uid }
+                val details = userDao.getUserDetails(friend)
+                Log.d(TAG, "cardModel image ${cardModel.image}: ")
+                cardModel.copy(
+                    roomName = details.name,
+                    image = details.profilePic,
+                )
+            } else cardModel
+        }
+    }
 
     fun listenToRoomUpdates() =
         userData.addSnapshotListener { snapshot, e ->
@@ -38,8 +51,7 @@ class ChatsViewModel(
 
             if (snapshot != null && snapshot.exists()) {
                 val rooms = snapshot.data?.get("rooms") as ArrayList<String>? ?: arrayListOf()
-                for (room in rooms) {
-                    roomDb.document(room).addSnapshotListener roomSnapshot@{ roomSnapshot, roomException ->
+                for (room in rooms) {roomDb.document(room).addSnapshotListener roomSnapshot@{ roomSnapshot, roomException ->
                         if (roomException != null) {
                             Log.w(TAG, "Listen failed.", roomException)
                             return@roomSnapshot
@@ -81,11 +93,12 @@ class ChatsViewModel(
 
 class ChatsViewModelFactory(
     private val chatRoomDao: ChatRoomDao,
+    private val userDao: UserDao,
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ChatsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ChatsViewModel(chatRoomDao) as T
+            return ChatsViewModel(chatRoomDao, userDao) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

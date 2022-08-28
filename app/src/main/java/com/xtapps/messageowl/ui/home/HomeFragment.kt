@@ -86,6 +86,7 @@ class HomeFragment : Fragment() {
                 Log.d(TAG, "onCreateView: profilePic ${user?.profilePic}")
                 profilePhoto.load(user?.profilePic) {
                     allowHardware(false)
+                    crossfade(true)
                 }
             }
 

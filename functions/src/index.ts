@@ -17,6 +17,23 @@ export const removeFromForum = functions.auth.user().onDelete((user) => {
   functions.logger.info(`Removed user ${user.uid}`, {structuredData: true});
 });
 
+export const updateUserRooms = functions.firestore
+    .document("rooms/{roomId}")
+    .onCreate((snap, context) => {
+      const participants = snap.data().participants;
+      const roomId = context.params.roomId;
+
+      for (let i = 0; i < participants.length; ++i) {
+        console.log("Block statement execution no." + i);
+        admin.firestore().collection("users").doc(participants[i])
+            .update({rooms: admin.firestore.FieldValue.arrayUnion(roomId)});
+
+        functions.logger.info(
+            "User $participants now in room $roomId",
+            {structuredData: true});
+      }
+    });
+
 // export const addPhotoUrl =
 //     functions.storage.object().onFinalize(async (object) => {
 //       const path = object.name as string;

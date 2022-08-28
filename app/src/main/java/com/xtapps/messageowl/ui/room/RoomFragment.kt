@@ -53,6 +53,8 @@ class RoomFragment : Fragment() {
 
         val roomId = requireArguments().getString("room_id")!!
 
+        viewModel.resetUnreadCount(roomId)
+
         val participantsAdapter = ParticipantsRecyclerViewAdapter { participantId ->
             viewModel.getPrivateRoom(participantId).asLiveData().observe(viewLifecycleOwner) {
                 val action =
@@ -93,14 +95,16 @@ class RoomFragment : Fragment() {
                     val adapter = RoomRecyclerViewAdapter(room.isGroup)
                     launch {
                         viewModel.getMessages(roomId).collect {
-                                val lastIndex =
-                                    (binding.messageRecyclerView.layoutManager as LinearLayoutManager)
-                                        .findLastCompletelyVisibleItemPosition()
-                                it.let { adapter.submitList(it) }
-                                if (lastIndex == adapter.itemCount - 2) {
-                                    binding.messageRecyclerView.scrollToPosition(adapter.itemCount - 1)
-                                }
+
+                            val lastIndex =
+                                (binding.messageRecyclerView.layoutManager as LinearLayoutManager)
+                                    .findLastCompletelyVisibleItemPosition()
+                            it.let { adapter.submitList(it) }
+                            binding.messageRecyclerView.scrollToPosition(adapter.itemCount - room.unread)
+                            if (lastIndex == adapter.itemCount - 2) {
+                                binding.messageRecyclerView.scrollToPosition(adapter.itemCount - 1)
                             }
+                        }
                     }
                     messageRecyclerView.layoutManager =
                         LinearLayoutManager(context).apply { stackFromEnd = true }

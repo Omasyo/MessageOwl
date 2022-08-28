@@ -3,10 +3,12 @@ package com.xtapps.messageowl.ui.contacts
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.models.ContactCard
 
@@ -18,6 +20,7 @@ class ContactsRecyclerViewAdapter(private val onClick: (userId: String) -> Unit)
         val titleText: TextView = view.findViewById(R.id.title_text)
         val subtitleText: TextView = view.findViewById(R.id.subtitle_text)
         val cardView: CardView = view.findViewById(R.id.card_view)
+        val imageView: ImageView = view.findViewById(R.id.image_view)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,6 +38,10 @@ class ContactsRecyclerViewAdapter(private val onClick: (userId: String) -> Unit)
 
         with(contacts[position]) {
             holder.apply {
+                imageView.load(image) {
+                    allowHardware(false)
+                    crossfade(true)
+                }
                 titleText.text = contactName
                 subtitleText.text = username
                 view.setOnClickListener {
