@@ -29,6 +29,24 @@ data class ChatCardModel(
     val isGroup: Boolean,
     @ColumnInfo(name = "room_name")
     val roomName: String?,
+    val participants: List<String>,
+    val image: String?,
+    @ColumnInfo(name = "sender_name")
+    val senderName: String,
+    @ColumnInfo(name = "recent")
+    val recentMessage: String,
+    val timestamp: Date,
+    val unread: Int?,
+)
+
+data class ChatCardWithImage(
+    val room_id: String,
+    val sender_id: String,
+    @ColumnInfo(name = "is_group")
+    val isGroup: Boolean,
+    @ColumnInfo(name = "room_name")
+    val roomName: String?,
+    val image: String?,
     @ColumnInfo(name = "sender_name")
     val senderName: String,
     @ColumnInfo(name = "recent")

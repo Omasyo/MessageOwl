@@ -16,6 +16,7 @@ data class ContactCard(
     val username: String,
     @ColumnInfo(name = "contact_name")
     val contactName: String,
+    val image: String?,
 )
 
 data class ContactWithNumber(

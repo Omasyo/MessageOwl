@@ -25,7 +25,8 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:shapeAppearance="@style/roundedImageView"
-            app:srcCompat="@drawable/sample" />
+            android:scaleType="centerCrop"
+            android:background="@drawable/profile_placeholder" />
 
         <TextView
             android:id="@+id/name"

@@ -17,6 +17,9 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE id = :id")
     fun getUser(id: String): Flow<UserModel>
 
+    @Query("SELECT * FROM users WHERE id = :id")
+    suspend fun getUserDetails(id: String): UserModel
+
     @Insert(entity = UserModel::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUser(user: UserModel)
 
@@ -32,7 +35,8 @@ interface UserDao {
     @Query(
         "SELECT users.id as id, " +
                 "users.name as username, " +
-                "contacts.name as contact_name " +
+                "contacts.name as contact_name, " +
+                "users.pic as image " +
                 "FROM contacts JOIN users ON contacts.id = users.id " +
                 "ORDER BY contact_name"
     )

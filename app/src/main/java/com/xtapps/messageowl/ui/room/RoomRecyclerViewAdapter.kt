@@ -3,9 +3,12 @@ package com.xtapps.messageowl.ui.room
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.google.firebase.auth.FirebaseAuth
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.models.MessageWithSender
@@ -22,7 +25,8 @@ class RoomRecyclerViewAdapter(
         val content: TextView = view.findViewById(R.id.content_textview)
         val sender: TextView = view.findViewById(R.id.sender_textview)
         val time: TextView = view.findViewById(R.id.time_text)
-        val image:View = view.findViewById(R.id.image_view)
+        val imageCard: CardView? = view.findViewById(R.id.image_card_view)
+        val image: ImageView? = view.findViewById(R.id.image_view)
     ***REMOVED***
 
     fun submitList(list: List<MessageWithSender>) {
@@ -74,10 +78,11 @@ class RoomRecyclerViewAdapter(
         = m1.user?.id == m2.user?.id
 
         if (!isGroup) holder.sender.visibility = View.GONE
+        holder.image?.load(test[position].user?.profilePic)
         holder.content.text = test[position].message.content
         holder.sender.text = test[position].user?.name
         val timestamp = test[position].message.timestamp
-        val date = SimpleDateFormat("MM/dd/yyyy").format(timestamp)
+//        val date = SimpleDateFormat("MM/dd/yyyy").format(timestamp)
         val time = SimpleDateFormat("HH:mm").format(timestamp)
         holder.time.text = time
 
@@ -93,10 +98,10 @@ class RoomRecyclerViewAdapter(
         if(position > 0) {
             val prevTime = SimpleDateFormat("HH:mm").format(test[position - 1].message.timestamp)
             if (sameSender(test[position] , test[position-1]) && time == prevTime) {
-                holder.image.visibility = View.INVISIBLE
+                holder.imageCard?.visibility = View.INVISIBLE
                 holder.sender.visibility = View.GONE
             ***REMOVED*** else {
-                holder.image.visibility = View.VISIBLE
+                holder.imageCard?.visibility = View.VISIBLE
                 if(test[position].user?.id != authUser.uid) holder.sender.visibility = View.VISIBLE
             ***REMOVED***
         ***REMOVED***

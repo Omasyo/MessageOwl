@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.google.android.material.card.MaterialCardView
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.models.UserModel
@@ -58,6 +59,7 @@ class ParticipantsRecyclerViewAdapter(
             onClick(test[position].id)
         ***REMOVED***
 
+        holder.image.load(test[position].profilePic)
         holder.name.text = test[position].name
     ***REMOVED***
 

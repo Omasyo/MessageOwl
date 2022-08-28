@@ -26,7 +26,8 @@ interface ChatRoomDao {
     @Query("SELECT * FROM " +
             "(SELECT room_id, chat_rooms.is_group as is_group," +
             "chat_rooms.name as room_name, sender_id," +
-            "users.name as sender_name, content as recent, timestamp, unread " +
+            "users.name as sender_name, content as recent, " +
+            "chat_rooms.participants, timestamp, unread " +
             "FROM messages " +
             "JOIN chat_rooms ON messages.room_id = chat_rooms.id " +
             "JOIN users ON sender_id = users.id " +
@@ -36,6 +37,12 @@ interface ChatRoomDao {
 
     @Insert(entity = ChatRoom::class)
     suspend fun insertRoom(chatRoom: ChatRoom)
+
+    @Query("UPDATE chat_rooms SET unread = unread + 1 WHERE id = :roomId")
+    suspend fun incrementUnreadCount(roomId: String)
+
+    @Query("UPDATE chat_rooms SET unread = 0 WHERE id = :roomId")
+    suspend fun resetUnreadCount(roomId: String)
 
     @Update(entity = ChatRoom::class)
     suspend fun updateRoom(room: ChatRoomUpdate): Int

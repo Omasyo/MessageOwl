@@ -2,7 +2,6 @@ package com.xtapps.messageowl.ui.room
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -10,10 +9,9 @@ import com.xtapps.messageowl.database.ChatRoomDao
 import com.xtapps.messageowl.database.MessageDao
 import com.xtapps.messageowl.database.UserDao
 import com.xtapps.messageowl.domain.requestPrivateRoom
-import com.xtapps.messageowl.models.ChatRoom
-import com.xtapps.messageowl.models.MessageModel
 import com.xtapps.messageowl.models.deletedUser
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.*
@@ -32,10 +30,17 @@ class RoomViewModel(
         ***REMOVED***
     ***REMOVED***
 
-    fun getRoom(roomId: String) = chatRoomDao.getRoom(roomId)
+    fun getRoom(roomId: String) = chatRoomDao.getRoom(roomId).map { room ->
+        if (!room.isGroup) {
+            val friend = room.participants.first { it != authUser.uid ***REMOVED***
+            val details = userDao.getUserDetails(friend)
+            room.copy(name = details.name)
+        ***REMOVED*** else room
+    ***REMOVED***
 
 
-    fun getPrivateRoom(participantId: String) = requestPrivateRoom(participantId, chatRoomDao, userDao)
+    fun getPrivateRoom(participantId: String) =
+        requestPrivateRoom(participantId, chatRoomDao, userDao)
 
     fun sendMessage(
         content: String, roomId: String,
@@ -48,22 +53,27 @@ class RoomViewModel(
                     "sender" to authUser.uid,
                     "time" to Date()
     ***REMOVED***
-***REMOVED***.addOnSuccessListener {
-                viewModelScope.launch {
-                    messageDao.insertMessage(
-                        MessageModel(
-                            id = it.id,
-                            roomId = roomId,
-                            senderId = authUser.uid,
-                            content = content,
-                            timestamp = Date()
-            ***REMOVED***
-        ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
+***REMOVED***
+//            .addOnSuccessListener {
+//                viewModelScope.launch {
+//                    messageDao.insertMessage(
+//                        MessageModel(
+//                            id = it.id,
+//                            roomId = roomId,
+//                            senderId = authUser.uid,
+//                            content = content,
+//                            timestamp = Date()
+//            ***REMOVED***
+//        ***REMOVED***
+//                ***REMOVED***
+//            ***REMOVED***
     ***REMOVED***
 
     fun getUsers(senderIds: List<String>) = userDao.getUsers(senderIds)
+
+    fun resetUnreadCount(roomId: String) = CoroutineScope(Dispatchers.IO).launch {
+        chatRoomDao.resetUnreadCount(roomId)
+    ***REMOVED***
 
 ***REMOVED***
 

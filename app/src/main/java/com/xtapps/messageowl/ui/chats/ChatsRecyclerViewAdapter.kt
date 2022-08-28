@@ -3,10 +3,12 @@ package com.xtapps.messageowl.ui.chats
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.FirebaseAuth
 import com.xtapps.messageowl.R
@@ -18,6 +20,7 @@ class ChatsRecyclerViewAdapter(private val onClick: (roomId: String) -> Unit) :
     private var chats: List<ChatCardModel> = listOf()
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        val imageView: ImageView = view.findViewById(R.id.image_view)
         val textView: TextView = view.findViewById(R.id.title_text)
         val subtitleTextView: TextView = view.findViewById(R.id.subtitle_text)
         val cardView: CardView = view.findViewById(R.id.card_view)
@@ -40,6 +43,10 @@ class ChatsRecyclerViewAdapter(private val onClick: (roomId: String) -> Unit) :
 
         with(chats[position]) {
             holder.apply {
+                imageView.load(image) {
+                    allowHardware(false)
+                    crossfade(true)
+                ***REMOVED***
                 textView.text = roomName
                 val prefix = if (isGroup) {
                     if (sender_id == FirebaseAuth.getInstance().uid) "You: "
@@ -76,7 +83,7 @@ class ChatsRecyclerViewAdapter(private val onClick: (roomId: String) -> Unit) :
             ***REMOVED***
 
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return chats[oldItemPosition] == list[newItemPosition]
+                return chats[oldItemPosition].room_id == list[newItemPosition].room_id
             ***REMOVED***
 
             override fun areContentsTheSame(

@@ -44,27 +44,26 @@ class MainService : Service() {
 //            serviceHandler = ServiceHandler(looper)
 //        ***REMOVED***
 
+
+        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show()
         Firebase.firestore.collection("users").document("eASJwSsDCyaXtzfbsWqalOkeKDt1")
             .addSnapshotListener { snapshot, error ->
-
-
                 Toast.makeText(this, snapshot!!["name"].toString(), Toast.LENGTH_SHORT).show()
             ***REMOVED***
     ***REMOVED***
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show()
-
-//        // For each start request, send a message to start a job and deliver the
-//        // start ID so we know which request we're stopping when we finish the job
-//        serviceHandler?.obtainMessage()?.also { msg ->
-//            msg.arg1 = startId
-//            serviceHandler?.sendMessage(msg)
-//        ***REMOVED***
-
-        // If we get killed, after returning from here, restart
-        return START_STICKY
-    ***REMOVED***
+//    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+//
+////        // For each start request, send a message to start a job and deliver the
+////        // start ID so we know which request we're stopping when we finish the job
+////        serviceHandler?.obtainMessage()?.also { msg ->
+////            msg.arg1 = startId
+////            serviceHandler?.sendMessage(msg)
+////        ***REMOVED***
+//
+//        // If we get killed, after returning from here, restart
+//        return START_STICKY
+//    ***REMOVED***
 
     override fun onBind(intent: Intent): IBinder? {
 

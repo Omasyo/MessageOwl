@@ -6,7 +6,6 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:openDrawer="end"
     tools:context=".ui.room.RoomFragment">
 
 
@@ -19,19 +18,19 @@
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:liftOnScroll="false"
-            android:fitsSystemWindows="true">
+            android:fitsSystemWindows="true"
+            app:liftOnScroll="false">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:titleCentered="true"
-                app:navigationIcon="@drawable/ic_arrow_back"
                 app:menu="@menu/room_toolbar"
-                app:title="Friend"
+                app:navigationIcon="@drawable/ic_arrow_back"
                 app:subtitleCentered="true"
-                app:subtitleTextAppearance="@style/TextAppearance.Material3.TitleSmall"/>
+                app:subtitleTextAppearance="@style/TextAppearance.Material3.TitleSmall"
+                app:title="Friend"
+                app:titleCentered="true" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -39,9 +38,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
-            app:layout_dodgeInsetEdges="bottom"
             android:fitsSystemWindows="true"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            app:layout_dodgeInsetEdges="bottom">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/message_recycler_view"
@@ -60,6 +59,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="72dp"
                 android:visibility="gone"
                 app:icon="@drawable/ic_arrow_down"
                 app:layout_constraintBottom_toTopOf="@id/linearLayout"
@@ -69,9 +70,9 @@
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/compose_message_background"
                 android:maxHeight="112dp"
                 android:minHeight="64dp"
-                android:background="@drawable/compose_message_background"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -85,8 +86,8 @@
                     android:layout_marginEnd="8dp"
                     android:autoLink="none"
                     android:background="@drawable/rounded_edittext"
-                    android:inputType="textCapSentences"
                     android:hint="@string/message_hint"
+                    android:inputType="textCapSentences"
                     android:maxHeight="96dp"
                     android:minHeight="48dp"
                     android:paddingHorizontal="16dp"
