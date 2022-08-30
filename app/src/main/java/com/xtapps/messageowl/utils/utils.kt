@@ -1,17 +1,13 @@
 package com.xtapps.messageowl.utils
 
-import android.Manifest
-import android.app.Activity
 import android.content.Context
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Environment
-import android.util.Log
-import androidx.activity.result.ActivityResultLauncher
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
-import java.io.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
+import java.text.SimpleDateFormat
+import java.util.*
 
 object Codes {
     const val CAMERA_CODE = 1
@@ -36,15 +32,36 @@ fun Uri.asTempFile(context: Context): File {
     return imageFile
 ***REMOVED***
 
-//Recursice call for image upload fail
-//val onCompleteListener = object : OnCompleteListener<UploadTask.TaskSnapshot> {
-//    override fun onComplete(p0: Task<UploadTask.TaskSnapshot>) {
-//        binding.progressIndicator.visibility = View.GONE
-//        if(p0.isSuccessful) {
-//            binding.profileImage.setImageURI(compressedImageFile.toUri())
-//        ***REMOVED*** else {
-//            Snackbar.make(binding.root, resources.getString(R.string.photo_upload_error), Snackbar.LENGTH_LONG)
-//                .setAction(R.string.retry) { profilePicRef.putFile(compressedImageFile.toUri()).addOnCompleteListener(requireActivity(), this) ***REMOVED***
-//                .show()
-//        ***REMOVED***
+fun formatTime(timestamp: Date, short: Boolean = true): String {
+
+    val cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+    cal.time = Date() // compute start of the day for the timestamp
+    cal.set(Calendar.HOUR_OF_DAY, 0)
+    cal.set(Calendar.MINUTE, 0)
+    cal.set(Calendar.SECOND, 0)
+    cal.set(Calendar.MILLISECOND, 0)
+
+    val midnight = cal.time.time
+    val day = 86400000
+    val hour = 3600000
+    val current = Date().time
+
+
+//    val formatPatter = when {
+//        timestamp.time > cal.time.time -> "HH:mm"
+//        timestamp.time in (cal.time.time - 86400000)..cal.time.time -> "Yesterday"
+//        Date().time - timestamp.time <= 345600000 -> "E"
+//        else -> "MMM d"
 //    ***REMOVED***
+
+    val formattedTime = when (timestamp.time) {
+        in (midnight - day)..midnight -> "Yesterday"
+        else -> when (timestamp.time) {
+            in midnight..(midnight + day) -> SimpleDateFormat("HH:mm").format(timestamp)
+            in (current - 4 * day)..current -> SimpleDateFormat("EEEE").format(timestamp)
+            else -> SimpleDateFormat("MMM d").format(timestamp)
+        ***REMOVED***
+    ***REMOVED***
+
+    return formattedTime
+***REMOVED***

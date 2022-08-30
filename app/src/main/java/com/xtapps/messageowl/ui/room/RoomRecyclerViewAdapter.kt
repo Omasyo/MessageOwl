@@ -12,6 +12,7 @@ import coil.load
 import com.google.firebase.auth.FirebaseAuth
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.models.MessageWithSender
+import com.xtapps.messageowl.utils.formatTime
 import java.text.SimpleDateFormat
 
 class RoomRecyclerViewAdapter(
@@ -86,7 +87,7 @@ class RoomRecyclerViewAdapter(
 
 //                val date = SimpleDateFormat("MM/dd/yyyy").format(timestamp)
                 val time = SimpleDateFormat("HH:mm").format(timestamp)
-                timeView.text = time
+                timeView.text = formatTime(timestamp)
 
                 if (position < messages.lastIndex) {
                     val nextTime =

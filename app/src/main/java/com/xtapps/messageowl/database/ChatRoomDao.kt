@@ -32,7 +32,8 @@ interface ChatRoomDao {
             "JOIN chat_rooms ON messages.room_id = chat_rooms.id " +
             "JOIN users ON sender_id = users.id " +
             "ORDER BY timestamp DESC) " +
-            "GROUP BY room_id")
+            "GROUP BY room_id" +
+            " ORDER BY timestamp DESC")
     fun getChatCards(): Flow<List<ChatCardModel>>
 
     @Insert(entity = ChatRoom::class)

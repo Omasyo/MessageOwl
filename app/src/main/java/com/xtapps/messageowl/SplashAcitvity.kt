@@ -11,7 +11,7 @@ class SplashAcitvity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_acitvity)
 
-        Intent(this, MainService::class.java).also { intent ->
+        Intent(this, MessagingService::class.java).also { intent ->
             startService(intent)
         ***REMOVED***
 
