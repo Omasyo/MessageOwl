@@ -56,6 +56,7 @@ class RoomFragment : Fragment() {
         viewModel.resetUnreadCount(roomId)
 
         val participantsAdapter = ParticipantsRecyclerViewAdapter { participantId ->
+            if(participantId == viewModel.authUser.uid) return@ParticipantsRecyclerViewAdapter
             viewModel.getPrivateRoom(participantId).asLiveData().observe(viewLifecycleOwner) {
                 val action =
                     RoomFragmentDirections.actionRoomFragmentSelf(it.id)

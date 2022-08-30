@@ -49,79 +49,7 @@ class MainViewModel(
             }
         }
 
-        userData.addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                Log.w(com.xtapps.messageowl.ui.contacts.TAG, "listen:error", e)
-                return@addSnapshotListener
-            }
-
-            if (snapshot != null && snapshot.exists()) {
-                val rooms = snapshot.data?.get("rooms") as ArrayList<String>? ?: arrayListOf()
-                for (room in rooms) {
-                    listentoMessageUpdates(room)
-                }
-            }
-        }
-
-//        listentoMessageUpdates("general")
-//
-//        listentoMessageUpdates("DeL3RDsOliZEXuFQRWdoHkL9vr82Zs377WUKDxhIDYTcvOwYoOkt0xV2")
-        listentoUserUpdates()
     }
-
-    fun listentoUserUpdates() = userData.addSnapshotListener { snapshot, e ->
-        if (e != null) {
-            Log.w(com.xtapps.messageowl.ui.contacts.TAG, "listen:error", e)
-            return@addSnapshotListener
-        }
-//        if( snapshot == null || snapshot.exists()) {
-//            Log.w(com.xtapps.messageowl.ui.contacts.TAG, "snapshot does not exits")
-//            return@addSnapshotListener
-//        }
-
-        viewModelScope.launch {
-            userDao.insertUser(
-                UserModel(
-                    id = authUser.uid,
-                    name = (snapshot?.get("name") ?: "") as String,
-                    phoneNo = authUser.phoneNumber!!,
-                    profilePic = snapshot?.get("profilePic") as String?
-                )
-            )
-        }
-    }
-
-//Todo: temp remove later
-    fun listentoMessageUpdates(roomId: String) =
-        roomDb.document(roomId).collection("messages").addSnapshotListener { snapshots, e ->
-            if (e != null) {
-                Log.w(com.xtapps.messageowl.ui.contacts.TAG, "listen:error", e)
-                return@addSnapshotListener
-            }
-
-            if (snapshots != null) {
-                for(dc in snapshots.documentChanges) {
-                    val document = dc.document
-                    viewModelScope.launch {
-                        launch {
-                            application.appDatabase.messageDao().insertMessage(
-                                MessageModel(
-                                    id = document.id,
-                                    roomId = roomId,
-                                    content = document["content"] as String,
-                                    senderId = document["sender"] as String,
-                                    timestamp = document.getDate("time")!!,
-                                )
-                            )
-                        }
-                        launch {
-//                            application.appDatabase.chatRoomDao().
-                        }
-                    }
-                }
-
-            }
-        }
 
     private fun generateProfileRef(): String {
         return Firebase.storage.reference

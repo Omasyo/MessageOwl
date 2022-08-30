@@ -13,7 +13,9 @@ import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.FirebaseAuth
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.models.ChatCardModel
+import com.xtapps.messageowl.utils.formatTime
 import java.text.SimpleDateFormat
+import java.util.*
 
 class ChatsRecyclerViewAdapter(private val onClick: (roomId: String) -> Unit) :
     RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder>() {
@@ -62,8 +64,8 @@ class ChatsRecyclerViewAdapter(private val onClick: (roomId: String) -> Unit) :
                     unreadContainer.visibility = View.VISIBLE
                     unreadView.text = unread.toString()
                 }
-                val formattedTime = SimpleDateFormat("HH:mm").format(timestamp)
-                timeView.text = formattedTime
+
+                timeView.text = formatTime(timestamp)
             }
         }
     }

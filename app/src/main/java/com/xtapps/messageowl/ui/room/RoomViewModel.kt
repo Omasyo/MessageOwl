@@ -22,7 +22,7 @@ class RoomViewModel(
     private val userDao: UserDao
 ) : ViewModel() {
 
-    private val authUser get() = FirebaseAuth.getInstance().currentUser!!
+    val authUser get() = FirebaseAuth.getInstance().currentUser!!
 
     fun getMessages(roomId: String) = messageDao.getMessages(roomId).map { list ->
         list.map { it ->
