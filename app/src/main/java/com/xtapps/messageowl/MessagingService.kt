@@ -1,79 +1,35 @@
 package com.xtapps.messageowl
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.Person
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessagingService
+import com.google.firebase.messaging.RemoteMessage
 import com.xtapps.messageowl.models.MessageModel
 import com.xtapps.messageowl.models.UserModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
 
-class MessagingService : Service() {
+class MessagingService : FirebaseMessagingService() {
 
-    //    private var serviceLooper: Looper? = null
-//    private var serviceHandler: ServiceHandler? = null
-
-    private val authUser get() = Firebase.auth.currentUser!!
-    private val userData = Firebase.firestore.collection("users").document(authUser.uid)
-    private val roomDb = Firebase.firestore.collection("rooms")
-
-
-//    // Handler that receives messages from the thread
-//    private inner class ServiceHandler(looper: Looper) : Handler(looper) {
-//
-//        override fun handleMessage(msg: Message) {
-//            // Normally we would do some work here, like download a file.
-//            // For our sample, we just sleep for 5 seconds.
-//            try {
-//                Thread.sleep(5000)
-//            } catch (e: InterruptedException) {
-//                // Restore interrupt status.
-//                Thread.currentThread().interrupt()
-//            }
-//
-//            // Stop the service using the startId, so that we don't stop
-//            // the service in the middle of handling another job
-//            stopSelf(msg.arg1)
-//        }
-//    }
 
     override fun onCreate() {
-        // Start up the thread running the service.  Note that we create a
-        // separate thread because the service normally runs in the process's
-        // main thread, which we don't want to block.  We also make it
-        // background priority so CPU-intensive work will not disrupt our UI.
-//        HandlerThread("ServiceStartArguments", Process.THREAD_PRIORITY_BACKGROUND).apply {
-//            start()
-//
-//            // Get the HandlerThread's Looper and use it for our Handler
-//            serviceLooper = looper
-//            serviceHandler = ServiceHandler(looper)
-//        }
-
-        if(Firebase.auth.currentUser == null) return
-
-        userData.addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                Log.w(com.xtapps.messageowl.ui.contacts.TAG, "listen:error", e)
-                return@addSnapshotListener
-            }
-
-            if (snapshot != null && snapshot.exists()) {
-                val rooms = snapshot.data?.get("rooms") as ArrayList<String>? ?: arrayListOf()
-                for (room in rooms) {
-                    listentoMessageUpdates(room)
-                }
-            }
-        }
-
-        listentoUserUpdates()
-
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show()
         Firebase.firestore.collection("users").document("eASJwSsDCyaXtzfbsWqalOkeKDt1")
             .addSnapshotListener { snapshot, error ->
@@ -81,60 +37,70 @@ class MessagingService : Service() {
             }
     }
 
+    val CHANNEL_ID = "message_owl_channel"
+    val notifcationId = 9708
 
-    private fun listentoUserUpdates() = userData.addSnapshotListener { snapshot, e ->
-        if (e != null) {
-            Log.w(com.xtapps.messageowl.ui.contacts.TAG, "listen:error", e)
-            return@addSnapshotListener
-        }
-//        if( snapshot == null || snapshot.exists()) {
-//            Log.w(com.xtapps.messageowl.ui.contacts.TAG, "snapshot does not exits")
-//            return@addSnapshotListener
-//        }
-
-        CoroutineScope(Dispatchers.IO).launch {
-            (application as MessageOwlApplication).appDatabase.userDao().insertUser(
-                UserModel(
-                    id = authUser.uid,
-                    name = (snapshot?.get("name") ?: "") as String,
-                    phoneNo = authUser.phoneNumber!!,
-                    profilePic = snapshot?.get("profilePic") as String?
-                )
-            )
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "message_owl_channel"
+//            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(CHANNEL_ID, name, importance)
+//                .apply {
+//                description = descriptionText
+//            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
         }
     }
 
-    //Todo: temp remove later
-    private fun listentoMessageUpdates(roomId: String) =
-        roomDb.document(roomId).collection("messages").addSnapshotListener { snapshots, e ->
-            if (e != null) {
-                Log.w(com.xtapps.messageowl.ui.contacts.TAG, "listen:error", e)
-                return@addSnapshotListener
-            }
+    override fun onMessageReceived(message: RemoteMessage) {
+        Log.d(TAG, "onMessageReceived: ${message.data}")
 
-            if (snapshots != null) {
-                for (dc in snapshots.documentChanges) {
-                    val document = dc.document
-                    CoroutineScope(Dispatchers.IO).launch {
-                        launch {
-                            (application as MessageOwlApplication).appDatabase.messageDao().insertMessage(
-                                MessageModel(
-                                    id = document.id,
-                                    roomId = roomId,
-                                    content = document["content"] as String,
-                                    senderId = document["sender"] as String,
-                                    timestamp = document.getDate("time")!!,
-                                )
-                            )
-                        }
-                        launch {
-//                            application.appDatabase.chatRoomDao().
-                        }
-                    }
-                }
+        createNotificationChannel()
 
-            }
+
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_message)
+            .setStyle(NotificationCompat.MessagingStyle("Me")
+                .setConversationTitle("Team lunch")
+                .addMessage("Hi", Date().time - 100000, null as CharSequence?) // Pass in null for user.
+                .addMessage("What's up?", Date().time - 70000, "Coworker")
+                .addMessage("Not much", Date().time - 35000, null as CharSequence?)
+                .addMessage("How about lunch?", Date().time, "Coworker"))
+            .build()
+
+
+
+        val notification2 = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_message)
+            .setStyle(NotificationCompat.MessagingStyle("Me").setGroupConversation(false)
+                .setConversationTitle("Who's hungry")
+                .addMessage("Hey", Date().time - 100000, Person.Builder().build()) // Pass in null for user.
+                .addMessage("Still up?", Date().time - 70000, Person.Builder().setName("Coworker").build())
+                .addMessage("Yeah", Date().time - 35000, Person.Builder().build())
+                .addMessage("How about dinner?", Date().time, Person.Builder().setName("Coworker").build()))
+            .build()
+
+//        var builder = NotificationCompat.Builder(this, CHANNEL_ID)
+//            .setSmallIcon(R.drawable.ic_message)
+//            .setContentTitle("My notification")
+//            .setContentText("Much longer text that cannot fit one line...")
+//            .setStyle(NotificationCompat.BigTextStyle()
+//                .bigText("Much longer text that cannot fit one line..."))
+//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        NotificationManagerCompat.from(this).apply {
+            notify(1234, notification2)
+
+            notify(1001, notification)
         }
+    }
+
 
 //    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
 //
@@ -148,14 +114,14 @@ class MessagingService : Service() {
 //        // If we get killed, after returning from here, restart
 //        return START_STICKY
 //    }
-
-    override fun onBind(intent: Intent): IBinder? {
-
-        //TODO("Return the communication channel to the service.")
-
-        // We don't provide binding, so return null
-        return null
-    }
+//
+//    override fun onBind(intent: Intent): IBinder? {
+//
+//        //TODO("Return the communication channel to the service.")
+//
+//        // We don't provide binding, so return null
+//        return null
+//    }
 
 //    override fun onDestroy() {
 //        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show()

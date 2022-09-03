@@ -11,13 +11,14 @@ class SplashAcitvity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_acitvity)
 
-        Intent(this, MessagingService::class.java).also { intent ->
-            startService(intent)
-        }
 
         FirebaseAuth.getInstance().addAuthStateListener {
             val isAuth = FirebaseAuth.getInstance().currentUser != null
             val intent = if (isAuth) {
+                Intent(this, DatabaseService::class.java).also { serviceIntent ->
+                    startService(serviceIntent)
+                }
+
                 //TODO: if profile incomplete sign out
                 Intent(this, MainActivity::class.java)
             } else {
