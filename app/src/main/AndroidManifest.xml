@@ -21,18 +21,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MessageOwl">
         <service
-            android:name=".MessagingService"
+            android:name=".DatabaseService"
             android:enabled="true"
-            android:exported="true" />
+                android:exported="false" />
         <service
-            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:name=".MessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>
-
-
+        </service> <!-- <service -->
+        <!-- android:name="com.google.firebase.messaging.FirebaseMessagingService" -->
+        <!-- android:exported="false"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.google.firebase.MESSAGING_EVENT" /> -->
+        <!-- </intent-filter> -->
+        <!-- </service> -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.xtapps.messageowl.provider"
@@ -61,7 +65,7 @@
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|uiMode"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

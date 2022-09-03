@@ -24,10 +24,6 @@ class ChatsViewModel(
         .document(authUser.uid)
     private val roomDb = Firebase.firestore.collection("rooms")
 
-    init {
-        listenToRoomUpdates()
-    ***REMOVED***
-
     val allChats = chatRoomDao.getChatCards().map { list ->
         list.map { cardModel ->
             if (!cardModel.isGroup) {
@@ -42,54 +38,6 @@ class ChatsViewModel(
         ***REMOVED***
     ***REMOVED***
 
-    @Suppress("UNCHECKED_CAST")
-    fun listenToRoomUpdates() =
-        userData.addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                Log.w(TAG, "listen:error", e)
-                return@addSnapshotListener
-            ***REMOVED***
-
-            if (snapshot != null && snapshot.exists()) {
-                val rooms = snapshot.data?.get("rooms") as ArrayList<String>? ?: arrayListOf()
-
-                for (room in rooms) {roomDb.document(room).addSnapshotListener roomSnapshot@{ roomSnapshot, roomException ->
-                        if (roomException != null) {
-                            Log.w(TAG, "Listen failed.", roomException)
-                            return@roomSnapshot
-                        ***REMOVED***
-
-                        if (roomSnapshot != null && roomSnapshot.exists()) {
-                            val document = roomSnapshot.data!!
-                            viewModelScope.launch {
-                                val result = chatRoomDao.updateRoom(
-                                    ChatRoomUpdate(
-                                        id = roomSnapshot.id,
-                                        name = document["name"] as String?,
-                                        participants = document["participants"] as ArrayList<String>,
-                        ***REMOVED***
-                    ***REMOVED***
-                                launch {
-                                    if (result == 0) {
-                                        chatRoomDao.insertRoom(
-                                            ChatRoom(
-                                                id = roomSnapshot.id,
-                                                name = document["name"] as String?,
-                                                isGroup = document["group"] as Boolean,
-                                                unread = 0,
-                                                participants = document["participants"] as ArrayList<String>,
-                                ***REMOVED***
-                            ***REMOVED***
-                                    ***REMOVED***
-                                ***REMOVED***
-                            ***REMOVED***
-                        ***REMOVED*** else {
-                            Log.d(TAG, "No such room $room")
-                        ***REMOVED***
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
 
 ***REMOVED***
 
