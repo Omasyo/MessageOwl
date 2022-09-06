@@ -1,9 +1,11 @@
 package com.xtapps.messageowl.ui.room
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -12,6 +14,7 @@ import com.xtapps.messageowl.R
 import com.xtapps.messageowl.models.UserModel
 
 class ParticipantsRecyclerViewAdapter(
+    private val onImageClick: (image: Drawable?) -> Unit = {***REMOVED***,
     private val onClick: (particpantId: String) -> Unit
 ) : RecyclerView.Adapter<ParticipantsRecyclerViewAdapter.ViewHolder>() {
     private var participants: List<UserModel> = listOf()
@@ -19,6 +22,7 @@ class ParticipantsRecyclerViewAdapter(
     class ViewHolder(val view: MaterialCardView) : RecyclerView.ViewHolder(view) {
         val nameView: TextView = view.findViewById(R.id.name)
         val imageView: ImageView = view.findViewById(R.id.image_view)
+        val imageCardView: CardView = view.findViewById(R.id.image_card_view)
     ***REMOVED***
 
     fun submitList(list: List<UserModel>) {
@@ -63,6 +67,7 @@ class ParticipantsRecyclerViewAdapter(
               ***REMOVED***
                 imageView.load(profilePic)
                 nameView.text = name
+                imageCardView.setOnClickListener { onImageClick(imageView.drawable) ***REMOVED***
             ***REMOVED***
         ***REMOVED***
     ***REMOVED***

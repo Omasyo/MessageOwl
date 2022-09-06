@@ -63,6 +63,21 @@ class MessagingService : FirebaseMessagingService() {
 
         createNotificationChannel()
 
+//        CoroutineScope(Dispatchers.IO).launch {
+//            launch {
+//                (application as MessageOwlApplication).appDatabase.messageDao()
+//                    .insertMessage(
+//                        MessageModel(
+//                            id = message.data["id"] as String,
+//                            roomId = message.data["roomId"] as String,
+//                            content = message.data["content"] as String,
+//                            senderId = message.data["senderId"] as String,
+//                            timestamp = document.getDate("time")!!,
+//            ***REMOVED***
+//        ***REMOVED***
+//            ***REMOVED***
+//        ***REMOVED***
+
 
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_message)

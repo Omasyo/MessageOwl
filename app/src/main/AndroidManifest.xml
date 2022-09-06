@@ -60,7 +60,7 @@
         <activity
             android:name=".ui.auth.AuthActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|uiMode"

@@ -33,6 +33,8 @@ export const updateUserRooms = functions.firestore
       ***REMOVED***
     ***REMOVED***);
 
+export const welcomeUser = functions.firestore;
+
 export const notifyParticipants = functions.firestore
     .document("rooms/{roomId***REMOVED***/messages/{messageId***REMOVED***")
     .onCreate((snap, context) => {
@@ -42,7 +44,8 @@ export const notifyParticipants = functions.firestore
       functions.logger.info(
           "Snap data: {Content=" + snap.get("content") + ", Sender=" +
           snap.get("sender") + ", Time= " + snap.get("time") +
-          ", MessageId= " + messageId + ", RoomId = " + roomId,
+          ", MessageId= " + messageId + ", RoomId = " + roomId +
+          ", Time as string= " + snap.get("time").toMillis(),
           {structuredData: true***REMOVED***);
 
       admin.firestore().collection("rooms").doc(roomId)
@@ -54,14 +57,16 @@ export const notifyParticipants = functions.firestore
                 console.log("Block statement execution no." + i);
 
                 const payload = {
-                  token: "cWdaPKRbSF6YNnumypTtVg:APA91bExkCJ" +
-                  "eDfEdK_7TLPW7JJFOHroDXQGOXMrAltGMtdHinNRT" +
-                  "xDQdCRbX93OWgUbkvD-9Q_gl7mHcLB8uErtcXNQk6" +
-                  "4SKX5ULD15kAT7j9V3XBCWjKcR0KSxopNO2L4-WxU_epM6Z",
+                  token: "c7xnaCi5Rjuga1mpxp9hz1:APA91bHv6Qipice" +
+                  "3kr6lEFNcqp3UW-BuAKkOqGXdhsF1nFNkOJa3HIurMUvU2" +
+                  "x0ozBRhHwR1264gdse9at40nE_hzLrisLm6_WRKTWMcuJJ" +
+                  "eXtOATrGDEqa0rz6uM8jAGqlBGpF9P517",
                   data: {
-                    Nick: "Mario",
-                    body: "great match!",
-                    Room: "PortugalVSDenmark",
+                    messageId: messageId,
+                    roomId: roomId,
+                    senderId: snap.get("sender"),
+                    content: snap.get("content"),
+                    time: snap.get("time").toMillis(),
                   ***REMOVED***,
                 ***REMOVED***;
 

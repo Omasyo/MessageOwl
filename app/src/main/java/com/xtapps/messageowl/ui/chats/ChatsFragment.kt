@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.xtapps.messageowl.MainActivity
 import com.xtapps.messageowl.MessageOwlApplication
 import com.xtapps.messageowl.databinding.FragmentChatsBinding
 import com.xtapps.messageowl.ui.home.HomeFragmentDirections
@@ -43,7 +44,7 @@ class ChatsFragment : Fragment() {
         _binding = FragmentChatsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val adapter = ChatsRecyclerViewAdapter { roomId ->
+        val adapter = ChatsRecyclerViewAdapter((activity as MainActivity)::showImagePreview) { roomId ->
             val action =
                 HomeFragmentDirections.actionHomeFragmentToRoomFragment(roomId)
             findNavController().navigate(action)

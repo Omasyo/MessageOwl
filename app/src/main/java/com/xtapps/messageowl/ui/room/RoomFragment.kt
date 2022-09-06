@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.transition.platform.MaterialSharedAxis
+import com.xtapps.messageowl.MainActivity
 import com.xtapps.messageowl.MessageOwlApplication
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentRoomBinding
@@ -55,7 +56,7 @@ class RoomFragment : Fragment() {
 
         viewModel.resetUnreadCount(roomId)
 
-        val participantsAdapter = ParticipantsRecyclerViewAdapter { participantId ->
+        val participantsAdapter = ParticipantsRecyclerViewAdapter((activity as MainActivity)::showImagePreview) { participantId ->
             if(participantId == viewModel.authUser.uid) return@ParticipantsRecyclerViewAdapter
             viewModel.getPrivateRoom(participantId).asLiveData().observe(viewLifecycleOwner) {
                 val action =
@@ -93,7 +94,7 @@ class RoomFragment : Fragment() {
                         ***REMOVED***
                     ***REMOVED***
 
-                    val adapter = RoomRecyclerViewAdapter(room.isGroup)
+                    val adapter = RoomRecyclerViewAdapter(room.isGroup, (activity as MainActivity)::showImagePreview)
                     launch {
                         viewModel.getMessages(roomId).collect {
 

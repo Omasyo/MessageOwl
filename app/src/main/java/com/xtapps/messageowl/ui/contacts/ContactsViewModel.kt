@@ -7,6 +7,7 @@ import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.xtapps.messageowl.database.ChatRoomDao
+import com.xtapps.messageowl.database.MessageDao
 import com.xtapps.messageowl.database.UserDao
 import com.xtapps.messageowl.domain.requestPrivateRoom
 import com.xtapps.messageowl.models.ChatRoom
@@ -22,6 +23,7 @@ import java.util.*
 const val TAG = "ContactsViewModel"
 
 class ContactsViewModel(
+    private val messageDao: MessageDao,
     private val userDao: UserDao,
     private val chatRoomDao: ChatRoomDao,
 ) : ViewModel() {
@@ -72,17 +74,18 @@ class ContactsViewModel(
         ***REMOVED***
     ***REMOVED***
 
-    fun getPrivateRoom(participantId: String) = requestPrivateRoom(participantId, chatRoomDao, userDao)
+    fun getPrivateRoom(participantId: String) = requestPrivateRoom(participantId, chatRoomDao, userDao, messageDao)
 ***REMOVED***
 
 class ContactsViewModelFactory(
+    private val messageDao: MessageDao,
     private val userDao: UserDao,
     private val chatRoomDao: ChatRoomDao,
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ContactsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ContactsViewModel(userDao, chatRoomDao) as T
+            return ContactsViewModel(messageDao, userDao, chatRoomDao) as T
         ***REMOVED***
         throw IllegalArgumentException("Unknown ViewModel class")
     ***REMOVED***

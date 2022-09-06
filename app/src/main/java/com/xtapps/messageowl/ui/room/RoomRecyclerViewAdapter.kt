@@ -1,5 +1,6 @@
 package com.xtapps.messageowl.ui.room
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,8 @@ import com.xtapps.messageowl.utils.formatTime
 import java.text.SimpleDateFormat
 
 class RoomRecyclerViewAdapter(
-    private val isGroup: Boolean = false
+    private val isGroup: Boolean = false,
+    private val onImageClick: (image: Drawable?) -> Unit = {***REMOVED***
 ) : RecyclerView.Adapter<RoomRecyclerViewAdapter.ViewHolder>() {
 
     private val authUser = FirebaseAuth.getInstance().currentUser!!
@@ -119,6 +121,7 @@ class RoomRecyclerViewAdapter(
                             View.VISIBLE
                     ***REMOVED***
                 ***REMOVED***
+                imageCardView?.setOnClickListener { onImageClick(imageView?.drawable) ***REMOVED***
 
                 //for private groups
                 if (!isGroup) senderView.visibility = View.GONE

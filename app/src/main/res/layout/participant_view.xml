@@ -20,13 +20,22 @@
         android:layout_height="match_parent">
 
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/image_view"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/image_card_view"
+            style="@style/Widget.Material3.CardView.Filled"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            app:shapeAppearance="@style/roundedImageView"
-            android:scaleType="centerCrop"
-            android:background="@drawable/profile_placeholder" />
+            android:clickable="true"
+            android:focusable="true">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_view"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/profile_placeholder"
+                android:scaleType="centerCrop"
+                app:shapeAppearance="@style/roundedImageView" />
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/name"

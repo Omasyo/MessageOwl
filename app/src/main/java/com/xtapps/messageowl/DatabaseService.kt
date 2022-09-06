@@ -61,11 +61,6 @@ class DatabaseService : Service() {
             Log.w(com.xtapps.messageowl.ui.contacts.TAG, "listen:error", e)
             return@addSnapshotListener
         ***REMOVED***
-//        if( snapshot == null || snapshot.exists()) {
-//            Log.w(com.xtapps.messageowl.ui.contacts.TAG, "snapshot does not exits")
-//            return@addSnapshotListener
-//        ***REMOVED***
-
         CoroutineScope(Dispatchers.IO).launch {
             (application as MessageOwlApplication).appDatabase.userDao().insertUser(
                 UserModel(
@@ -101,9 +96,6 @@ class DatabaseService : Service() {
                                         timestamp = document.getDate("time")!!,
                         ***REMOVED***
                     ***REMOVED***
-                        ***REMOVED***
-                        launch {
-//                            application.appDatabase.chatRoomDao().
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***

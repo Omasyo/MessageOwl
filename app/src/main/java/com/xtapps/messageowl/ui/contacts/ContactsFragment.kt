@@ -3,6 +3,7 @@ package com.xtapps.messageowl.ui.contacts
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.telephony.TelephonyManager
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -21,12 +23,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import com.xtapps.messageowl.MainActivity
 import com.xtapps.messageowl.MessageOwlApplication
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.databinding.FragmentContactsBinding
+import com.xtapps.messageowl.databinding.ImageDialogBinding
+import com.xtapps.messageowl.databinding.ImagePreviewBinding
 import com.xtapps.messageowl.models.ContactWithNumber
 import com.xtapps.messageowl.ui.home.HomeFragmentDirections
 import com.xtapps.messageowl.ui.room.RoomFragmentDirections
@@ -45,7 +51,7 @@ class ContactsFragment : Fragment() {
 
     private val viewModel: ContactsViewModel by activityViewModels {
         with((activity?.application as MessageOwlApplication).appDatabase) {
-            ContactsViewModelFactory(userDao(), chatRoomDao())
+            ContactsViewModelFactory(messageDao(), userDao(), chatRoomDao())
         ***REMOVED***
     ***REMOVED***
 
@@ -75,13 +81,7 @@ class ContactsFragment : Fragment() {
         _binding = FragmentContactsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val adapter = ContactsRecyclerViewAdapter({ image ->
-
-            val dialog = MaterialAlertDialogBuilder(requireContext())
-                .setBackground(image)
-                .show()
-
-        ***REMOVED***) { contactId ->
+        val adapter = ContactsRecyclerViewAdapter((activity as MainActivity)::showImagePreview) { contactId ->
             viewModel.getPrivateRoom(contactId).asLiveData().observe(viewLifecycleOwner) {
                 val action =
                     HomeFragmentDirections.actionHomeFragmentToRoomFragment(it.id)
