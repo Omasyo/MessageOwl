@@ -30,7 +30,7 @@ interface ChatRoomDao {
             "chat_rooms.participants, timestamp, unread " +
             "FROM messages " +
             "JOIN chat_rooms ON messages.room_id = chat_rooms.id " +
-            "JOIN users ON sender_id = users.id " +
+            "LEFT JOIN users ON sender_id = users.id " +
             "ORDER BY timestamp DESC) " +
             "GROUP BY room_id" +
             " ORDER BY timestamp DESC")

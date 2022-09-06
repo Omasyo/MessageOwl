@@ -3,6 +3,8 @@ package com.xtapps.messageowl
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import coil.Coil
+import coil.ImageLoader
 import com.google.firebase.auth.FirebaseAuth
 import com.xtapps.messageowl.ui.auth.AuthActivity
 
@@ -11,13 +13,14 @@ class SplashAcitvity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_acitvity)
 
+        val imageLoader = ImageLoader.Builder(this)
+            .respectCacheHeaders(false)
+            .build()
+        Coil.setImageLoader(imageLoader)
 
         FirebaseAuth.getInstance().addAuthStateListener {
             val isAuth = FirebaseAuth.getInstance().currentUser != null
             val intent = if (isAuth) {
-                Intent(this, DatabaseService::class.java).also { serviceIntent ->
-                    startService(serviceIntent)
-                }
 
                 //TODO: if profile incomplete sign out
                 Intent(this, MainActivity::class.java)

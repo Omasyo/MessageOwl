@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context="ui.auth.WelcomeFragment">
 
     <TextView
@@ -12,9 +15,6 @@
         style="@style/TextAppearance.Material3.HeadlineSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="16dp"
@@ -26,29 +26,23 @@
         android:id="@+id/logo_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/welcomeMessage"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        app:contentPadding="24dp"
-        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
+        android:adjustViewBounds="true"
+        android:background="?attr/colorSurfaceVariant"
+        android:contentDescription="@string/message_owl_logo"
         android:padding="24dp"
         android:scaleType="fitXY"
-        android:adjustViewBounds="true"
+        app:contentPadding="24dp"
         app:layout_constraintDimensionRatio="H,1:1"
-        app:srcCompat="@drawable/animator_logo"
-        android:background="?attr/colorSurfaceVariant"
-        android:contentDescription="@string/message_owl_logo" />
+        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large"
+        app:srcCompat="@drawable/animator_logo" />
 
     <TextView
         android:id="@+id/enter_no"
+        style="@style/TextAppearance.Material3.TitleMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/logo_image"
-        android:layout_alignStart="@+id/logo_image"
-        android:layout_alignEnd="@+id/logo_image"
-        style="@style/TextAppearance.Material3.TitleMedium"
         android:text="@string/enter_number"
         android:textAlignment="center" />
 
@@ -56,9 +50,6 @@
         android:id="@+id/divider"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_below="@+id/enter_no"
-        android:layout_alignStart="@+id/enter_no"
-        android:layout_alignEnd="@+id/enter_no"
         android:layout_marginTop="8dp"
         android:background="?attr/colorOnSurface" />
 
@@ -66,9 +57,6 @@
         android:id="@+id/phone_no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/divider"
-        android:layout_alignStart="@+id/divider"
-        android:layout_alignEnd="@id/divider"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -88,18 +76,21 @@
             android:layout_height="wrap_content"
             android:autofillHints="phone"
             android:inputType="phone"
-            android:singleLine="false"/>
+            android:singleLine="false" />
     </LinearLayout>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/proceed_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/proceed" />
 
-</RelativeLayout>
+</LinearLayout>

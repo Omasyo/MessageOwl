@@ -40,7 +40,7 @@ class RoomViewModel(
 
 
     fun getPrivateRoom(participantId: String) =
-        requestPrivateRoom(participantId, chatRoomDao, userDao)
+        requestPrivateRoom(participantId, chatRoomDao, userDao, messageDao)
 
     fun sendMessage(
         content: String, roomId: String,

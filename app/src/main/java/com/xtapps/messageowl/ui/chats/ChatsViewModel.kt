@@ -16,13 +16,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class ChatsViewModel(
-    private val chatRoomDao: ChatRoomDao,
+    chatRoomDao: ChatRoomDao,
     private val userDao: UserDao,
 ) : ViewModel() {
     private val authUser get() = FirebaseAuth.getInstance().currentUser!!
-    private val userData = Firebase.firestore.collection("users")
-        .document(authUser.uid)
-    private val roomDb = Firebase.firestore.collection("rooms")
 
     val allChats = chatRoomDao.getChatCards().map { list ->
         list.map { cardModel ->
@@ -35,7 +32,7 @@ class ChatsViewModel(
                     image = details.profilePic,
                 )
             } else cardModel
-        }
+        }.map { it.copy(senderName = it.senderName ?: "deleted") }
     }
 
 

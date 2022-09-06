@@ -1,5 +1,6 @@
 package com.xtapps.messageowl.ui.chats
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,12 +18,16 @@ import com.xtapps.messageowl.utils.formatTime
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ChatsRecyclerViewAdapter(private val onClick: (roomId: String) -> Unit) :
+class ChatsRecyclerViewAdapter(
+    private val onImageClick: (image: Drawable?) -> Unit = {},
+    private val onClick: (roomId: String) -> Unit
+) :
     RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder>() {
     private var chats: List<ChatCardModel> = listOf()
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.image_view)
+        val imageCardView: CardView = view.findViewById(R.id.image_card_view)
         val textView: TextView = view.findViewById(R.id.title_text)
         val subtitleTextView: TextView = view.findViewById(R.id.subtitle_text)
         val cardView: CardView = view.findViewById(R.id.card_view)
@@ -66,6 +71,7 @@ class ChatsRecyclerViewAdapter(private val onClick: (roomId: String) -> Unit) :
                 }
 
                 timeView.text = formatTime(timestamp)
+                imageCardView.setOnClickListener { onImageClick(imageView.drawable) }
             }
         }
     }

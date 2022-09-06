@@ -2,7 +2,9 @@ package com.xtapps.messageowl
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -13,12 +15,14 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import coil.load
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.installations.FirebaseInstallations
@@ -29,6 +33,7 @@ import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.xtapps.messageowl.databinding.ActivityMainBinding
 import com.xtapps.messageowl.databinding.ImageDialogBinding
+import com.xtapps.messageowl.databinding.ImagePreviewBinding
 import com.xtapps.messageowl.ui.home.HomeFragmentDirections
 import com.xtapps.messageowl.utils.Codes
 import com.xtapps.messageowl.utils.asTempFile
@@ -54,6 +59,10 @@ class MainActivity : AppCompatActivity() {
 //                .detectLeakedClosableObjects()
 //                .build()
 //        )
+
+        Intent(this, DatabaseService::class.java).also { serviceIntent ->
+            startService(serviceIntent)
+        }
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -109,6 +118,16 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+    fun showImagePreview(image: Drawable?) {
+            val dialogBinding = ImagePreviewBinding.inflate(layoutInflater)
+
+        dialogBinding.profilePhoto.load(image ?: R.drawable.profile_placeholder)
+
+            val dialog = MaterialAlertDialogBuilder(this)
+                .setView(dialogBinding.root)
+                .show()
+    }
 
     fun showImageDialog() {
         val dialogBinding = ImageDialogBinding.inflate(layoutInflater)

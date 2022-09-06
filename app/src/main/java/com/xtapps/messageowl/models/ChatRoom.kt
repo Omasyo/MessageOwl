@@ -32,7 +32,7 @@ data class ChatCardModel(
     val participants: List<String>,
     val image: String?,
     @ColumnInfo(name = "sender_name")
-    val senderName: String,
+    val senderName: String?,
     @ColumnInfo(name = "recent")
     val recentMessage: String,
     val timestamp: Date,
