@@ -11,6 +11,10 @@ interface MessageDao {
     @Query("SELECT * FROM messages WHERE room_id = :roomId ORDER BY timestamp")
     fun getMessages(roomId: String): Flow<List<MessageWithSender>>
 
+    @Transaction
+    @Query("SELECT * FROM messages WHERE room_id = :roomId ORDER BY timestamp DESC LIMIT 3")
+    suspend fun getRecentMessages(roomId: String): List<MessageWithSender>
+
     @Query("SELECT DISTINCT sender_id FROM messages")
     fun getAllUsers(): Flow<List<String>>
 

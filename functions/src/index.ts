@@ -66,7 +66,7 @@ export const notifyParticipants = functions.firestore
                     roomId: roomId,
                     senderId: snap.get("sender"),
                     content: snap.get("content"),
-                    time: snap.get("time").toMillis(),
+                    time: snap.get("time").toMillis().toString(),
                   ***REMOVED***,
                 ***REMOVED***;
 
