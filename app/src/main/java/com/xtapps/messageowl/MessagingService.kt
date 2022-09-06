@@ -1,30 +1,25 @@
 package com.xtapps.messageowl
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.Service
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.Person
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.xtapps.messageowl.models.MessageModel
-import com.xtapps.messageowl.models.UserModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MessagingService : FirebaseMessagingService() {
 
@@ -60,59 +55,58 @@ class MessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         Log.d(TAG, "onMessageReceived: ${message.data}")
+        if (message.data.isEmpty()) return
 
         createNotificationChannel()
 
-//        CoroutineScope(Dispatchers.IO).launch {
-//            launch {
-//                (application as MessageOwlApplication).appDatabase.messageDao()
-//                    .insertMessage(
-//                        MessageModel(
-//                            id = message.data["id"] as String,
-//                            roomId = message.data["roomId"] as String,
-//                            content = message.data["content"] as String,
-//                            senderId = message.data["senderId"] as String,
-//                            timestamp = document.getDate("time")!!,
-//                        )
-//                    )
-//            }
-//        }
+        val timeStampString = message.data["time"] as String
+        val timeStamp = timeStampString.toLong()
 
+        val message = MessageModel(
+            id = message.data["messageId"] as String,
+            roomId = message.data["roomId"] as String,
+            content = message.data["content"] as String,
+            senderId = message.data["senderId"] as String,
+            timestamp = Date(timeStamp),
+        )
 
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_message)
-            .setStyle(NotificationCompat.MessagingStyle("Me")
-                .setConversationTitle("Team lunch")
-                .addMessage("Hi", Date().time - 100000, null as CharSequence?) // Pass in null for user.
-                .addMessage("What's up?", Date().time - 70000, "Coworker")
-                .addMessage("Not much", Date().time - 35000, null as CharSequence?)
-                .addMessage("How about lunch?", Date().time, "Coworker"))
-            .build()
+        CoroutineScope(Dispatchers.IO).launch {
+            launch {
+                (application as MessageOwlApplication).appDatabase.messageDao()
+                    .insertMessage(message)
+            }
+            launch {
+                val recentMessages = (application as MessageOwlApplication).appDatabase.messageDao()
+                    .getRecentMessages(message.roomId).reversed()
 
+                val intent = Intent(this@MessagingService, MainActivity::class.java)
+                val pendingIntent: PendingIntent = PendingIntent.getActivity(
+                    this@MessagingService,
+                    0,
+                    intent,
+                    PendingIntent.FLAG_IMMUTABLE
+                )
 
+                val notification = NotificationCompat.Builder(this@MessagingService, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.logo_icon)
+                    .setStyle(
+                        NotificationCompat.MessagingStyle("Me")
+                            .setConversationTitle("Team lunch").also {
+                                recentMessages.forEach { message ->
+                                    it.addMessage(
+                                        message.message.content,
+                                        message.message.timestamp.time,
+                                        Person.Builder().setName(message.user?.name).build()
+                                    )
+                                }
+                            }
+                    ).setContentIntent(pendingIntent)
+                    .build()
 
-        val notification2 = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_message)
-            .setStyle(NotificationCompat.MessagingStyle("Me").setGroupConversation(false)
-                .setConversationTitle("Who's hungry")
-                .addMessage("Hey", Date().time - 100000, Person.Builder().build()) // Pass in null for user.
-                .addMessage("Still up?", Date().time - 70000, Person.Builder().setName("Coworker").build())
-                .addMessage("Yeah", Date().time - 35000, Person.Builder().build())
-                .addMessage("How about dinner?", Date().time, Person.Builder().setName("Coworker").build()))
-            .build()
-
-//        var builder = NotificationCompat.Builder(this, CHANNEL_ID)
-//            .setSmallIcon(R.drawable.ic_message)
-//            .setContentTitle("My notification")
-//            .setContentText("Much longer text that cannot fit one line...")
-//            .setStyle(NotificationCompat.BigTextStyle()
-//                .bigText("Much longer text that cannot fit one line..."))
-//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-        NotificationManagerCompat.from(this).apply {
-            notify(1234, notification2)
-
-            notify(1001, notification)
+                NotificationManagerCompat.from(this@MessagingService).apply {
+                    notify(1001, notification)
+                }
+            }
         }
     }
 
