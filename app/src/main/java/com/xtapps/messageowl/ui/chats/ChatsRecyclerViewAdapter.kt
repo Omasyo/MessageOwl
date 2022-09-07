@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ChatsRecyclerViewAdapter(
-    private val onImageClick: (image: Drawable?) -> Unit = {***REMOVED***,
+    private val onImageClick: (image: String?) -> Unit = {***REMOVED***,
     private val onClick: (roomId: String) -> Unit
 ) :
     RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder>() {
@@ -71,7 +71,7 @@ class ChatsRecyclerViewAdapter(
                 ***REMOVED***
 
                 timeView.text = formatTime(timestamp)
-                imageCardView.setOnClickListener { onImageClick(imageView.drawable) ***REMOVED***
+                imageCardView.setOnClickListener { onImageClick(image) ***REMOVED***
             ***REMOVED***
         ***REMOVED***
     ***REMOVED***

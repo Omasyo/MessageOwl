@@ -14,7 +14,7 @@ import com.xtapps.messageowl.R
 import com.xtapps.messageowl.models.ContactCard
 
 class ContactsRecyclerViewAdapter(
-    private val onImageClick: (image: Drawable?) -> Unit = {***REMOVED***,
+    private val onImageClick: (image: String?) -> Unit = {***REMOVED***,
     private val onClick: (userId: String) -> Unit
 ) :
     RecyclerView.Adapter<ContactsRecyclerViewAdapter.ViewHolder>() {
@@ -52,7 +52,7 @@ class ContactsRecyclerViewAdapter(
                     onClick(contacts[position].id)
                 ***REMOVED***
                 imageCardView.setOnClickListener {
-                    onImageClick(imageView.drawable)
+                    onImageClick(image)
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***

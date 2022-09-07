@@ -8,13 +8,15 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.Coil
 import coil.load
+import coil.util.CoilUtils
 import com.google.android.material.card.MaterialCardView
 import com.xtapps.messageowl.R
 import com.xtapps.messageowl.models.UserModel
 
 class ParticipantsRecyclerViewAdapter(
-    private val onImageClick: (image: Drawable?) -> Unit = {***REMOVED***,
+    private val onImageClick: (image: String?) -> Unit = {***REMOVED***,
     private val onClick: (particpantId: String) -> Unit
 ) : RecyclerView.Adapter<ParticipantsRecyclerViewAdapter.ViewHolder>() {
     private var participants: List<UserModel> = listOf()
@@ -66,8 +68,9 @@ class ParticipantsRecyclerViewAdapter(
                   onClick(participants[position].id)
               ***REMOVED***
                 imageView.load(profilePic)
+
                 nameView.text = name
-                imageCardView.setOnClickListener { onImageClick(imageView.drawable) ***REMOVED***
+                imageCardView.setOnClickListener { onImageClick(profilePic) ***REMOVED***
             ***REMOVED***
         ***REMOVED***
     ***REMOVED***

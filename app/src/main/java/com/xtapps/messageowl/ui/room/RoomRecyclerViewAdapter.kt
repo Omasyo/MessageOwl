@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat
 
 class RoomRecyclerViewAdapter(
     private val isGroup: Boolean = false,
-    private val onImageClick: (image: Drawable?) -> Unit = {***REMOVED***
+    private val onImageClick: (image: String?) -> Unit = {***REMOVED***
 ) : RecyclerView.Adapter<RoomRecyclerViewAdapter.ViewHolder>() {
 
     private val authUser = FirebaseAuth.getInstance().currentUser!!
@@ -121,7 +121,7 @@ class RoomRecyclerViewAdapter(
                             View.VISIBLE
                     ***REMOVED***
                 ***REMOVED***
-                imageCardView?.setOnClickListener { onImageClick(imageView?.drawable) ***REMOVED***
+                imageCardView?.setOnClickListener { onImageClick(user?.profilePic) ***REMOVED***
 
                 //for private groups
                 if (!isGroup) senderView.visibility = View.GONE

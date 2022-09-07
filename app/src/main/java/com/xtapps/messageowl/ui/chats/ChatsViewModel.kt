@@ -22,7 +22,9 @@ class ChatsViewModel(
     private val authUser get() = FirebaseAuth.getInstance().currentUser!!
 
     val allChats = chatRoomDao.getChatCards().map { list ->
+        var i = 0
         list.map { cardModel ->
+            Log.d("ChatsViewModel", "${++i***REMOVED***. chats are: $cardModel")
             if (!cardModel.isGroup) {
                 val friend = cardModel.participants.first { it != authUser.uid ***REMOVED***
                 val details = userDao.getUserDetails(friend)

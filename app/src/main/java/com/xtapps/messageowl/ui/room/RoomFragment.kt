@@ -1,5 +1,8 @@
 package com.xtapps.messageowl.ui.room
 
+import android.graphics.drawable.Animatable2
+import android.graphics.drawable.AnimatedVectorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat.registerAnimationCallback
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.xtapps.messageowl.MainActivity
@@ -53,6 +57,19 @@ class RoomFragment : Fragment() {
         // Inflate the layout for this fragment
 
         val roomId = requireArguments().getString("room_id")!!
+
+        val logoImage = binding.roomPhoto
+
+        val logoAnimation = logoImage.drawable as AnimatedVectorDrawable
+        logoAnimation.apply {
+            registerAnimationCallback(object : Animatable2.AnimationCallback() {
+                override fun onAnimationEnd(drawable: Drawable?) {
+                    super.onAnimationEnd(drawable)
+                    logoAnimation.start()
+                ***REMOVED***
+            ***REMOVED***)
+            start()
+        ***REMOVED***
 
         viewModel.resetUnreadCount(roomId)
 
