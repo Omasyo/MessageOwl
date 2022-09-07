@@ -2,15 +2,16 @@ package com.xtapps.messageowl
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.Person
+import androidx.navigation.NavDeepLinkBuilder
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -62,7 +63,7 @@ class MessagingService : FirebaseMessagingService() {
         val timeStampString = message.data["time"] as String
         val timeStamp = timeStampString.toLong()
 
-        val message = MessageModel(
+        val messageModel = MessageModel(
             id = message.data["messageId"] as String,
             roomId = message.data["roomId"] as String,
             content = message.data["content"] as String,
@@ -70,41 +71,50 @@ class MessagingService : FirebaseMessagingService() {
             timestamp = Date(timeStamp),
         )
 
+        if(messageModel.senderId == Firebase.auth.currentUser!!.uid) return
+
         CoroutineScope(Dispatchers.IO).launch {
             launch {
                 (application as MessageOwlApplication).appDatabase.messageDao()
-                    .insertMessage(message)
+                    .insertMessage(messageModel)
             }
             launch {
                 val recentMessages = (application as MessageOwlApplication).appDatabase.messageDao()
-                    .getRecentMessages(message.roomId).reversed()
+                    .getRecentMessages(messageModel.roomId).reversed()
 
-                val intent = Intent(this@MessagingService, MainActivity::class.java)
-                val pendingIntent: PendingIntent = PendingIntent.getActivity(
-                    this@MessagingService,
-                    0,
-                    intent,
-                    PendingIntent.FLAG_IMMUTABLE
-                )
+                val bundle = Bundle().also { it.putString("room_id", messageModel.roomId) }
 
-                val notification = NotificationCompat.Builder(this@MessagingService, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.logo_icon)
-                    .setStyle(
-                        NotificationCompat.MessagingStyle("Me")
-                            .setConversationTitle("Team lunch").also {
-                                recentMessages.forEach { message ->
-                                    it.addMessage(
-                                        message.message.content,
-                                        message.message.timestamp.time,
-                                        Person.Builder().setName(message.user?.name).build()
-                                    )
-                                }
-                            }
-                    ).setContentIntent(pendingIntent)
-                    .build()
+                val pendingIntent = NavDeepLinkBuilder(this@MessagingService)
+                    .setComponentName(MainActivity::class.java)
+                    .setGraph(R.navigation.main_navigation)
+                    .setDestination(R.id.roomFragment)
+                    .setArguments(bundle)
+                    .createPendingIntent()
 
-                NotificationManagerCompat.from(this@MessagingService).apply {
-                    notify(1001, notification)
+                launch {
+                    val room = (application as MessageOwlApplication).appDatabase.chatRoomDao()
+                        .getRoomDetails(messageModel.roomId)
+
+                    val notification = NotificationCompat.Builder(this@MessagingService, CHANNEL_ID)
+                        .setSmallIcon(R.drawable.logo_icon)
+                        .setStyle(
+                            NotificationCompat.MessagingStyle("Me")
+                                .setConversationTitle(room.name)
+                                .also {
+                                    recentMessages.forEach { message ->
+                                        it.addMessage(
+                                            message.message.content,
+                                            message.message.timestamp.time,
+                                            Person.Builder().setName(message.user?.name).build()
+                                        )
+                                    }
+                                })
+                        .setContentIntent(pendingIntent)
+                        .setAutoCancel(true)
+
+                    NotificationManagerCompat.from(this@MessagingService).apply {
+                        notify(room.id, 1001, notification.build())
+                    }
                 }
             }
         }

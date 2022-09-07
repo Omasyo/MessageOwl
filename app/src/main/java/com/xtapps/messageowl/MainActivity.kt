@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    fun showImagePreview(image: Drawable?) {
+    fun showImagePreview(image: String?) {
             val dialogBinding = ImagePreviewBinding.inflate(layoutInflater)
 
         dialogBinding.profilePhoto.load(image ?: R.drawable.profile_placeholder)

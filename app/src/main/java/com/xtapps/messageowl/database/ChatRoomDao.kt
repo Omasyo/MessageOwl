@@ -20,14 +20,17 @@ interface ChatRoomDao {
     @Query("SELECT * FROM chat_rooms WHERE id = :roomId")
     fun getRoom(roomId: String): Flow<ChatRoom>
 
+    @Query("SELECT * FROM chat_rooms WHERE id = :roomId")
+    suspend fun getRoomDetails(roomId: String): ChatRoom
+
     @Query("SELECT * FROM chat_rooms WHERE is_group = 0 AND participants like :userId")
     fun getPrivateRoom(userId: String): Flow<ChatRoom>
 
-    @Query("SELECT * FROM " +
+    @Query("SELECT *, MAX(time) as timestamp FROM " +
             "(SELECT room_id, chat_rooms.is_group as is_group," +
             "chat_rooms.name as room_name, sender_id," +
             "users.name as sender_name, content as recent, " +
-            "chat_rooms.participants, timestamp, unread " +
+            "chat_rooms.participants, timestamp as time, unread " +
             "FROM messages " +
             "JOIN chat_rooms ON messages.room_id = chat_rooms.id " +
             "LEFT JOIN users ON sender_id = users.id " +
