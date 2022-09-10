@@ -6,6 +6,8 @@ import android.os.Bundle
 import coil.Coil
 import coil.ImageLoader
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.xtapps.messageowl.ui.auth.AuthActivity
 
 class SplashAcitvity : AppCompatActivity() {
