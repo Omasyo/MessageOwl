@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.xtapps.messageowl.models.ChatRoom
 import com.xtapps.messageowl.models.ChatRoomUpdate
 import com.xtapps.messageowl.models.MessageModel
@@ -116,6 +117,8 @@ class DatabaseService : Service() {
                 val rooms = snapshot.data?.get("rooms") as ArrayList<String>? ?: arrayListOf()
 
                 for (room in rooms) {
+                    Firebase.messaging.subscribeToTopic(room)
+
                     roomDb.document(room)
                         .addSnapshotListener roomSnapshot@{ roomSnapshot, roomException ->
                             if (roomException != null) {

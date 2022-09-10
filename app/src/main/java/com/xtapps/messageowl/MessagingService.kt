@@ -101,14 +101,20 @@ class MessagingService : FirebaseMessagingService() {
                             NotificationCompat.MessagingStyle("Me")
                                 .setConversationTitle(room.name)
                                 .also {
-                                    recentMessages.forEach { message ->
-                                        it.addMessage(
-                                            message.message.content,
-                                            message.message.timestamp.time,
-                                            Person.Builder().setName(message.user?.name).build()
+                                    for(messageModel in recentMessages.slice(0 until recentMessages.lastIndex)) {
+                                        it.addHistoricMessage(
+                                            NotificationCompat.MessagingStyle.Message(
+                                                messageModel.message.content,
+                                                messageModel.message.timestamp.time,
+                                                Person.Builder().setName(messageModel.user?.name).build()
+                                ***REMOVED***
                             ***REMOVED***
                                     ***REMOVED***
-                                ***REMOVED***)
+                                ***REMOVED***
+                                .addMessage(
+                                    recentMessages.last().message.content,
+                                    recentMessages.last().message.timestamp.time,
+                                    Person.Builder().setName(recentMessages.last().user?.name).build()))
                         .setContentIntent(pendingIntent)
                         .setAutoCancel(true)
 
@@ -119,30 +125,4 @@ class MessagingService : FirebaseMessagingService() {
             ***REMOVED***
         ***REMOVED***
     ***REMOVED***
-
-
-//    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-//
-////        // For each start request, send a message to start a job and deliver the
-////        // start ID so we know which request we're stopping when we finish the job
-////        serviceHandler?.obtainMessage()?.also { msg ->
-////            msg.arg1 = startId
-////            serviceHandler?.sendMessage(msg)
-////        ***REMOVED***
-//
-//        // If we get killed, after returning from here, restart
-//        return START_STICKY
-//    ***REMOVED***
-//
-//    override fun onBind(intent: Intent): IBinder? {
-//
-//        //TODO("Return the communication channel to the service.")
-//
-//        // We don't provide binding, so return null
-//        return null
-//    ***REMOVED***
-
-//    override fun onDestroy() {
-//        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show()
-//    ***REMOVED***
 ***REMOVED***

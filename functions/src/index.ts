@@ -48,39 +48,48 @@ export const notifyParticipants = functions.firestore
           ", Time as string= " + snap.get("time").toMillis(),
           {structuredData: true***REMOVED***);
 
-      admin.firestore().collection("rooms").doc(roomId)
-          .get().then((documentSnapshot) => {
-            if (documentSnapshot.exists) {
-              const participants = documentSnapshot.get("participants");
+      const payload = {
+        topic: roomId,
+        data: {
+          messageId: messageId,
+          roomId: roomId,
+          senderId: snap.get("sender"),
+          content: snap.get("content"),
+          time: snap.get("time").toMillis().toString(),
+        ***REMOVED***,
+      ***REMOVED***;
 
-              for (let i = 0; i < participants.length; ++i) {
-                console.log("Block statement execution no." + i);
+      admin.messaging().send(payload);
 
-                const payload = {
-                  token: "c7xnaCi5Rjuga1mpxp9hz1:APA91bHv6Qipice" +
-                  "3kr6lEFNcqp3UW-BuAKkOqGXdhsF1nFNkOJa3HIurMUvU2" +
-                  "x0ozBRhHwR1264gdse9at40nE_hzLrisLm6_WRKTWMcuJJ" +
-                  "eXtOATrGDEqa0rz6uM8jAGqlBGpF9P517",
-                  data: {
-                    messageId: messageId,
-                    roomId: roomId,
-                    senderId: snap.get("sender"),
-                    content: snap.get("content"),
-                    time: snap.get("time").toMillis().toString(),
-                  ***REMOVED***,
-                ***REMOVED***;
-
-                admin.messaging().send(payload);
-
-                functions.logger.info(
-                    "Message sent to user " + participants[i] +
-                    " from " + roomId,
-                    {structuredData: true***REMOVED***);
-
-                break;
-              ***REMOVED***
-            ***REMOVED***
-          ***REMOVED***);
+      //       admin.firestore().collection("rooms").doc(roomId)
+      //           .get().then((documentSnapshot) => {
+      //             if (documentSnapshot.exists) {
+      //               const participants = documen
+      //       tSnapshot.get("participants");
+      //
+      //               for (let i = 0; i < participants.length; ++i) {
+      //                 console.log("Block statement execution no." + i);
+      //
+      //                 const payload = {
+      //                   topic: "notifications",
+      //                   data: {
+      //                     messageId: messageId,
+      //                     roomId: roomId,
+      //                     senderId: snap.get("sender"),
+      //                     content: snap.get("content"),
+      //                     time: snap.get("time").toMillis().toString(),
+      //                   ***REMOVED***,
+      //                 ***REMOVED***;
+      //
+      //                 admin.messaging().send(payload);
+      //
+      //                 functions.logger.info(
+      //                     "Message sent to user " + participants[i] +
+      //                     " from " + roomId,
+      //                     {structuredData: true***REMOVED***);
+      //               ***REMOVED***
+      //             ***REMOVED***
+      //           ***REMOVED***);
     ***REMOVED***);
 
 // export const addPhotoUrl =
