@@ -25,5 +25,5 @@ interface MessageDao {
 //    fun getParticipants(roomId: String): Flow<List<String>>
 
     @Insert(entity = MessageModel::class, onConflict = OnConflictStrategy.IGNORE) //todo: the stuff shouldn't get old shit
-    suspend fun insertMessage(message: MessageModel)
+    suspend fun insertMessage(message: MessageModel): Long
 }

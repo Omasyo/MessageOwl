@@ -131,7 +131,8 @@
                 android:text="@string/change_number"
                 app:layout_constraintBottom_toTopOf="@+id/edit_profile_button"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="gone" />
 
             <Button
                 android:id="@+id/edit_profile_button"

@@ -32,6 +32,8 @@ class RoomFragment : Fragment() {
     private var _binding: ViewBinding? = null
     private val binding get() = _binding as FragmentRoomBinding
 
+    private lateinit var roomId: String
+
     val viewModel: RoomViewModel by activityViewModels {
         with((activity?.application as MessageOwlApplication).appDatabase) {
             RoomViewModelFactory(
@@ -47,6 +49,8 @@ class RoomFragment : Fragment() {
 
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+
+        roomId = requireArguments().getString("room_id")!!
     }
 
     override fun onCreateView(
@@ -56,7 +60,6 @@ class RoomFragment : Fragment() {
         _binding = FragmentRoomBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
 
-        val roomId = requireArguments().getString("room_id")!!
 
         val logoImage = binding.roomPhoto
 
@@ -70,8 +73,6 @@ class RoomFragment : Fragment() {
             })
             start()
         }
-
-        viewModel.resetUnreadCount(roomId)
 
         val participantsAdapter = ParticipantsRecyclerViewAdapter((activity as MainActivity)::showImagePreview) { participantId ->
             if(participantId == viewModel.authUser.uid) return@ParticipantsRecyclerViewAdapter
@@ -88,8 +89,9 @@ class RoomFragment : Fragment() {
 
             viewLifecycleOwner.lifecycleScope.launch {
 
-                viewModel.getRoom(roomId).flowWithLifecycle(viewLifecycleOwner.lifecycle).collect { room: ChatRoom? ->
-                    if (room == null) return@collect
+
+                val room = viewModel.getRoom(roomId)
+//                    if (room == null) return@collect
                     toolbar.apply {
                         title = room.name ?: ""
                         setNavigationOnClickListener { findNavController().popBackStack() }
@@ -119,7 +121,10 @@ class RoomFragment : Fragment() {
                                 (binding.messageRecyclerView.layoutManager as LinearLayoutManager)
                                     .findLastCompletelyVisibleItemPosition()
                             it.let { adapter.submitList(it) }
+
                             binding.messageRecyclerView.scrollToPosition(adapter.itemCount - room.unread)
+
+                            viewModel.resetUnreadCount(roomId)
                             if (lastIndex == adapter.itemCount - 2) {
                                 binding.messageRecyclerView.scrollToPosition(adapter.itemCount - 1)
                             }
@@ -145,7 +150,7 @@ class RoomFragment : Fragment() {
                     scrollButton.setOnClickListener {
                         messageRecyclerView.smoothScrollToPosition(adapter.itemCount - 1)
                     }
-                }
+
             }
 
             sendButton.setOnClickListener {
@@ -160,7 +165,6 @@ class RoomFragment : Fragment() {
 
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

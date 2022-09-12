@@ -1,5 +1,6 @@
 package com.xtapps.messageowl.ui.room
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
@@ -9,6 +10,7 @@ import com.xtapps.messageowl.database.ChatRoomDao
 import com.xtapps.messageowl.database.MessageDao
 import com.xtapps.messageowl.database.UserDao
 import com.xtapps.messageowl.domain.requestPrivateRoom
+import com.xtapps.messageowl.models.ChatRoom
 import com.xtapps.messageowl.models.deletedUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,13 +32,23 @@ class RoomViewModel(
         }
     }
 
-    fun getRoom(roomId: String) = chatRoomDao.getRoom(roomId).map { room ->
-        if (!room.isGroup) {
+    suspend fun getRoom(roomId: String): ChatRoom {
+        val room = chatRoomDao.getRoomDetails(roomId)
+
+        return if (!room.isGroup) {
             val friend = room.participants.first { it != authUser.uid }
             val details = userDao.getUserDetails(friend)
             room.copy(name = details.name)
         } else room
     }
+
+//    fun getRoom(roomId: String) = chatRoomDao.getRoom(roomId).map { room ->
+//        if (!room.isGroup) {
+//            val friend = room.participants.first { it != authUser.uid }
+//            val details = userDao.getUserDetails(friend)
+//            room.copy(name = details.name)
+//        } else room
+//    }
 
 
     fun getPrivateRoom(participantId: String) =
@@ -45,6 +57,7 @@ class RoomViewModel(
     fun sendMessage(
         content: String, roomId: String,
     ) {
+        Log.d("TAG", "sendMessage: How no send content $content $roomId")
         Firebase.firestore.collection("rooms")
             .document(roomId).collection("messages")
             .add(

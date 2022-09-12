@@ -1,5 +1,7 @@
 package com.xtapps.messageowl
 
+import android.app.ActivityManager
+import android.app.ActivityManager.RunningAppProcessInfo
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -24,6 +26,12 @@ import java.util.*
 
 class MessagingService : FirebaseMessagingService() {
 
+    val CHANNEL_ID = "message_owl_channel"
+    val notifcationId = 9708
+
+    val database by lazy {
+        (application as MessageOwlApplication).appDatabase
+    }
 
     override fun onCreate() {
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show()
@@ -33,15 +41,13 @@ class MessagingService : FirebaseMessagingService() {
             }
     }
 
-    val CHANNEL_ID = "message_owl_channel"
-    val notifcationId = 9708
-
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "message_owl_channel"
 //            val descriptionText = getString(R.string.channel_description)
+
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(CHANNEL_ID, name, importance)
 //                .apply {
@@ -55,8 +61,16 @@ class MessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
+        val myProcess = RunningAppProcessInfo()
+        ActivityManager.getMyMemoryState(myProcess)
+        val isInBackground =
+            myProcess.importance != RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+
         Log.d(TAG, "onMessageReceived: ${message.data}")
-        if (message.data.isEmpty()) return
+        Log.d(TAG, "onMessageReceived: isInBackground is $isInBackground")
+
+
+        if (isInBackground || message.data.isEmpty()) return
 
         createNotificationChannel()
 
@@ -71,15 +85,22 @@ class MessagingService : FirebaseMessagingService() {
             timestamp = Date(timeStamp),
         )
 
+
         if(messageModel.senderId == Firebase.auth.currentUser!!.uid) return
 
         CoroutineScope(Dispatchers.IO).launch {
             launch {
-                (application as MessageOwlApplication).appDatabase.messageDao()
+                val id = database.messageDao()
                     .insertMessage(messageModel)
+                Log.d(TAG, "onMessageReceived: Emulare id is $id")
+                if (id != -1L) {
+                    launch {
+                        database.chatRoomDao().incrementUnreadCount(messageModel.roomId)
+                    }
+                }
             }
             launch {
-                val recentMessages = (application as MessageOwlApplication).appDatabase.messageDao()
+                val recentMessages = database.messageDao()
                     .getRecentMessages(messageModel.roomId).reversed()
 
                 val bundle = Bundle().also { it.putString("room_id", messageModel.roomId) }
@@ -92,7 +113,7 @@ class MessagingService : FirebaseMessagingService() {
                     .createPendingIntent()
 
                 launch {
-                    val room = (application as MessageOwlApplication).appDatabase.chatRoomDao()
+                    val room = database.chatRoomDao()
                         .getRoomDetails(messageModel.roomId)
 
                     val notification = NotificationCompat.Builder(this@MessagingService, CHANNEL_ID)
