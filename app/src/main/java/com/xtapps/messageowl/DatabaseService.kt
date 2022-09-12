@@ -23,6 +23,10 @@ class DatabaseService : Service() {
     private val userData = Firebase.firestore.collection("users").document(authUser.uid)
     private val roomDb = Firebase.firestore.collection("rooms")
 
+    val database by lazy {
+        (application as MessageOwlApplication).appDatabase
+    ***REMOVED***
+
 
     override fun onCreate() {
 
@@ -63,7 +67,7 @@ class DatabaseService : Service() {
             return@addSnapshotListener
         ***REMOVED***
         CoroutineScope(Dispatchers.IO).launch {
-            (application as MessageOwlApplication).appDatabase.userDao().insertUser(
+            database.userDao().insertUser(
                 UserModel(
                     id = snapshot!!.id,
                     name = (snapshot.get("name") ?: "") as String,
@@ -87,7 +91,7 @@ class DatabaseService : Service() {
                     val document = dc.document
                     CoroutineScope(Dispatchers.IO).launch {
                         launch {
-                            (application as MessageOwlApplication).appDatabase.messageDao()
+                            val id = database.messageDao()
                                 .insertMessage(
                                     MessageModel(
                                         id = document.id,
@@ -97,6 +101,12 @@ class DatabaseService : Service() {
                                         timestamp = document.getDate("time")!!,
                         ***REMOVED***
                     ***REMOVED***
+                            Log.d(TAG, "onMessageReceived: Emulare id is $id")
+                            if (id != -1L) {
+                                launch {
+                                    database.chatRoomDao().incrementUnreadCount(roomId)
+                                ***REMOVED***
+                            ***REMOVED***
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
@@ -138,7 +148,7 @@ class DatabaseService : Service() {
 
                                 CoroutineScope(Dispatchers.IO).launch {
                                     val result =
-                                        (application as MessageOwlApplication).appDatabase.chatRoomDao()
+                                        database.chatRoomDao()
                                             .updateRoom(
                                                 ChatRoomUpdate(
                                                     id = roomSnapshot.id,
@@ -148,7 +158,7 @@ class DatabaseService : Service() {
                                 ***REMOVED***
                                     launch {
                                         if (result == 0) {
-                                            (application as MessageOwlApplication).appDatabase.chatRoomDao()
+                                            database.chatRoomDao()
                                                 .insertRoom(
                                                     ChatRoom(
                                                         id = roomSnapshot.id,

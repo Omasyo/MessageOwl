@@ -74,7 +74,12 @@ class HomeFragment : Fragment() {
                     ***REMOVED***.show()
 
             ***REMOVED***
-            
+
+            floatingActionButton.setOnClickListener {
+                val action =
+                    HomeFragmentDirections.actionHomeFragmentToRoomFragment("general")
+                findNavController().navigate(action)
+            ***REMOVED***
 
             viewModel.currentUser.observe(viewLifecycleOwner) { user: UserModel? ->
                 user?.let {

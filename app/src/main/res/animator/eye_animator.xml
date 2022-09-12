@@ -3,12 +3,12 @@
     android:repeatMode="reverse">
     <propertyValuesHolder android:propertyName="translateX">
         <keyframe android:fraction="0.200" android:value="0"/>
-        <keyframe android:fraction="0.250" android:value="-4"/>
-        <keyframe android:fraction="0.400" android:value="-4"/>
+        <keyframe android:fraction="0.250" android:value="-12"/>
+        <keyframe android:fraction="0.400" android:value="-12"/>
         <keyframe android:fraction="0.425" android:value="0"/>
         <keyframe android:fraction="0.700" android:value="0"/>
-        <keyframe android:fraction="0.725" android:value="4"/>
-        <keyframe android:fraction="0.900" android:value="4"/>
+        <keyframe android:fraction="0.725" android:value="12"/>
+        <keyframe android:fraction="0.900" android:value="12"/>
         <keyframe android:fraction="1.000" android:value="0"/>
     </propertyValuesHolder>
 </objectAnimator>

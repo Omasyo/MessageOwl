@@ -5,7 +5,7 @@
     <propertyValuesHolder android:propertyName="translateY">
         <keyframe android:fraction="0" android:value="0"/>
         <keyframe android:fraction="0.45" android:value="0"/>
-        <keyframe android:fraction="0.5" android:value="8"/>
+        <keyframe android:fraction="0.5" android:value="24"/>
         <keyframe android:fraction="0.55" android:value="0"/>
         <keyframe android:fraction="1" android:value="0"/>
     </propertyValuesHolder>
