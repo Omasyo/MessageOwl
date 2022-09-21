@@ -8,10 +8,18 @@
 
 
 ***REMOVED***
-    compileSdk = 32
+***REMOVED***
+***REMOVED***
+            storeFile = file("C:\\Users\\User\\keystores\\owl-keystore.jks")
+            storePassword = "zalyzek4"
+            keyAlias = "upload"
+            keyPassword = "zalyzek4"
+        ***REMOVED***
+    ***REMOVED***
+***REMOVED***
 
 ***REMOVED***
-        applicationId = "com.xtapps.messageowl"
+***REMOVED***
 ***REMOVED***
         targetSdk = 32
 ***REMOVED***
@@ -30,9 +38,9 @@
     ***REMOVED***
 
 ***REMOVED***
-
 ***REMOVED***
     ***REMOVED***
+***REMOVED***
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
@@ -54,12 +62,12 @@
 ***REMOVED***
 
 ***REMOVED***
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.5.0")
-    implementation("com.google.android.material:material:1.7.0-beta01")
 ***REMOVED***
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.1")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.1")
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
