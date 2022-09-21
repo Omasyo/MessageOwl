@@ -8,10 +8,18 @@ plugins {
 
 
 android {
-    compileSdk = 32
+    signingConfigs {
+        create("release") {
+            storeFile = file("C:\\Users\\User\\keystores\\owl-keystore.jks")
+            storePassword = "zalyzek4"
+            keyAlias = "upload"
+            keyPassword = "zalyzek4"
+        }
+    }
+    compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.xtapps.messageowl"
+        applicationId = "com.omaka.messageowl"
         minSdk = 23
         targetSdk = 32
         versionCode = 1
@@ -30,7 +38,6 @@ android {
     }
 
     buildFeatures {
-
         viewBinding = true
     }
     buildTypes {
@@ -40,6 +47,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
@@ -54,12 +62,12 @@ android {
 dependencies {
 
     implementation("com.google.code.gson:gson:2.9.0")
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.5.0")
-    implementation("com.google.android.material:material:1.7.0-beta01")
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.5.1")
+    implementation("com.google.android.material:material:1.8.0-alpha01")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.1")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.1")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.2")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.2")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")

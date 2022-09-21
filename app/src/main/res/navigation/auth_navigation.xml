@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="com.xtapps.messageowl.ui.auth.WelcomeFragment"
+        android:name="com.omaka.messageowl.ui.auth.WelcomeFragment"
         android:label="fragment_welcome"
         tools:layout="@layout/fragment_welcome" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/verifyFragment"
-        android:name="com.xtapps.messageowl.ui.auth.VerifyFragment"
+        android:name="com.omaka.messageowl.ui.auth.VerifyFragment"
         android:label="fragment_verify"
         tools:layout="@layout/fragment_verify" >
         <action

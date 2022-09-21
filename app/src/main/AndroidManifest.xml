@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xtapps.messageowl">
+    package="com.omaka.messageowl">
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".MessageOwlApplication"
+        android:name="com.omaka.messageowl.MessageOwlApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,11 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MessageOwl">
         <service
-            android:name=".DatabaseService"
+            android:name="com.omaka.messageowl.DatabaseService"
             android:enabled="true"
                 android:exported="false" />
         <service
-            android:name=".MessagingService"
+            android:name="com.omaka.messageowl.MessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -39,7 +39,7 @@
         <!-- </service> -->
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.xtapps.messageowl.provider"
+            android:authorities="com.omaka.messageowl.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -48,21 +48,20 @@
         </provider>
 
         <activity
-            android:name=".SplashAcitvity"
+            android:name="com.omaka.messageowl.SplashAcitvity"
             android:exported="true"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.auth.AuthActivity"
+            android:name="com.omaka.messageowl.ui.auth.AuthActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.omaka.messageowl.MainActivity"
             android:configChanges="orientation|screenSize|uiMode"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
