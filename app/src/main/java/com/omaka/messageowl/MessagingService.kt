@@ -29,7 +29,7 @@ class MessagingService : FirebaseMessagingService() {
 
     val database by lazy {
         (application as MessageOwlApplication).appDatabase
-    ***REMOVED***
+    }
 
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
@@ -42,13 +42,13 @@ class MessagingService : FirebaseMessagingService() {
             val channel = NotificationChannel(CHANNEL_ID, name, importance)
 //                .apply {
 //                    setShowBadge(true)
-//            ***REMOVED***
+//            }
             // Register the channel with the system
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
-        ***REMOVED***
-    ***REMOVED***
+        }
+    }
 
     override fun onMessageReceived(message: RemoteMessage) {
         val myProcess = RunningAppProcessInfo()
@@ -82,14 +82,14 @@ class MessagingService : FirebaseMessagingService() {
                 if (id != -1L) {
                     launch {
                         database.chatRoomDao().incrementUnreadCount(messageModel.roomId)
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
+                    }
+                }
+            }
             launch {
                 val recentMessages = database.messageDao()
                     .getRecentMessages(messageModel.roomId).reversed()
 
-                val bundle = Bundle().also { it.putString("room_id", messageModel.roomId) ***REMOVED***
+                val bundle = Bundle().also { it.putString("room_id", messageModel.roomId) }
 
                 val pendingIntent = NavDeepLinkBuilder(this@MessagingService)
                     .setComponentName(MainActivity::class.java)
@@ -114,10 +114,10 @@ class MessagingService : FirebaseMessagingService() {
                                                 messageModel.message.content,
                                                 messageModel.message.timestamp.time,
                                                 Person.Builder().setName(messageModel.user?.name).build()
-                                ***REMOVED***
-                            ***REMOVED***
-                                    ***REMOVED***
-                                ***REMOVED***
+                                            )
+                                        )
+                                    }
+                                }
                                 .addMessage(
                                     recentMessages.last().message.content,
                                     recentMessages.last().message.timestamp.time,
@@ -127,9 +127,9 @@ class MessagingService : FirebaseMessagingService() {
 
                     NotificationManagerCompat.from(this@MessagingService).apply {
                         notify(room.id, 1001, notification.build())
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
-***REMOVED***
+                    }
+                }
+            }
+        }
+    }
+}

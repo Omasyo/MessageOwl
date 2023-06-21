@@ -17,18 +17,18 @@ class ChatsViewModel(
         var i = 0
         list.map { cardModel ->
             if (!cardModel.isGroup) {
-                val friend = cardModel.participants.first { it != authUser.uid ***REMOVED***
+                val friend = cardModel.participants.first { it != authUser.uid }
                 val details = userDao.getUserDetails(friend)
                 cardModel.copy(
                     roomName = details?.name,
                     image = details?.profilePic,
-    ***REMOVED***
-            ***REMOVED*** else cardModel
-        ***REMOVED***.map { it.copy(senderName = it.senderName ?: "deleted") ***REMOVED***
-    ***REMOVED***
+                )
+            } else cardModel
+        }.map { it.copy(senderName = it.senderName ?: "deleted") }
+    }
 
 
-***REMOVED***
+}
 
 class ChatsViewModelFactory(
     private val chatRoomDao: ChatRoomDao,
@@ -38,7 +38,7 @@ class ChatsViewModelFactory(
         if (modelClass.isAssignableFrom(ChatsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return ChatsViewModel(chatRoomDao, userDao) as T
-        ***REMOVED***
+        }
         throw IllegalArgumentException("Unknown ViewModel class")
-    ***REMOVED***
-***REMOVED***
+    }
+}

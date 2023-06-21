@@ -20,5 +20,5 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.omaka.messageowl", appContext.packageName)
-    ***REMOVED***
-***REMOVED***
+    }
+}

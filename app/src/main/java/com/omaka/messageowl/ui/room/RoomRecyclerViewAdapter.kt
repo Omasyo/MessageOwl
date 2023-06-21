@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat
 
 class RoomRecyclerViewAdapter(
     private val isGroup: Boolean = false,
-    private val onImageClick: (image: String?) -> Unit = {***REMOVED***
+    private val onImageClick: (image: String?) -> Unit = {}
 ) : RecyclerView.Adapter<RoomRecyclerViewAdapter.ViewHolder>() {
 
     private val authUser = FirebaseAuth.getInstance().currentUser!!
@@ -29,37 +29,37 @@ class RoomRecyclerViewAdapter(
         val timeView: TextView = view.findViewById(R.id.time_text)
         val imageCardView: CardView? = view.findViewById(R.id.image_card_view)
         val imageView: ImageView? = view.findViewById(R.id.image_view)
-    ***REMOVED***
+    }
 
     fun submitList(list: List<MessageWithSender>) {
         val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun getOldListSize(): Int {
                 return messages.size
-            ***REMOVED***
+            }
 
             override fun getNewListSize(): Int {
                 return list.size
-            ***REMOVED***
+            }
 
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 return messages[oldItemPosition].message.id == list[newItemPosition].message.id
-            ***REMOVED***
+            }
 
             override fun areContentsTheSame(
                 oldItemPosition: Int,
                 newItemPosition: Int
-***REMOVED***: Boolean {
+            ): Boolean {
                 return false//test[oldItemPosition] == list[newItemPosition]
-            ***REMOVED***
-        ***REMOVED***)
+            }
+        })
         messages = list
         result.dispatchUpdatesTo(this)
-    ***REMOVED***
+    }
 
     override fun getItemViewType(position: Int): Int {
         return if (messages[position].message.senderId == authUser.uid) 0
         else 1
-    ***REMOVED***
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = with(
@@ -69,10 +69,10 @@ class RoomRecyclerViewAdapter(
             when (viewType) {
                 0 -> inflate(R.layout.user_message_bubble, parent, false)
                 else -> inflate(R.layout.message_bubble, parent, false)
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return ViewHolder(view)
-    ***REMOVED***
+    }
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -96,13 +96,13 @@ class RoomRecyclerViewAdapter(
                     if (sameSender(
                             messages[position],
                             messages[position + 1]
-            ***REMOVED*** && time == nextTime
-        ***REMOVED*** {
+                        ) && time == nextTime
+                    ) {
                         timeView.visibility = View.GONE
-                    ***REMOVED*** else {
+                    } else {
                         timeView.visibility = View.VISIBLE
-                    ***REMOVED***
-                ***REMOVED***
+                    }
+                }
 
                 if (position > 0) {
                     val prevTime =
@@ -110,25 +110,25 @@ class RoomRecyclerViewAdapter(
                     if (sameSender(
                             messages[position],
                             messages[position - 1]
-            ***REMOVED*** && time == prevTime
-        ***REMOVED*** {
+                        ) && time == prevTime
+                    ) {
                         imageCardView?.visibility = View.INVISIBLE
                         senderView.visibility = View.GONE
-                    ***REMOVED*** else {
+                    } else {
                         imageCardView?.visibility = View.VISIBLE
                         if (user?.id != authUser.uid) holder.senderView.visibility =
                             View.VISIBLE
-                    ***REMOVED***
-                ***REMOVED***
-                imageCardView?.setOnClickListener { onImageClick(user?.profilePic) ***REMOVED***
+                    }
+                }
+                imageCardView?.setOnClickListener { onImageClick(user?.profilePic) }
 
                 //for private groups
                 if (!isGroup) senderView.visibility = View.GONE
-            ***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
+            }
+        }
+    }
 
     override fun getItemCount(): Int {
         return messages.size
-    ***REMOVED***
-***REMOVED***
+    }
+}

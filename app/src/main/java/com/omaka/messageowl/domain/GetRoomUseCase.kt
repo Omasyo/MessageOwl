@@ -24,20 +24,20 @@ fun requestPrivateRoom(
 //        Log.d("TAG", "requestPrivateRoom: $room")
         if (room == null) {
             val participants = listOf(Firebase.auth.uid!!, participantId)
-            val roomId = participants.sorted().reduce { acc, id -> acc + id ***REMOVED***
+            val roomId = participants.sorted().reduce { acc, id -> acc + id }
             val roomDb = Firebase.firestore.collection("rooms")
 
             roomDb.document(roomId).set(
                 hashMapOf(
                     "group" to false,
                     "participants" to participants
-    ***REMOVED***
-***REMOVED***.addOnCompleteListener {
+                )
+            ).addOnCompleteListener {
                 roomDb.document(roomId).collection("messages").addSnapshotListener { snapshots, e ->
                     if (e != null) {
                         Log.w(com.omaka.messageowl.ui.contacts.TAG, "listen:error", e)
                         return@addSnapshotListener
-                    ***REMOVED***
+                    }
 
                     if (snapshots != null) {
                         for (dc in snapshots.documentChanges) {
@@ -52,25 +52,25 @@ fun requestPrivateRoom(
                                                 content = document["content"] as String,
                                                 senderId = document["sender"] as String,
                                                 timestamp = document.getDate("time")!!,
-                                ***REMOVED***
-                            ***REMOVED***
-                                ***REMOVED***
-                            ***REMOVED***
-                        ***REMOVED***
+                                            )
+                                        )
+                                }
+                            }
+                        }
 
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
+                    }
+                }
+            }
             val newRoom = ChatRoom(
                 id = roomId,
                 name = username,
                 isGroup = false,
                 participants = participants,
                 unread = 0
-***REMOVED***
+            )
             chatRoomDao.insertRoom(newRoom)
             newRoom
-        ***REMOVED*** else {
+        } else {
             room
-        ***REMOVED***
-    ***REMOVED***
+        }
+    }

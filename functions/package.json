@@ -9,15 +9,15 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
-  ***REMOVED***,
+  },
   "engines": {
     "node": "16"
-  ***REMOVED***,
+  },
   "main": "lib/index.js",
   "dependencies": {
     "firebase-admin": "^10.0.2",
     "firebase-functions": "^3.18.0"
-  ***REMOVED***,
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
@@ -26,6 +26,6 @@
     "eslint-plugin-import": "^2.25.4",
     "firebase-functions-test": "^0.2.0",
     "typescript": "^4.5.4"
-  ***REMOVED***,
+  },
   "private": true
-***REMOVED***
+}

@@ -28,8 +28,8 @@ class AuthActivity : AppCompatActivity() {
         val fragment = supportFragmentManager.findFragmentById(R.id.auth_fragment)
         if (fragment != null) {
             navController = fragment.findNavController()
-        ***REMOVED***
-    ***REMOVED***
+        }
+    }
 
     lateinit var storedVerificationId: String
     lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
@@ -45,7 +45,7 @@ class AuthActivity : AppCompatActivity() {
             //     detect the incoming verification SMS and perform verification without
             //     user action.
 //            Log.d(TAG, "onVerificationCompleted:$credential")
-        ***REMOVED***
+        }
 
         override fun onVerificationFailed(e: FirebaseException) {
             // This callback is invoked in an invalid request for verification is made,
@@ -53,11 +53,11 @@ class AuthActivity : AppCompatActivity() {
             Log.w(TAG, "onVerificationFailed", e)
             if (e is FirebaseAuthInvalidCredentialsException) {
                 // Invalid request
-            ***REMOVED*** else if (e is FirebaseTooManyRequestsException) {
+            } else if (e is FirebaseTooManyRequestsException) {
                 // The SMS quota for the project has been exceeded
-            ***REMOVED***
+            }
             // Show a message and update the UI
-        ***REMOVED***
+        }
 
         override fun onCodeSent(
             verificationId: String,
@@ -69,8 +69,8 @@ class AuthActivity : AppCompatActivity() {
 
             binding.loadingIndicator.visibility = View.GONE
             navController.navigate(R.id.action_welcomeFragment_to_verifyFragment)
-        ***REMOVED***
-    ***REMOVED***
+        }
+    }
 
     fun sendVerification(phoneNumber: String) {
         binding.loadingIndicator.visibility = View.VISIBLE
@@ -82,7 +82,7 @@ class AuthActivity : AppCompatActivity() {
             .setCallbacks(callbacks)          // OnVerificationStateChangedCallbacks
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
-    ***REMOVED***
+    }
 
     fun verifyNumber(code: String) {
 
@@ -96,19 +96,19 @@ class AuthActivity : AppCompatActivity() {
             binding.loadingIndicator.visibility = View.GONE
             if (task.isSuccessful) {
 //                navController.navigate(R.id.action_verifyFragment_to_completeProfileFragment)
-            ***REMOVED*** else {
+            } else {
                 var errorMessage = resources.getString(R.string.error_message)
                 Log.w(TAG, "signInWithCredential:failure", task.exception)
                 if (task.exception is FirebaseAuthInvalidCredentialsException) {
                     // The verification code entered was invalid
                     errorMessage = resources.getString(R.string.invalid_verification_code)
-                ***REMOVED*** else if (task.exception is FirebaseAuthUserCollisionException) {
+                } else if (task.exception is FirebaseAuthUserCollisionException) {
                     errorMessage = resources.getString(R.string.user_exists)
-                ***REMOVED***
+                }
                 Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG)
                     .show()
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
 
         if (user == null) { //Log new/different user
             FirebaseAuth.getInstance().signInWithCredential(credential)
@@ -119,10 +119,10 @@ class AuthActivity : AppCompatActivity() {
 //                    if(isNewUser) {
 //                        val forumRef = Firebase.firestore.collection("rooms").document("general")
 //                        forumRef.update("participants", FieldValue.arrayUnion(user?.uid))
-//                    ***REMOVED***
-//                ***REMOVED***
-        ***REMOVED*** else { //Update user number
+//                    }
+//                }
+        } else { //Update user number
             user.updatePhoneNumber(credential).addOnCompleteListener(this, onCompleteListener)
-        ***REMOVED***
-    ***REMOVED***
-***REMOVED***
+        }
+    }
+}

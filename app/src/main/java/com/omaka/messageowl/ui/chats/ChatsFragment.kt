@@ -29,10 +29,10 @@ class ChatsFragment : Fragment() {
             ChatsViewModelFactory(
                 chatRoomDao(),
                 userDao(),
-***REMOVED***
-        ***REMOVED***
+            )
+        }
 
-    ***REMOVED***
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +47,7 @@ class ChatsFragment : Fragment() {
             val action =
                 HomeFragmentDirections.actionHomeFragmentToRoomFragment(roomId)
             findNavController().navigate(action)
-        ***REMOVED***
+        }
 
         adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
@@ -58,15 +58,15 @@ class ChatsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.allChats.flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .collect {
-                    it.let { adapter.submitList(it) ***REMOVED***
-                ***REMOVED***
-        ***REMOVED***
+                    it.let { adapter.submitList(it) }
+                }
+        }
 
         return root
-    ***REMOVED***
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    ***REMOVED***
-***REMOVED***
+    }
+}

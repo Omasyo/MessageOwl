@@ -12,10 +12,10 @@ class HomeFragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
         val fragment = when(position) {
             0 -> ChatsFragment()
             else -> ContactsFragment()
-        ***REMOVED***
+        }
         fragment.arguments = Bundle().apply {
 
-        ***REMOVED***
+        }
         return fragment
-    ***REMOVED***
-***REMOVED***
+    }
+}

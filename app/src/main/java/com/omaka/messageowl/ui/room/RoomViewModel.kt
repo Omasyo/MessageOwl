@@ -28,26 +28,26 @@ class RoomViewModel(
     fun getMessages(roomId: String) = messageDao.getMessages(roomId).map { list ->
         list.map { it ->
             if (it.user == null) it.copy(user = deletedUser) else it
-        ***REMOVED***
-    ***REMOVED***
+        }
+    }
 
     suspend fun getRoom(roomId: String): ChatRoom {
         val room = chatRoomDao.getRoomDetails(roomId)
 
         return if (!room.isGroup) {
-            val friend = room.participants.first { it != authUser.uid ***REMOVED***
+            val friend = room.participants.first { it != authUser.uid }
             val details = userDao.getUserDetails(friend)
             room.copy(name = details?.name)
-        ***REMOVED*** else room
-    ***REMOVED***
+        } else room
+    }
 
 //    fun getRoom(roomId: String) = chatRoomDao.getRoom(roomId).map { room ->
 //        if (!room.isGroup) {
-//            val friend = room.participants.first { it != authUser.uid ***REMOVED***
+//            val friend = room.participants.first { it != authUser.uid }
 //            val details = userDao.getUserDetails(friend)
 //            room.copy(name = details.name)
-//        ***REMOVED*** else room
-//    ***REMOVED***
+//        } else room
+//    }
 
 
     fun getPrivateRoom(participantId: String) =
@@ -63,8 +63,8 @@ class RoomViewModel(
                     "content" to content,
                     "sender" to authUser.uid,
                     "time" to Date()
-    ***REMOVED***
-***REMOVED***
+                )
+            )
 //            .addOnSuccessListener {
 //                viewModelScope.launch {
 //                    messageDao.insertMessage(
@@ -74,19 +74,19 @@ class RoomViewModel(
 //                            senderId = authUser.uid,
 //                            content = content,
 //                            timestamp = Date()
-//            ***REMOVED***
-//        ***REMOVED***
-//                ***REMOVED***
-//            ***REMOVED***
-    ***REMOVED***
+//                        )
+//                    )
+//                }
+//            }
+    }
 
     fun getUsers(senderIds: List<String>) = userDao.getUsers(senderIds)
 
     fun resetUnreadCount(roomId: String) = CoroutineScope(Dispatchers.IO).launch {
         chatRoomDao.resetUnreadCount(roomId)
-    ***REMOVED***
+    }
 
-***REMOVED***
+}
 
 class RoomViewModelFactory(
     private val messageDao: MessageDao,
@@ -97,7 +97,7 @@ class RoomViewModelFactory(
         @Suppress("UNCHECKED_CAST")
         if (modelClass.isAssignableFrom(RoomViewModel::class.java)) {
             return RoomViewModel(messageDao, chatRoomDao, userDao) as T
-        ***REMOVED***
+        }
         throw IllegalArgumentException("Unknown ViewModel class")
-    ***REMOVED***
-***REMOVED***
+    }
+}

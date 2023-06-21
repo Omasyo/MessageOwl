@@ -22,7 +22,7 @@ class VerifyFragment : Fragment() {
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
-    ***REMOVED***
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,17 +32,17 @@ class VerifyFragment : Fragment() {
 
         binding.proceedButton.setOnClickListener {
             (activity as AuthActivity).verifyNumber(binding.otpEditText.text.toString())
-        ***REMOVED***
+        }
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
-        ***REMOVED***
+        }
 
         return binding.root
-    ***REMOVED***
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
 
-    ***REMOVED***
-***REMOVED***
+    }
+}

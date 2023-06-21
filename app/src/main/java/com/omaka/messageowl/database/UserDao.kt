@@ -41,4 +41,4 @@ interface UserDao {
                 "ORDER BY contact_name"
     )
     fun getContacts(): Flow<List<ContactCard>>
-***REMOVED***
+}

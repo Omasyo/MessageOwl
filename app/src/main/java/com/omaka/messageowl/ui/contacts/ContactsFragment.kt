@@ -42,15 +42,15 @@ class ContactsFragment : Fragment() {
     private val viewModel: ContactsViewModel by activityViewModels {
         with((activity?.application as MessageOwlApplication).appDatabase) {
             ContactsViewModelFactory(messageDao(), userDao(), chatRoomDao())
-        ***REMOVED***
-    ***REMOVED***
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-    ***REMOVED***
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,12 +61,12 @@ class ContactsFragment : Fragment() {
             ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.READ_CONTACTS
-***REMOVED***
+            )
         if (result == PackageManager.PERMISSION_GRANTED) {
             retrieveContacts()
-        ***REMOVED*** else {
+        } else {
             requestPermission.launch(Manifest.permission.READ_CONTACTS)
-        ***REMOVED***
+        }
 
         _binding = FragmentContactsBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -76,8 +76,8 @@ class ContactsFragment : Fragment() {
                 val action =
                     HomeFragmentDirections.actionHomeFragmentToRoomFragment(it.id)
                 findNavController().navigate(action)
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
 
         adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
@@ -91,18 +91,18 @@ class ContactsFragment : Fragment() {
             viewModel.contacts.flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .collect {
                     adapter.submitList(it)
-                ***REMOVED***
-        ***REMOVED***
+                }
+        }
 
         return root
-    ***REMOVED***
+    }
 
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { success ->
             if (success) {
                 retrieveContacts()
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
 
     private fun retrieveContacts() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -113,11 +113,11 @@ class ContactsFragment : Fragment() {
                 arrayOf(
                     ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                     ContactsContract.CommonDataKinds.Phone.NUMBER
-    ***REMOVED***,
+                ),
                 null,
                 null,
                 null
-***REMOVED***
+            )
             if (phones != null) {
                 while (phones.moveToNext()) {
                     val name: String =
@@ -126,12 +126,12 @@ class ContactsFragment : Fragment() {
                         phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
                     contacts.add(ContactWithNumber(name, formatPhone(phoneNumber)))
-                ***REMOVED***
+                }
                 phones.close()
-            ***REMOVED***
+            }
             viewModel.submitContacts(contacts)
-        ***REMOVED***
-    ***REMOVED***
+        }
+    }
 
     private fun formatPhone(number: String): String {
         val phoneUtil = PhoneNumberUtil.getInstance()
@@ -141,19 +141,19 @@ class ContactsFragment : Fragment() {
                 number,
                 (requireContext().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager)
                     .networkCountryIso.uppercase()
-***REMOVED***
+            )
             val formatted =
                 phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
             return formatted.replace(" ", "")
-        ***REMOVED*** catch (e: NumberParseException) {
+        } catch (e: NumberParseException) {
             System.err.println("NumberParseException was thrown: $number $e")
 
-        ***REMOVED***
+        }
         return "Invalid Number"
-    ***REMOVED***
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    ***REMOVED***
-***REMOVED***
+    }
+}

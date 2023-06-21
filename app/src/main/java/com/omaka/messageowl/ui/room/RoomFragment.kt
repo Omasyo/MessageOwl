@@ -37,9 +37,9 @@ class RoomFragment : Fragment() {
                 messageDao(),
                 chatRoomDao(),
                 userDao(),
-***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
+            )
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +48,7 @@ class RoomFragment : Fragment() {
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
 
         roomId = requireArguments().getString("room_id")!!
-    ***REMOVED***
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,10 +66,10 @@ class RoomFragment : Fragment() {
                 override fun onAnimationEnd(drawable: Drawable?) {
                     super.onAnimationEnd(drawable)
                     logoAnimation.start()
-                ***REMOVED***
-            ***REMOVED***)
+                }
+            })
             start()
-        ***REMOVED***
+        }
 
         val participantsAdapter = ParticipantsRecyclerViewAdapter((activity as MainActivity)::showImagePreview) { participantId ->
             if(participantId == viewModel.authUser.uid) return@ParticipantsRecyclerViewAdapter
@@ -77,8 +77,8 @@ class RoomFragment : Fragment() {
                 val action =
                     RoomFragmentDirections.actionRoomFragmentSelf(it.id)
                 findNavController().navigate(action)
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
 
 
 
@@ -91,24 +91,24 @@ class RoomFragment : Fragment() {
 //                    if (room == null) return@collect
                     toolbar.apply {
                         title = room.name ?: ""
-                        setNavigationOnClickListener { findNavController().popBackStack() ***REMOVED***
+                        setNavigationOnClickListener { findNavController().popBackStack() }
                         setOnMenuItemClickListener {
                             binding.container.openDrawer(GravityCompat.END)
                             true
-                        ***REMOVED***
+                        }
                         if (!room.isGroup) {
                             binding.container.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                             menu.clear()
-                        ***REMOVED***
-                    ***REMOVED***
+                        }
+                    }
 
                     participantsRecyclerView.layoutManager = LinearLayoutManager(context)
                     participantsRecyclerView.adapter = participantsAdapter
                     launch {
                         viewModel.getUsers(room.participants).collect {
-                            it.let { participantsAdapter.submitList(it) ***REMOVED***
-                        ***REMOVED***
-                    ***REMOVED***
+                            it.let { participantsAdapter.submitList(it) }
+                        }
+                    }
 
                     val adapter = RoomRecyclerViewAdapter(room.isGroup, (activity as MainActivity)::showImagePreview)
                     launch {
@@ -117,18 +117,18 @@ class RoomFragment : Fragment() {
                             val lastIndex =
                                 (binding.messageRecyclerView.layoutManager as LinearLayoutManager)
                                     .findLastCompletelyVisibleItemPosition()
-                            it.let { adapter.submitList(it) ***REMOVED***
+                            it.let { adapter.submitList(it) }
 
                             binding.messageRecyclerView.scrollToPosition(adapter.itemCount - room.unread)
 
                             viewModel.resetUnreadCount(roomId)
                             if (lastIndex == adapter.itemCount - 2) {
                                 binding.messageRecyclerView.scrollToPosition(adapter.itemCount - 1)
-                            ***REMOVED***
-                        ***REMOVED***
-                    ***REMOVED***
+                            }
+                        }
+                    }
                     messageRecyclerView.layoutManager =
-                        LinearLayoutManager(context).apply { stackFromEnd = true ***REMOVED***
+                        LinearLayoutManager(context).apply { stackFromEnd = true }
                     messageRecyclerView.adapter = adapter
 
                     messageRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -139,32 +139,32 @@ class RoomFragment : Fragment() {
                                 .findLastCompletelyVisibleItemPosition()
                             if (lastIndex == adapter.itemCount - 1) {
                                 scrollButton.visibility = View.GONE
-                            ***REMOVED*** else {
+                            } else {
                                 scrollButton.visibility = View.VISIBLE
-                            ***REMOVED***
-                        ***REMOVED***
-                    ***REMOVED***)
+                            }
+                        }
+                    })
                     scrollButton.setOnClickListener {
                         messageRecyclerView.smoothScrollToPosition(adapter.itemCount - 1)
-                    ***REMOVED***
+                    }
 
-            ***REMOVED***
+            }
 
             sendButton.setOnClickListener {
                 val message = messageField.text.toString()
 
                 if (message.isNotEmpty()) {
                     viewModel.sendMessage(messageField.text.toString(), roomId)
-                ***REMOVED***
+                }
                 messageField.text.clear()
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
 
         return binding.root
-    ***REMOVED***
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.setBackgroundResource(R.drawable.solid_background)
-    ***REMOVED***
-***REMOVED***
+    }
+}

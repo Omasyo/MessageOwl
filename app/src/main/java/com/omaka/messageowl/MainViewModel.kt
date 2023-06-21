@@ -42,17 +42,17 @@ class MainViewModel(
             launch {
                 userDao.getUser(authUser.uid).collect { user: UserModel? ->
                     _currentUser.value = user
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
+                }
+            }
+        }
 
-    ***REMOVED***
+    }
 
     private fun generateProfileRef(): String {
         return Firebase.storage.reference
-            .child("profilePics/${FirebaseAuth.getInstance().currentUser?.uid***REMOVED***")
+            .child("profilePics/${FirebaseAuth.getInstance().currentUser?.uid}")
             .path
-    ***REMOVED***
+    }
 
     suspend fun compressAndUpload(file: File) {
         val compressedImageFile = Compressor.compress(
@@ -62,16 +62,16 @@ class MainViewModel(
             resolution(612, 816)
             format(Bitmap.CompressFormat.JPEG)
             quality(30)
-        ***REMOVED***
+        }
 
         _profilePicFileName = generateProfileRef()
         val ref = Firebase.storage.reference.child(_profilePicFileName!!)
         ref.putFile(compressedImageFile.toUri()).onSuccessTask {
             ref.downloadUrl.onSuccessTask {
                 userData.update("profilePic", it)
-            ***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
+            }
+        }
+    }
 
     fun createUser(name: String) {
 
@@ -82,13 +82,13 @@ class MainViewModel(
                 "phoneNo" to authUser.phoneNumber!!,
 //                "profilePic" to _profilePicRef,
                 "rooms" to FieldValue.arrayUnion("general")
-***REMOVED***, SetOptions.merge()
+            ), SetOptions.merge()
         ).addOnFailureListener {
             viewModelScope.launch {
                 userDao.deleteUser(authUser.uid)
-            ***REMOVED***
+            }
             Log.w(TAG, "createUser: update fire store failed")
-        ***REMOVED***
+        }
         viewModelScope.launch {
             userDao.insertUser(
                 UserModel(
@@ -96,15 +96,15 @@ class MainViewModel(
                     name = name,
                     phoneNo = authUser.phoneNumber!!,
                     profilePic = null
-    ***REMOVED***
-***REMOVED***
-        ***REMOVED***
+                )
+            )
+        }
         _profilePicFileName = null
-    ***REMOVED***
+    }
 
     fun signOutUser() =
         FirebaseAuth.getInstance().signOut()
-***REMOVED***
+}
 
 class MainViewModelFactory(
     private val application: MessageOwlApplication
@@ -113,7 +113,7 @@ class MainViewModelFactory(
         @Suppress("UNCHECKED_CAST")
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
             return MainViewModel(application) as T
-        ***REMOVED***
+        }
         throw IllegalArgumentException("Unknown ViewModel class")
-    ***REMOVED***
-***REMOVED***
+    }
+}

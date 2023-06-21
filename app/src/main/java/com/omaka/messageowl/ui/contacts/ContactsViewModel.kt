@@ -23,13 +23,13 @@ class ContactsViewModel(
     private val chatRoomDao: ChatRoomDao,
 ) : ViewModel() {
 
-    private val userDb by lazy { Firebase.firestore.collection("users") ***REMOVED***
+    private val userDb by lazy { Firebase.firestore.collection("users") }
     private val authUser get() = FirebaseAuth.getInstance().currentUser!!
-    private val roomDb by lazy { Firebase.firestore.collection("rooms") ***REMOVED***
+    private val roomDb by lazy { Firebase.firestore.collection("rooms") }
 
     val contacts = userDao.getContacts().map {
-        it.filter { contactCard -> contactCard.id != authUser.uid ***REMOVED***
-    ***REMOVED***
+        it.filter { contactCard -> contactCard.id != authUser.uid }
+    }
 
     fun submitContacts(contacts: Set<ContactWithNumber>) {
         for (contact in contacts) {
@@ -39,7 +39,7 @@ class ContactsViewModel(
                     if (!it.isSuccessful) {
                         Log.w(TAG, "listen:error", it.exception)
                         return@addOnCompleteListener
-                    ***REMOVED***
+                    }
 
 
                     for (dc in it.result.documentChanges) {
@@ -50,9 +50,9 @@ class ContactsViewModel(
                                     ContactModel(
                                         id = document.id,
                                         name = contact.name,
-                        ***REMOVED***
-                    ***REMOVED***
-                            ***REMOVED***
+                                    )
+                                )
+                            }
                             launch {
                                 userDao.insertUser(
                                     UserModel(
@@ -60,17 +60,17 @@ class ContactsViewModel(
                                         name = document.data["name"] as String,
                                         phoneNo = document.data["phoneNo"] as String,
                                         profilePic = document.data["profilePic"] as String?,
-                        ***REMOVED***
-                    ***REMOVED***
-                            ***REMOVED***
-                        ***REMOVED***
-                    ***REMOVED***
-                ***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+        }
+    }
 
     fun getPrivateRoom(participantId: String) = requestPrivateRoom(participantId, chatRoomDao, userDao, messageDao)
-***REMOVED***
+}
 
 class ContactsViewModelFactory(
     private val messageDao: MessageDao,
@@ -81,7 +81,7 @@ class ContactsViewModelFactory(
         if (modelClass.isAssignableFrom(ContactsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return ContactsViewModel(messageDao, userDao, chatRoomDao) as T
-        ***REMOVED***
+        }
         throw IllegalArgumentException("Unknown ViewModel class")
-    ***REMOVED***
-***REMOVED***
+    }
+}

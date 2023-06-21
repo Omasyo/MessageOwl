@@ -17,7 +17,7 @@ import com.omaka.messageowl.utils.formatTime
 import java.util.*
 
 class ChatsRecyclerViewAdapter(
-    private val onImageClick: (image: String?) -> Unit = {***REMOVED***,
+    private val onImageClick: (image: String?) -> Unit = {},
     private val onClick: (roomId: String) -> Unit
 ) :
     RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder>() {
@@ -32,7 +32,7 @@ class ChatsRecyclerViewAdapter(
         val timeView: TextView = view.findViewById(R.id.time)
         val unreadView: TextView = view.findViewById(R.id.unread)
         val unreadContainer: MaterialCardView = view.findViewById(R.id.unread_container)
-    ***REMOVED***
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater
@@ -42,7 +42,7 @@ class ChatsRecyclerViewAdapter(
         viewHolder.bindingAdapterPosition
 
         return viewHolder
-    ***REMOVED***
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
@@ -51,55 +51,55 @@ class ChatsRecyclerViewAdapter(
                 imageView.load(image) {
                     allowHardware(false)
                     crossfade(true)
-                ***REMOVED***
+                }
                 textView.text = roomName
                 val prefix = if (isGroup) {
                     if (sender_id == FirebaseAuth.getInstance().uid) "You: "
                     else senderName + ": "
-                ***REMOVED*** else ""
+                } else ""
                 subtitleTextView.text = prefix + recentMessage
                 cardView.setOnClickListener {
                     onClick(room_id)
-                ***REMOVED***
+                }
                 if (unread == 0) {
                     unreadContainer.visibility = View.GONE
-                ***REMOVED*** else {
+                } else {
                     unreadContainer.visibility = View.VISIBLE
                     unreadView.text = unread.toString()
-                ***REMOVED***
+                }
 
                 timeView.text = formatTime(timestamp)
-                imageCardView.setOnClickListener { onImageClick(image) ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
+                imageCardView.setOnClickListener { onImageClick(image) }
+            }
+        }
+    }
 
     override fun getItemCount(): Int {
         return chats.size
-    ***REMOVED***
+    }
 
     fun submitList(list: List<ChatCardModel>) {
         val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun getOldListSize(): Int {
                 return chats.size
-            ***REMOVED***
+            }
 
             override fun getNewListSize(): Int {
                 return list.size
-            ***REMOVED***
+            }
 
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 return chats[oldItemPosition].room_id == list[newItemPosition].room_id
-            ***REMOVED***
+            }
 
             override fun areContentsTheSame(
                 oldItemPosition: Int,
                 newItemPosition: Int
-***REMOVED***: Boolean {
+            ): Boolean {
                 return chats[oldItemPosition] == list[newItemPosition]
-            ***REMOVED***
-        ***REMOVED***)
+            }
+        })
         chats = list
         result.dispatchUpdatesTo(this)
-    ***REMOVED***
-***REMOVED***
+    }
+}

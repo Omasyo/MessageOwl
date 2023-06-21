@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
 
     private val viewModel: MainViewModel by activityViewModels {
         MainViewModelFactory(requireActivity().application as MessageOwlApplication)
-    ***REMOVED***
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-    ***REMOVED***
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,14 +48,14 @@ class HomeFragment : Fragment() {
             toolbar.setOnMenuItemClickListener {
                 root.openDrawer(GravityCompat.END)
                 true
-            ***REMOVED***
+            }
             cameraButton.setOnClickListener {
                 (activity as MainActivity).showImageDialog()
-            ***REMOVED***
+            }
 
             editProfileButton.setOnClickListener {
                 findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCompleteProfileFragment())
-            ***REMOVED***
+            }
 
             changeNumberButton.setOnClickListener {
                 MaterialAlertDialogBuilder(requireContext())
@@ -63,35 +63,35 @@ class HomeFragment : Fragment() {
                     .setMessage(resources.getString(R.string.change_number_warning))
                     .setNeutralButton(resources.getString(R.string.cancel)) { dialog, _ ->
                         dialog.cancel()
-                    ***REMOVED***.setPositiveButton(resources.getString(R.string.proceed)) { dialog, _ ->
+                    }.setPositiveButton(resources.getString(R.string.proceed)) { dialog, _ ->
                         dialog.dismiss()
                         viewModel.signOutUser()
-                    ***REMOVED***.show()
+                    }.show()
 
-            ***REMOVED***
+            }
 
             floatingActionButton.setOnClickListener {
                 val action =
                     HomeFragmentDirections.actionHomeFragmentToRoomFragment("general")
                 findNavController().navigate(action)
-            ***REMOVED***
+            }
 
             viewModel.currentUser.observe(viewLifecycleOwner) { user: UserModel? ->
                 user?.let {
-                    username.text = it.name.ifBlank { "\u0000No Name\u0000" ***REMOVED***
+                    username.text = it.name.ifBlank { "\u0000No Name\u0000" }
                 phoneNo.text =
                         PhoneNumberUtils.formatNumber(it.phoneNo, Locale.getDefault().country)
-                ***REMOVED***
+                }
 
                 profilePhoto.load(user?.profilePic) {
                     allowHardware(false)
                     crossfade(true)
-                ***REMOVED***
-            ***REMOVED***
+                }
+            }
 
             return root
-        ***REMOVED***
-    ***REMOVED***
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val tabLayout = binding.tabs
@@ -99,6 +99,6 @@ class HomeFragment : Fragment() {
         viewPager.adapter = HomeFragmentAdapter(this)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = if (position == 0) "Chats" else "Contacts" // FIXME: hardcoding
-        ***REMOVED***.attach()
-    ***REMOVED***
-***REMOVED***
+        }.attach()
+    }
+}

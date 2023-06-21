@@ -55,4 +55,4 @@ interface ChatRoomDao {
 
 //    @Query("SELECT participants FROM chat_rooms WHERE id = :roomId")
 //    fun getParticipants(roomId: String): Flow<List<String>>
-***REMOVED***
+}

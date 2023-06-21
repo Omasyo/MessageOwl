@@ -3,7 +3,7 @@ module.exports = {
   env: {
     es6: true,
     node: true,
-  ***REMOVED***,
+  },
   extends: [
     "eslint:recommended",
     "plugin:import/errors",
@@ -16,7 +16,7 @@ module.exports = {
   parserOptions: {
     project: ["tsconfig.json", "tsconfig.dev.json"],
     sourceType: "module",
-  ***REMOVED***,
+  },
   ignorePatterns: [
     "/lib/**/*", // Ignore built files.
   ],
@@ -27,5 +27,5 @@ module.exports = {
   rules: {
     "quotes": ["error", "double"],
     "import/no-unresolved": 0,
-  ***REMOVED***,
-***REMOVED***;
+  },
+};

@@ -24,7 +24,7 @@ class WelcomeFragment : Fragment() {
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
-    ***REMOVED***
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,16 +34,16 @@ class WelcomeFragment : Fragment() {
 
         val logoImage = binding.logoImage.apply {
             logoAnimation = drawable as AnimatedVectorDrawable
-        ***REMOVED***
+        }
         logoAnimation.apply {
             registerAnimationCallback(object : Animatable2.AnimationCallback() {
                 override fun onAnimationEnd(drawable: Drawable?) {
                     super.onAnimationEnd(drawable)
                     logoAnimation.start()
-                ***REMOVED***
-            ***REMOVED***)
+                }
+            })
             start()
-        ***REMOVED***
+        }
 
 
         val ccp = binding.countryCode
@@ -55,22 +55,22 @@ class WelcomeFragment : Fragment() {
         binding.proceedButton.setOnClickListener {
             if (ccp.isValidFullNumber) {
                 (activity as AuthActivity).sendVerification(ccp.fullNumberWithPlus)
-            ***REMOVED*** else {
+            } else {
                 Snackbar.make(
                     binding.root,
                     "Please enter a valid phone number",
                     Snackbar.LENGTH_LONG
-    ***REMOVED***
+                )
                     .show()
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
 
         return binding.root
-    ***REMOVED***
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    ***REMOVED***
+    }
 
-***REMOVED***
+}

@@ -24,7 +24,7 @@ class DatabaseService : Service() {
 
     val database by lazy {
         (application as MessageOwlApplication).appDatabase
-    ***REMOVED***
+    }
 
 
     override fun onCreate() {
@@ -37,7 +37,7 @@ class DatabaseService : Service() {
             if (e != null) {
                 Log.w(com.omaka.messageowl.ui.contacts.TAG, "listen:error", e)
                 return@addSnapshotListener
-            ***REMOVED***
+            }
 
             if (snapshot != null && snapshot.exists()) {
 
@@ -45,16 +45,16 @@ class DatabaseService : Service() {
                 for (room in rooms) {
 //                    Toast.makeText(this, "listening too room $room", Toast.LENGTH_SHORT).show()
                     listentoMessageUpdates(room)
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
+                }
+            }
+        }
         listenToRoomUpdates()
         listentoUserUpdates(authUser.uid)
-    ***REMOVED***
+    }
 
     override fun onBind(p0: Intent?): IBinder? {
         return null
-    ***REMOVED***
+    }
 
 
     private fun listentoUserUpdates(uid: String) = Firebase.firestore.collection("users").document(uid)
@@ -63,7 +63,7 @@ class DatabaseService : Service() {
         if (e != null) {
             Log.w(com.omaka.messageowl.ui.contacts.TAG, "listen:error", e)
             return@addSnapshotListener
-        ***REMOVED***
+        }
         CoroutineScope(Dispatchers.IO).launch {
             database.userDao().insertUser(
                 UserModel(
@@ -71,10 +71,10 @@ class DatabaseService : Service() {
                     name = (snapshot.get("name") ?: "") as String,
                     phoneNo = (snapshot.get("phoneNo") ?: "") as String,
                     profilePic = snapshot.get("profilePic") as String?
-    ***REMOVED***
-***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
+                )
+            )
+        }
+    }
 
     //Todo: temp remove later
     private fun listentoMessageUpdates(roomId: String) =
@@ -82,7 +82,7 @@ class DatabaseService : Service() {
             if (e != null) {
                 Log.w(com.omaka.messageowl.ui.contacts.TAG, "listen:error", e)
                 return@addSnapshotListener
-            ***REMOVED***
+            }
 
             if (snapshots != null) {
                 for (dc in snapshots.documentChanges) {
@@ -97,19 +97,19 @@ class DatabaseService : Service() {
                                         content = document["content"] as String,
                                         senderId = document["sender"] as String,
                                         timestamp = document.getDate("time")!!,
-                        ***REMOVED***
-                    ***REMOVED***
+                                    )
+                                )
                             if (id != -1L) {
                                 launch {
                                     database.chatRoomDao().incrementUnreadCount(roomId)
-                                ***REMOVED***
-                            ***REMOVED***
-                        ***REMOVED***
-                    ***REMOVED***
-                ***REMOVED***
+                                }
+                            }
+                        }
+                    }
+                }
 
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
 
 
     @Suppress("UNCHECKED_CAST")
@@ -118,7 +118,7 @@ class DatabaseService : Service() {
             if (e != null) {
                 Log.w(com.omaka.messageowl.ui.contacts.TAG, "listen:error", e)
                 return@addSnapshotListener
-            ***REMOVED***
+            }
 
             if (snapshot != null && snapshot.exists()) {
                 val rooms = snapshot.data?.get("rooms") as ArrayList<String>? ?: arrayListOf()
@@ -133,9 +133,9 @@ class DatabaseService : Service() {
                                     com.omaka.messageowl.ui.contacts.TAG,
                                     "Listen failed.",
                                     roomException
-                    ***REMOVED***
+                                )
                                 return@roomSnapshot
-                            ***REMOVED***
+                            }
 
                             if (roomSnapshot != null && roomSnapshot.exists()) {
                                 val document = roomSnapshot.data!!
@@ -151,8 +151,8 @@ class DatabaseService : Service() {
                                                     id = roomSnapshot.id,
                                                     name = document["name"] as String?,
                                                     participants = participants,
-                                    ***REMOVED***
-                                ***REMOVED***
+                                                )
+                                            )
                                     launch {
                                         if (result == 0) {
                                             database.chatRoomDao()
@@ -163,16 +163,16 @@ class DatabaseService : Service() {
                                                         isGroup = document["group"] as Boolean,
                                                         unread = 0,
                                                         participants = participants,
-                                        ***REMOVED***
-                                    ***REMOVED***
-                                        ***REMOVED***
-                                    ***REMOVED***
-                                ***REMOVED***
-                            ***REMOVED*** else {
+                                                    )
+                                                )
+                                        }
+                                    }
+                                }
+                            } else {
                                 Log.e(com.omaka.messageowl.ui.contacts.TAG, "No such room $room")
-                            ***REMOVED***
-                        ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-***REMOVED***
+                            }
+                        }
+                }
+            }
+        }
+}

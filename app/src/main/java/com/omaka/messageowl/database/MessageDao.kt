@@ -26,4 +26,4 @@ interface MessageDao {
 
     @Insert(entity = MessageModel::class, onConflict = OnConflictStrategy.IGNORE) //todo: the stuff shouldn't get old shit
     suspend fun insertMessage(message: MessageModel): Long
-***REMOVED***
+}

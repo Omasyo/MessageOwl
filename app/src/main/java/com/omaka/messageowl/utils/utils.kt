@@ -12,7 +12,7 @@ import java.util.*
 object Codes {
     const val CAMERA_CODE = 1
     const val CONTACTS_CODE = 2
-***REMOVED***
+}
 
 fun Uri.asTempFile(context: Context): File {
     val inputStream = context.contentResolver.openInputStream(this)!!
@@ -24,13 +24,13 @@ fun Uri.asTempFile(context: Context): File {
     val out: OutputStream = FileOutputStream(imageFile)
     val buf = ByteArray(1024)
     var len: Int
-    while (inputStream.read(buf).also { len = it ***REMOVED*** > 0) {
+    while (inputStream.read(buf).also { len = it } > 0) {
         out.write(buf, 0, len)
-    ***REMOVED***
+    }
     out.close()
     inputStream.close()
     return imageFile
-***REMOVED***
+}
 
 fun formatTime(timestamp: Date, short: Boolean = true): String {
 
@@ -52,7 +52,7 @@ fun formatTime(timestamp: Date, short: Boolean = true): String {
 //        timestamp.time in (cal.time.time - 86400000)..cal.time.time -> "Yesterday"
 //        Date().time - timestamp.time <= 345600000 -> "E"
 //        else -> "MMM d"
-//    ***REMOVED***
+//    }
 
     val formattedTime = when (timestamp.time) {
         in (midnight - day)..midnight -> "Yesterday"
@@ -60,8 +60,8 @@ fun formatTime(timestamp: Date, short: Boolean = true): String {
             in midnight..(midnight + day) -> SimpleDateFormat("HH:mm").format(timestamp)
             in (current - 4 * day)..current -> SimpleDateFormat("EEEE").format(timestamp)
             else -> SimpleDateFormat("MMM d").format(timestamp)
-        ***REMOVED***
-    ***REMOVED***
+        }
+    }
 
     return formattedTime
-***REMOVED***
+}

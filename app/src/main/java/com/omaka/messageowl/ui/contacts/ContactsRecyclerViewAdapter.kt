@@ -13,7 +13,7 @@ import com.omaka.messageowl.R
 import com.omaka.messageowl.models.ContactCard
 
 class ContactsRecyclerViewAdapter(
-    private val onImageClick: (image: String?) -> Unit = {***REMOVED***,
+    private val onImageClick: (image: String?) -> Unit = {},
     private val onClick: (userId: String) -> Unit
 ) :
     RecyclerView.Adapter<ContactsRecyclerViewAdapter.ViewHolder>() {
@@ -24,7 +24,7 @@ class ContactsRecyclerViewAdapter(
         val subtitleText: TextView = view.findViewById(R.id.subtitle_text)
         val imageCardView: CardView = view.findViewById(R.id.image_card_view)
         val imageView: ImageView = view.findViewById(R.id.image_view)
-    ***REMOVED***
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater
@@ -34,7 +34,7 @@ class ContactsRecyclerViewAdapter(
         viewHolder.bindingAdapterPosition
 
         return viewHolder
-    ***REMOVED***
+    }
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -44,45 +44,45 @@ class ContactsRecyclerViewAdapter(
                 imageView.load(image) {
                     allowHardware(false)
                     crossfade(true)
-                ***REMOVED***
+                }
                 titleText.text = contactName
                 subtitleText.text = username
                 view.setOnClickListener {
                     onClick(contacts[position].id)
-                ***REMOVED***
+                }
                 imageCardView.setOnClickListener {
                     onImageClick(image)
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
+                }
+            }
+        }
+    }
 
     override fun getItemCount(): Int {
         return contacts.size
-    ***REMOVED***
+    }
 
     fun submitList(list: List<ContactCard>) {
         val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun getOldListSize(): Int {
                 return contacts.size
-            ***REMOVED***
+            }
 
             override fun getNewListSize(): Int {
                 return list.size
-            ***REMOVED***
+            }
 
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 return contacts[oldItemPosition] == list[newItemPosition]
-            ***REMOVED***
+            }
 
             override fun areContentsTheSame(
                 oldItemPosition: Int,
                 newItemPosition: Int
-***REMOVED***: Boolean {
+            ): Boolean {
                 return contacts[oldItemPosition] == list[newItemPosition]
-            ***REMOVED***
-        ***REMOVED***)
+            }
+        })
         contacts = list
         result.dispatchUpdatesTo(this)
-    ***REMOVED***
-***REMOVED***
+    }
+}

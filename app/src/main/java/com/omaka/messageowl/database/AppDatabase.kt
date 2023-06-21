@@ -36,11 +36,11 @@ abstract class AppDatabase : RoomDatabase() {
                     context,
                     AppDatabase::class.java,
                     "room_database"
-    ***REMOVED***.build()
+                ).build()
                 INSTANCE = instance
 
                 return instance
-            ***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
-***REMOVED***
+            }
+        }
+    }
+}

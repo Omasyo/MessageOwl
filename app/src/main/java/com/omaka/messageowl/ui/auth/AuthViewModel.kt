@@ -6,4 +6,4 @@ import androidx.lifecycle.ViewModel
 const val TAG = "AuthStuffs"
 class AuthViewModel: ViewModel() {
 
-***REMOVED***
+}

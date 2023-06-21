@@ -25,12 +25,12 @@ class SplashAcitvity : AppCompatActivity() {
 
                 //TODO: if profile incomplete sign out
                 Intent(this, MainActivity::class.java)
-            ***REMOVED*** else {
+            } else {
                 Intent(this, AuthActivity::class.java)
-            ***REMOVED***
+            }
 
             startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
             finish()
-        ***REMOVED***
-    ***REMOVED***
-***REMOVED***
+        }
+    }
+}

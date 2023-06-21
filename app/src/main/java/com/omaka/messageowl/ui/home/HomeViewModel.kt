@@ -19,14 +19,14 @@ class HomeViewModel(
         viewModelScope.launch {
             userDao.getUser("1").collect {
                 _currentUser.value = it
-            ***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
+            }
+        }
+    }
 
     fun signOutUser() =
         FirebaseAuth.getInstance().signOut()
 
-***REMOVED***
+}
 
 class HomeViewModelFactory(
     private val userDao: UserDao
@@ -35,7 +35,7 @@ class HomeViewModelFactory(
         @Suppress("UNCHECKED_CAST")
         if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
             return HomeViewModel(userDao) as T
-        ***REMOVED***
+        }
         throw IllegalArgumentException("Unknown ViewModel class")
-    ***REMOVED***
-***REMOVED***
+    }
+}

@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels {
         MainViewModelFactory(application as MessageOwlApplication)
-    ***REMOVED***
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         Intent(this, DatabaseService::class.java).also { serviceIntent ->
             startService(serviceIntent)
-        ***REMOVED***
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -58,19 +58,19 @@ class MainActivity : AppCompatActivity() {
         val fragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
         if (fragment != null) {
             navController = fragment.findNavController()
-        ***REMOVED***
+        }
         viewModel.currentUser.observe(this) {
             if(it == null) {
                 navController.navigate(HomeFragmentDirections.actionHomeFragmentToEditProfileFragmentFirst())
-            ***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
+            }
+        }
+    }
 
     override fun onResume() {
         super.onResume()
 
         NotificationManagerCompat.from(this).cancelAll()
-    ***REMOVED***
+    }
 
     private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -78,10 +78,10 @@ class MainActivity : AppCompatActivity() {
                 lifecycleScope.launch {
                     viewModel.compressAndUpload(
                         uri.asTempFile(this@MainActivity)
-        ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
+                    )
+                }
+            }
+        }
 
     private val takePictureLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
@@ -89,10 +89,10 @@ class MainActivity : AppCompatActivity() {
                 imageFile?.let { file ->
                     lifecycleScope.launch {
                         viewModel.compressAndUpload(file)
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
+                    }
+                }
+            }
+        }
 
     fun showImagePreview(image: String?) {
             val dialogBinding = ImagePreviewBinding.inflate(layoutInflater)
@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
             val dialog = MaterialAlertDialogBuilder(this)
                 .setView(dialogBinding.root)
                 .show()
-    ***REMOVED***
+    }
 
     fun showImageDialog() {
         val dialogBinding = ImageDialogBinding.inflate(layoutInflater)
@@ -116,26 +116,26 @@ class MainActivity : AppCompatActivity() {
         dialogBinding.dialogImage.setOnClickListener {
             galleryLauncher.launch("image/*")
             dialog.dismiss()
-        ***REMOVED***
+        }
         dialogBinding.dialogCamera.setOnClickListener {
             val result =
                 ContextCompat.checkSelfPermission(
                     this,
                     Manifest.permission.CAMERA
-    ***REMOVED***
+                )
             if (result == PackageManager.PERMISSION_GRANTED) {
                 openCamera()
-            ***REMOVED*** else {
+            } else {
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(
                         Manifest.permission.CAMERA,
-        ***REMOVED***, Codes.CAMERA_CODE
-    ***REMOVED***
-            ***REMOVED***
+                    ), Codes.CAMERA_CODE
+                )
+            }
             dialog.dismiss()
-        ***REMOVED***
-    ***REMOVED***
+        }
+    }
 
     private fun openCamera() {
         imageFile = File.createTempFile(
@@ -149,7 +149,7 @@ class MainActivity : AppCompatActivity() {
             imageFile!!
         )
         takePictureLauncher.launch(imageUri)
-    ***REMOVED***
+    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -163,15 +163,15 @@ class MainActivity : AppCompatActivity() {
                 grantResults.forEach {
                     if (it == PackageManager.PERMISSION_GRANTED) {
                         openCamera()
-                    ***REMOVED*** else {
+                    } else {
                         Toast.makeText(
                             this,
                             "Permissions not granted by the user.",
                             Toast.LENGTH_SHORT
-            ***REMOVED***.show()
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
-***REMOVED***
+                        ).show()
+                    }
+                }
+            }
+        }
+    }
+}
